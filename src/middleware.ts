@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/admin', request.url));
     }
 
-    // Ověření admina na /admin routes
+    // Ověření admina na /admin routesf
     if (url.pathname.startsWith('/admin')) {
         if (!token) {
             return NextResponse.redirect(new URL('/', request.url));
