@@ -8,11 +8,13 @@ async function fetchImages(): Promise<GalleryProps | null> { //získání obrák
     try { // získání dat z API
         const response = await axios.get<GalleryProps>(url).then((res) => (res.data));
         const filtRes = response.products.filter((product) => product.stock > 0) as Products[];//získání produktů, které nejsou skladem
+        console.log(response);
         return {
             ...response,
             products: filtRes
         };
-        console.log(response);
+        
+        
     }
     catch (error) {
         console.log(error);
