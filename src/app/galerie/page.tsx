@@ -12,6 +12,7 @@ async function fetchImages(): Promise<GalleryProps | null> { //získání obrák
             ...response,
             products: filtRes
         };
+        console.log(response);
     }
     catch (error) {
         console.log(error);
