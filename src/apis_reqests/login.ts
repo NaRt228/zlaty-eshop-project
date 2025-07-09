@@ -1,6 +1,4 @@
 "use client"
-import { Product_cart } from "@/interface/product_cart";
-import { product_curt_post_Interface, responde_cart } from "../interface/product_response";
 import axios from "axios";
 import Cookies from "js-cookie";
 const reqest = axios.create({
@@ -37,7 +35,7 @@ export async function login(email: string, password: string) {
             console.log("Login successful.");
         }
         return response
-    } catch (error: any) {
+    } catch{
         
     }
 }
@@ -59,7 +57,7 @@ export async function logout() {
 
         // Přesměrování na homepage
         window.location.href = "/";
-    } catch (error: any) {
+    } catch (error) {
         console.error("Logout failed:", error);
        
     }

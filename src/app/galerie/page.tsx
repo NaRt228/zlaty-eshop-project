@@ -6,15 +6,15 @@ async function fetchImages(): Promise<GalleryProps | null> { //získání obrák
     const url = "https://apigolde-shop-production-5431.up.railway.app/api/products";
 
     try { // získání dat z API
-        const response = await axios.get<GalleryProps>(url).then((res) => (res.data));
-        const filtRes = response.products.filter((product) => product.stock === 0) as Products[];//získání produktů, které nejsou skladem
-        console.log(response);
+        const response = await axios.get<GalleryProps>(url).then((res) => (res.data)).catch(() => null);
+        if(response === null){
+          return null;
+        }
+        const filtRes = response.products.filter((product) => product.stock > 0) as Products[];//získání produktů, které nejsou skladem
         return {
             ...response,
             products: filtRes
         };
-        
-        
     }
     catch (error) {
         console.log(error);

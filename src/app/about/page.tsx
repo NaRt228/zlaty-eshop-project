@@ -9,8 +9,8 @@ export default function Page() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/80 z-0"></div>
 
         {/* Content */}
-        <div className="relative z-10">
-          <div className="flex justify-center items-center gap-12">
+        <div className="relative z-10 ">
+          <div className="flex justify-center max-[700px]:flex-col items-center gap-12">
             <Image 
               src={img} 
               width={350} 
@@ -18,8 +18,8 @@ export default function Page() {
               alt="about_me" 
             />
             <div>
-              <h1 className="text-6xl font-bold text-white mb-2">Jméno Příjmení</h1>
-              <p className="w-96 text-gray-300">
+              <h1 className="text-6xl font-bold text-white mb-2 max-[700px]:text-center">Jméno Příjmení</h1>
+              <p className="w-96 text-gray-300 max-[500px]:text-[15px] max-[700px]:text-justify max-[500px]:w-80 m-auto">
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
                 Ipsam necessitatibus voluptates dolorem et vero repellendus sunt? 
                 Corrupti quae necessitatibus ipsa a esse doloremque reiciendis 

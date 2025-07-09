@@ -1,7 +1,6 @@
 "use client";
 import { clear_cart } from "@/apis_reqests/cart";
 import { get_products_cart, make_order } from "@/apis_reqests/products";
-import { Cart_item } from "@/components/kosik_cart_items/cart_item";
 import { useCart } from "@/contexts/CartContext";
 import { CartItem, Order } from "@/interface/oreders";
 import { Product_cart } from "@/interface/product_cart";
@@ -9,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-let counter = false;
+const counter = false;
 export default function Podtvrzeni() {
   const [cartItems, setCarItems] = useState<Product_cart[] | undefined>([]);
   const [orderProducts, setOrderProducts] = useState<CartItem[]>([]);
@@ -33,13 +32,13 @@ export default function Podtvrzeni() {
     }
     Get_Data();
   }, []);
-  function getPrice(values: Product_cart[]): number {
-    let price = 0;
-    for (let i = 0; i < values.length; i++) {
-      price += values[i].price * values[i].quantity;
-    }
-    return price;
-  }
+  // function getPrice(values: Product_cart[]): number {
+  //   let price = 0;
+  //   for (let i = 0; i < values.length; i++) {
+  //     price += values[i].price * values[i].quantity;
+  //   }
+  //   return price;
+  // }
   return (
     <main className="text-white  flex-1 mt-[60px] mb-24 ">
       {!counter ? (
@@ -183,7 +182,7 @@ export default function Podtvrzeni() {
                 <button
                   onClick={() => {
                     (async function () {
-                      let order: Order = {
+                      const order: Order = {
                         guestInfo: {
                           name:  localStorage.getItem("name") ?? "",
                           surname: localStorage.getItem("secondName") ?? "",

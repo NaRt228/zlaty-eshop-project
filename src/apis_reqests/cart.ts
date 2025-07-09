@@ -16,28 +16,28 @@ export async function get_cart(): Promise<Product_cart[] | undefined> {
   return await reqest
     .get("/api/cart")
     .then((e) => e.data)
-    .catch((e) => undefined)
+    .catch(() => undefined)
 }
 
 export async function add_to_cart(productId: number, quantity: number): Promise<responde_cart | undefined> {
   return await reqest
     .post("/api/cart/add", { productId, quantity })
     .then((e) => e.data)
-    .catch((e) => undefined)
+    .catch(() => undefined)
 }
 
 export async function update_cart_item(productId: number, quantity: number) {
   return await reqest
     .put("/api/cart/update", { productId, quantity })
     .then((e) => e.data)
-    .catch((e) => undefined)
+    .catch(() => undefined)
 }
 
 export async function remove_from_cart(productId: number) {
   return await reqest
     .delete("/api/cart/remove", { data: { productId } })
     .then((e) => e.data)
-    .catch((e) => undefined)
+    .catch(() => undefined)
 }
 
 export async function clear_cart(): Promise<string | null> {

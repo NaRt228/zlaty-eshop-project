@@ -26,7 +26,6 @@ import {
 // Upravit importy pro novou strukturu API
 import { get_categories, add_category } from "@/apis_reqests/category"
 import { PageHeader } from "@/components/page-header"
-import { delete_category } from "@/apis_reqests/category"
 
 interface Category {
   id: number
@@ -79,7 +78,7 @@ export default function CategoriesPage() {
   const handleDeleteCategory = async (categoryId: number, categoryName: string) => {
     try {
       // Zde by měla být implementována delete_category funkce v API
-      await delete_category(categoryId)
+      // await delete_category(categoryId)
 
       // Pro demonstraci - simulace úspěšného smazání
       toast({
@@ -182,7 +181,7 @@ export default function CategoriesPage() {
                           <AlertDialogHeader>
                             <AlertDialogTitle>Smazat kategorii</AlertDialogTitle>
                             <AlertDialogDescription>
-                              Opravdu chcete smazat kategorii "{category.name}"? Tato akce je nevratná.
+                              Opravdu chcete smazat kategorii &ldquo;{category.name}&ldquo;? Tato akce je nevratná.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>

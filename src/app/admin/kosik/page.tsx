@@ -3,30 +3,24 @@ import { useEffect, useState } from "react";
 import {
   delete_products_cart,
   get_products_cart,
-  post_product,
   put_products_cart,
 } from "@/apis_reqests/products";
 import { Product_cart } from "@/interface/product_cart";
-import { faUncharted } from "@fortawesome/free-brands-svg-icons";
-import { Fira_Code } from "next/font/google";
-import { flushAllTraces } from "next/dist/trace";
-import Image from "next/image";
 import { product_curt_post_Interface } from "@/interface/product_response";
 import { Cart_item } from "@/components/kosik_cart_items/cart_item";
 import Link from "next/link";
-import { Cart_form } from "@/components/kosik_cart_items/cart_form";
 import { useCart } from "@/contexts/CartContext";
 
 export default function Cart() {
   const [cartItems, setCarItems] = useState<Product_cart[] | undefined>(undefined);
   const [fullPrice, setFullPrice] = useState<number>();
-  const { cartCount, removeCart } = useCart();
+  const { removeCart } = useCart();
   useEffect(() => {
     async function Get_Data() {
     // await post_product({ productId: 2, quantity: 6}).then(e => alert(e?.message));
       const f = await get_products_cart().then((e) => e);
       setCarItems(f);
-      var newItems = f?.filter((e) => e.quantity !== 0);
+      const newItems = f?.filter((e) => e.quantity !== 0);
       console.log(newItems);
       if (newItems?.length === 0) localStorage.setItem("itemsCount", "none");
       else localStorage.setItem("itemsCount", "ok");
@@ -59,11 +53,11 @@ export default function Cart() {
         value.quantity--;
       }
       if(data){
-        setCarItems((e) => data)
+        setCarItems(() => data)
 
       }
       else{
-        setCarItems((e) => [])
+        setCarItems(() => [])
 
       }
       setFullPrice(getPrice(data))
@@ -73,7 +67,7 @@ export default function Cart() {
 
         await delete_products_cart({ productId: value.productId }).then(() => removeCart());
         
-        var newItems = cartItems?.filter((e) => e.quantity !== 0);
+        const newItems = cartItems?.filter((e) => e.quantity !== 0);
         console.log(newItems);
         if(newItems?.length === 0) localStorage.setItem("itemsCount", "none");
         else localStorage.setItem("itemsCount", "ok" );

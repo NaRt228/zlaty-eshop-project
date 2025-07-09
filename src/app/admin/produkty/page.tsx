@@ -25,7 +25,7 @@ import { get_categories } from "@/apis_reqests/category"
 import { PageHeader } from "@/components/page-header"
 import { Pagination } from "@/components/pagination"
 import Image from "next/image"
-import { delete_product } from "@/apis_reqests/products"
+
 interface Product {
   id: number
   name: string
@@ -51,7 +51,7 @@ export default function ProductsPage() {
   const [error, setError] = useState("")
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
-  const [totalProducts, setTotalProducts] = useState(0)
+  const [, setTotalProducts] = useState(0)
   const router = useRouter()
   const { toast } = useToast()
 
@@ -105,7 +105,7 @@ export default function ProductsPage() {
   const handleDeleteProduct = async (productId: number, productName: string) => {
     try {
       // Zde by měla být implementována delete_product funkce v API
-      await delete_product(productId)
+      // await delete_product(productId)
 
       // Pro demonstraci - simulace úspěšného smazání
       toast({
@@ -210,7 +210,7 @@ export default function ProductsPage() {
                               <AlertDialogHeader>
                                 <AlertDialogTitle>Smazat produkt</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  Opravdu chcete smazat produkt "{product.name}"? Tato akce je nevratná.
+                                  Opravdu chcete smazat produkt &ldquo;{product.name}&ldquo;? Tato akce je nevratná.
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>

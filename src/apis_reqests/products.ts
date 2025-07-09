@@ -17,28 +17,28 @@ export async function post_product(values: product_curt_post_Interface): Promise
   return await reqest
     .post("/api/cart/add", values)
     .then((e) => e.data)
-    .catch((e) => undefined)
+    .catch(() => undefined)
 }
 
 export async function get_products_cart(): Promise<Product_cart[] | undefined> {
   return await reqest
     .get("/api/cart")
     .then((e) => e.data)
-    .catch((e) => undefined)
+    .catch(() => undefined)
 }
 
 export async function put_products_cart(value: product_curt_post_Interface) {
   return await reqest
     .put("/api/cart/update", value)
     .then((e) => console.log("put_products_cart response: " + e.data))
-    .catch((e) => console.log("put_products_cart response: " + undefined))
+    .catch(() => console.log("put_products_cart response: " + undefined))
 }
 
 export async function delete_products_cart(value: { productId: number }) {
   return await reqest
     .delete("/api/cart/remove", { data: value })
     .then((e) => console.log("delete_products_cart response: " + e.data))
-    .catch((e) => console.log("delete_products_cart response: " + undefined))
+    .catch(() => console.log("delete_products_cart response: " + undefined))
 }
 
 export async function get_products(page = 1, limit = 10) {
@@ -57,7 +57,7 @@ export async function get_product(id: number) {
 
 
 export async function get_product_by_id(id: string): Promise<Get_Once_Product | undefined> {
-  return await reqest.get(`/api/products/${id}`, ).then(e => e.data).catch((e) => undefined)
+  return await reqest.get(`/api/products/${id}`, ).then(e => e.data).catch(() => undefined)
 }
 export async function add_product(productData: any, mediaFiles: File[]) {
   try {
@@ -79,7 +79,7 @@ export async function add_product(productData: any, mediaFiles: File[]) {
       },
     })
     return response.data
-  } catch (error: any) {
+  } catch {
     return undefined
   }
 }
@@ -104,7 +104,7 @@ export async function update_product(id: number, productData: any, mediaFiles: F
       },
     })
     return response.data
-  } catch (error: any) {
+  } catch {
     return undefined
   }
 }
@@ -113,7 +113,7 @@ export async function delete_product(id: number) {
   return await reqest
     .delete(`/api/products/${id}`)
     .then((e) => e.data)
-    .catch((e) => undefined)
+    .catch(() => undefined)
 }
 
 export async function make_order(order: Order): Promise<string | null> {

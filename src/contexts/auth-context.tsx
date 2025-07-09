@@ -1,9 +1,9 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
-import { useRouter } from "next/navigation"
 // Upravit importy pro novou strukturu API
 import { login as apiLogin, logout as apiLogout, is_admin } from "@/apis_reqests/auth"
+import { AuthResponse } from "@/interface/auth"
 
 interface User {
   username: string
@@ -13,14 +13,14 @@ interface User {
 interface AuthContextType {
   user: User | null
   isAuthenticated: boolean
-  login: any
+  login: (email: string, password: string) => Promise<AuthResponse | undefined>
   logout: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   isAuthenticated: false,
-  login: async () => {},
+  login: async () => undefined,
   logout: async () => {},
 })
 
@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [loading, setLoading] = useState(true)
-  const router = useRouter()
+  
 
   // Změnit volání funkcí v useEffect
   useEffect(() => {
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setIsAuthenticated(true)
           setUser({ username: "Admin", email: "admin@example.com" }) // Placeholder, replace with actual user data
         }
-      } catch (error) {
+      } catch {
         setIsAuthenticated(false)
         setUser(null)
       } finally {

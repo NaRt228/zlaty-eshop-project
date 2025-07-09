@@ -11,7 +11,7 @@ import Footer from "./Footer"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { cn } from "@/lib/utils"
-import { LayoutDashboard, Package, Tag, ShoppingCart, Menu, X, LogOut, User } from "lucide-react"
+import { LayoutDashboard, Package, Tag, Menu, X, LogOut, User } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -134,17 +134,17 @@ function AdminHeader() {
 }
 
 // Admin Footer Component
-function AdminFooter() {
-  return (
-    <footer className="border-t border-gray-200 py-6 md:py-0 font-playfair bg-white">
-      <div className="container flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row">
-        <p className="text-center text-sm leading-loose text-gray-600 md:text-left">
-          &copy; {new Date().getFullYear()} Zlatý E-shop - Administrace. Všechna práva vyhrazena.
-        </p>
-      </div>
-    </footer>
-  )
-}
+// function AdminFooter() {
+//   return (
+//     <footer className="border-t border-gray-200 py-6 md:py-0 font-playfair bg-white">
+//       <div className="container flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row">
+//         <p className="text-center text-sm leading-loose text-gray-600 md:text-left">
+//           &copy; {new Date().getFullYear()} Zlatý E-shop - Administrace. Všechna práva vyhrazena.
+//         </p>
+//       </div>
+//     </footer>
+//   )
+// }
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()

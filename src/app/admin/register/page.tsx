@@ -43,8 +43,12 @@ export default function RegisterPage() {
         description: "Váš účet byl úspěšně vytvořen. Nyní se můžete přihlásit.",
       })
       router.push("/login")
-    } catch (err: any) {
-      setError(err.message || "Registrace se nezdařila. Zkuste to prosím znovu.")
+    } catch (err) {
+       if (err instanceof Error) {
+         console.log(err.message);
+       } else {
+         console.log("Neznámá chyba");
+       }
     } finally {
       setLoading(false)
     }

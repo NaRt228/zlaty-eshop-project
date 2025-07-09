@@ -15,19 +15,19 @@ export async function get_categories(): Promise<Category[] | undefined> {
   return await reqest
     .get("/api/categories")
     .then((e) => e.data)
-    .catch((e) => undefined)
+    .catch(() => undefined)
 }
 
 export async function add_category(name: string) {
   return await reqest
     .post("/api/categories", { name })
     .then((e) => e.data)
-    .catch((e) => undefined)
+    .catch(() => undefined)
 }
 
 export async function delete_category(id: number) {
   return await reqest
     .delete(`/api/categories/${id}`)
     .then((e) => e.data)
-    .catch((e) => undefined)
+    .catch(() => undefined)
 }

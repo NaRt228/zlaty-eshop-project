@@ -9,7 +9,6 @@ import {
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import HeaderImage from "../utils/images/Footer.jpg";
-import { get_products_cart } from "@/apis_reqests/products";
 import { useCart } from "@/contexts/CartContext";
 
 interface NavLink {
@@ -51,12 +50,12 @@ console.log("wtf");
     >
       <div className="absolute inset-x-0 bottom-[-30px] bg-gradient-to-t from-black/100 to-transparent h-20"></div>
 
-      <div className="flex justify-between items-center p-4 container mx-auto">
+      <div className="flex justify-between max-[600px]:gap-10 items-center p-4 container mx-auto">
         <Link href="/" className="text-white text-5xl">
           Jovana Šichová
         </Link>
 
-        <div className="hidden md:flex space-x-6 gap-3">
+        <div className="hidden md:flex space-x-6 gap-3 ">
           {navLinks.map((link, i) => (
             <button key={i} onClick={() => setNavbarOpen(false)}>
               <Link
@@ -93,13 +92,12 @@ console.log("wtf");
        
           <FontAwesomeIcon
             icon={navbarOpen ? faXmark : faBars}
-            className="md:!hidden text-2xl cursor-pointer"
+            className="md:!hidden text-2xl cursor-pointer z-10"
             onClick={() => setNavbarOpen(!navbarOpen)}
           />
       </div>
-
       {navbarOpen && (
-        <div className="relative md:hidden flex flex-col items-end px-8 pb-4 z-50">
+        <div className="relative md:hidden flex flex-col items-end px-8 pb-10 z-50 bg-black">
           {navLinks.map((link, i) => (
             <button key={i} onClick={() => setNavbarOpen(false)}>
               <Link
@@ -109,7 +107,7 @@ console.log("wtf");
                 {link.icon && link.icon.left && (
                   <FontAwesomeIcon icon={link.icon.icon} />
                 )}{" "}
-                {link.title}{" "}
+                {link.title.toLocaleLowerCase() === "košík" ? <div className="relative">{link.title}<div className="absolute -top-1 -right-10 w-4 h-4 text-[15px] bg-red-600 rounded-full flex items-center justify-center hover:text-black "> {cartCount}</div></div> : link.title}{" "}
                 {link.icon && !link.icon.left && (
                   <FontAwesomeIcon icon={link.icon.icon} />
                 )}

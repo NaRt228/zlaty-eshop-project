@@ -19,7 +19,7 @@ export async function register_admin(
   return await reqest
     .post("/api/auth/register", { username, email, password })
     .then((e) => e.data)
-    .catch((e) => undefined)
+    .catch(() => undefined)
 }
 //
 
@@ -27,19 +27,19 @@ export async function login(email: string, password: string): Promise<AuthRespon
   return await reqest
     .post("/api/auth/login", { email, password })
     .then((e) => e.data)
-    .catch((e) => undefined)
+    .catch(() => undefined)
 }
 
 export async function logout() {
   return await reqest
     .post("/api/auth/logout")
     .then((e) => e.data)
-    .catch((e) => undefined)
+    .catch(() => undefined)
 }
 
 export async function is_admin() {
   return await reqest
     .get("/api/auth/isAdmin")
     .then((e) => e.data)
-    .catch((e) => ({ isAdmin: false }))
+    .catch(() => ({ isAdmin: false }))
 }

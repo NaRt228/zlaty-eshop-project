@@ -9,8 +9,8 @@ export default async function move(position: MutableRefObject<HTMLDivElement | n
        let neco = 376;
           if (window.innerWidth < 1000) {
             if (window.innerWidth < 500) {
-              space = 10;
-              neco = 340
+                space = 5;
+              neco = 280
             } else {
               neco = 360
               space = 20;
@@ -28,8 +28,8 @@ export default async function move(position: MutableRefObject<HTMLDivElement | n
        let neco = 376;
           if (window.innerWidth < 1000) {
             if (window.innerWidth < 500) {
-              space = 10;
-              neco = 340
+              space = 5;
+              neco = 280
             } else {
               neco = 360
               space = 20;
@@ -37,7 +37,7 @@ export default async function move(position: MutableRefObject<HTMLDivElement | n
           }
           items.forEach((element) => {
             if (element.current) {
-              let width = element.current.style.left.split("px")[0];
+              const width = element.current.style.left.split("px")[0];
               element.current.style.left = `${
                 parseFloat(width) + .1
               }px`;

@@ -7,21 +7,25 @@ import move from "./sliderLogic";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { get_products } from "@/apis_reqests/products";
 import { Product_cart } from "@/interface/product_cart";
-let once = true;
+
+
 export const Slider = () => {
   const [priveousWidth, setPreviousWidth] = useState<number>(typeof window !== 'undefined' ? window.innerWidth : 0)
   const [images, setImages] = useState<string[]>([""]);
-  const [items] = useState<MutableRefObject<HTMLDivElement | null>[]>(Array.from(
-    { length: 6 },
-    () => useRef<HTMLDivElement | null>(null)
-  )); 
+   const items: MutableRefObject<HTMLDivElement | null>[] = [
+  useRef<HTMLDivElement | null>(null),
+  useRef<HTMLDivElement | null>(null),
+  useRef<HTMLDivElement | null>(null),
+  useRef<HTMLDivElement | null>(null),
+  useRef<HTMLDivElement | null>(null),
+  useRef<HTMLDivElement | null>(null),
+];
   
   useEffect(() => {
     async function AAA(){
-     
-        const product = await get_products().then(e => e);
+        const product = await get_products();
         console.log(product);
-        if(product != undefined){
+        if(product !== undefined){
           const imageFromApi: string[] = product.products.map((e:Product_cart) => e.mediaUrls[0]);
           setImages(imageFromApi);
 
@@ -34,12 +38,12 @@ export const Slider = () => {
       if(window.innerWidth == priveousWidth){
         return;
       }
-      await setTimeout(function() {
+      setTimeout(function() {
         const diferensOfWidth = window.innerWidth + priveousWidth;
         setPreviousWidth(diferensOfWidth);
          items.forEach(e => { 
          if(e.current){
-           let width = e.current.style.left.split("px");
+           const width = e.current.style.left.split("px");
            e.current.style.left = `${parseFloat(width[0]) + diferensOfWidth}px`;
          }
        }, 1)
@@ -48,7 +52,7 @@ export const Slider = () => {
     };
    addEventListener("resize", resize)
 
-   return () => { removeEventListener("resize", resize); once = false};
+   return () => { removeEventListener("resize", resize)};
   }, [])
   return (
     <section className="slider-container">

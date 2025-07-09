@@ -20,6 +20,7 @@ body {
   font-family: var(--font-playfair);
    font-weight: normal;
   font-style: normal;
+  
 }
 
 @layer utilities {

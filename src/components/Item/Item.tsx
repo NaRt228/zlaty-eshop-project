@@ -11,10 +11,12 @@ export interface ItemProps {
   price: number;
   id?: number;
   description?: string;
+  material: string;
   category_id?: number | string;
   stock?: number | string;
   mediaUrls?: string[];
   imageHeight?: number;
+  specification: string,
   imageWidth?: number;
 }
 
