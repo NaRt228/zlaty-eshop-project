@@ -38,7 +38,7 @@ export default function NakupovatItem(){
       }
     }
     return (
-      <main className="mt-[200px] flex flex-col justify-center items-center max-[1335px]:mt-[100px]">
+      <main className="mt-[200px] max-[1000px]:mb-[100px] flex flex-col justify-center items-center max-[1335px]:mt-[100px]">
         {item ? (
           <div className="flex gap-[20px] justify-center flex-wrap rounded-sm w-[100%]">
             <div className="flex flex-col gap-[10px]">
