@@ -37,7 +37,7 @@ const Page = () => {
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [totalPages, setTotalPages] = useState<number>(1)
-
+  const [separatedData, setSeparatedData] = useState<ItemProps[][]>([]);
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -62,6 +62,7 @@ const Page = () => {
         }))
 
         setProducts(formattedProducts)
+        setSeparatedData(chunkArray(formattedProducts, 3));
         setTotalPages(response.data.totalPages)
         setError(null)
       } catch (err) {
@@ -87,8 +88,6 @@ const Page = () => {
     }, [] as ItemProps[][])
   }
   
-  
-  const [separatedData, setSeparatedData] = useState(chunkArray(products, 3));
   return (
     <>
       <h1 className="text-6xl text-white mt-12 text-center mb-10 max-[600px]:text-[48px]">Nakupovat</h1>
