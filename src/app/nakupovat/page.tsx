@@ -31,7 +31,7 @@ interface ProductsResponse {
 }
 
 const Page = () => {
-  const [isModal, setIsModal] = useState<boolean>(false)
+  const [isModal, setIsModal] = useState<boolean>(true)
   const [products, setProducts] = useState<ItemProps[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
@@ -47,7 +47,7 @@ const Page = () => {
           { withCredentials: true },
         )
 
-        // Convert API products to ItemProps format
+       
         const formattedProducts: ItemProps[] = response.data.products.map((product) => ({
           image: product.mediaUrls?.[0] || "/placeholder.svg?height=200&width=300",
           title: product.name,
@@ -68,7 +68,7 @@ const Page = () => {
         console.error("Failed to fetch products:", err)
         setError("Nepodařilo se načíst produkty. Zkuste to prosím později.")
       } finally {
-        setLoading(false)
+        setLoading(true)
       }
     }
 
