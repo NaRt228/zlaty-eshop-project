@@ -31,9 +31,9 @@ interface ProductsResponse {
 }
 
 const Page = () => {
-  const [isModal, setIsModal] = useState<boolean>(true)
+  const [isModal, setIsModal] = useState<boolean>(false)
   const [products, setProducts] = useState<ItemProps[]>([])
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [totalPages, setTotalPages] = useState<number>(1)
@@ -41,7 +41,7 @@ const Page = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        setLoading(false)
+        setLoading(true)
         const response = await axios.get<ProductsResponse>(
           `https://apigolde-shop-production-5431.up.railway.app/api/products?page=${currentPage}`,
           { withCredentials: true },
@@ -68,7 +68,7 @@ const Page = () => {
         console.error("Failed to fetch products:", err)
         setError("Nepodařilo se načíst produkty. Zkuste to prosím později.")
       } finally {
-        setLoading(true)
+        setLoading(false)
       }
     }
 
