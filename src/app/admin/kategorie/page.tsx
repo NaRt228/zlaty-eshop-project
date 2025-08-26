@@ -24,7 +24,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 // Upravit importy pro novou strukturu API
-import { get_categories, add_category } from "@/apis_reqests/category"
+import { get_categories, add_category, delete_category } from "@/apis_reqests/category"
 import { PageHeader } from "@/components/page-header"
 
 interface Category {
@@ -77,14 +77,21 @@ export default function CategoriesPage() {
 
   const handleDeleteCategory = async (categoryId: number, categoryName: string) => {
     try {
-      // Zde by měla být implementována delete_category funkce v API
-      // await delete_category(categoryId)
+      const result = await delete_category(categoryId).then(e => e);
+      if(result){
+        toast({
+          title: "Kategorie smazána",
+          description: `Kategorie "${categoryName}" byla úspěšně smazána.`,
+        })
 
-      // Pro demonstraci - simulace úspěšného smazání
-      toast({
-        title: "Kategorie smazána",
-        description: `Kategorie "${categoryName}" byla úspěšně smazána.`,
+      }
+      else{
+         toast({
+        variant: "destructive",
+        title: "Chyba",
+        description: "Nepodařilo se smazat kategorii",
       })
+      }
       fetchCategories()
     } catch (err: any) {
       toast({
