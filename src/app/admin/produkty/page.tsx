@@ -20,7 +20,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 // Upravit importy pro novou strukturu API
-import { get_products } from "@/apis_reqests/products"
+import { delete_product, get_products } from "@/apis_reqests/products"
 import { get_categories } from "@/apis_reqests/category"
 import { PageHeader } from "@/components/page-header"
 import { Pagination } from "@/components/pagination"
@@ -104,15 +104,21 @@ export default function ProductsPage() {
 
   const handleDeleteProduct = async (productId: number, productName: string) => {
     try {
-      // Zde by měla být implementována delete_product funkce v API
-      // await delete_product(productId)
-
-      // Pro demonstraci - simulace úspěšného smazání
-      toast({
-        title: "Produkt smazán",
-        description: `Produkt "${productName}" byl úspěšně smazán.`,
+      const result = await delete_product(productId).then(e => e);
+      if(result){
+        toast({
+         title: "Produkt smazán",
+         description: `Produkt "${productName}" byl úspěšně smazán.`,
+        })
+       fetchProducts(page)
+      }
+      else{
+        toast({
+        variant: "destructive",
+        title: "Chyba",
+        description: "Nepodařilo se smazat produkt",
       })
-      fetchProducts(page)
+      }
     } catch (err: any) {
       toast({
         variant: "destructive",
@@ -200,6 +206,7 @@ export default function ProductsPage() {
                               <Button
                                 variant="ghost"
                                 size="icon"
+                                
                                 className="text-red-600 hover:text-red-700 hover:bg-red-50"
                               >
                                 <Trash2 className="h-4 w-4" />
