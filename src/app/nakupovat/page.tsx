@@ -55,6 +55,7 @@ const Page = () => {
           id: product.id,
           description: product.description,
           category_id: product.category_id,
+          
           material: product.material,
           stock: product.stock,
           specification: product.specification,

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Slider from "@mui/material/Slider";
 import { ItemProps } from "../Item/Item";
+import { get_categories } from "@/apis_reqests/category";
 
 const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSeparated: (value: ItemProps[][]) => void, chunkArray:  (arr: ItemProps[], size: number) => ItemProps[][]} ) => {
   const sortOptions = [
@@ -18,20 +19,33 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
   };
   const [sortSelected, setSortSelected] = useState<{label: string, value: string} | null>(null);
   const [categorySelected, setCategorySelected] = useState<string | null>(null);
-  const [materialSelected, setMaterialSelected] = useState<string | null>(null);
+  const [categoryFech, setCategoryFech] = useState<{name: string, id: number}[] | undefined>(undefined);
+  const [materialSelected, setMaterialSelected] = useState<number | null>(null);
   
   const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+   (async function(){
+      setCategoryFech(await get_categories().then(e=>e))
+   })()
+    
+  }, [])
  useEffect(() => {
    let product = props.product;
    product = MaxPriceRange(props.product, priceRange)
-   switch (materialSelected ?? "") {
-     case "Zlato":
-       product = MaterialFilterZlato(product);
-       break;
-     case "Stribro":
-       product = MaterialFilterStribro(product);
-       break;
-   }
+   categoryFech?.forEach(element => {
+    if(element.id === materialSelected){
+      product = MaterialFilterZlato(product);
+    }
+   });
+  //  switch (materialSelected ?? "") {
+     
+  //    case "Zlato":
+  //      product = MaterialFilterZlato(product);
+  //      break;
+  //    case "Stribro":
+  //      product = MaterialFilterStribro(product);
+  //      break;
+  //  }
    switch (sortSelected?.value) {
      case "priceAsc":
        product = SortToMin(product);
@@ -112,13 +126,15 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
   }
 
   function MaterialFilterZlato(data: ItemProps[]){
-      data = data.filter(e => "Zlato" == e.material);
+      
+      const category =  get_categories().then(e=>e); 
+      data = data.filter(e => 1 == e.category_id);
       props.setSeparated(props.chunkArray(data, 3))
       return data;
   }
 
     function MaterialFilterStribro(data: ItemProps[]){
-      data = data.filter(e => "Stribro" == e.material);
+      data = data.filter(e => 2 == e.category_id);
       props.setSeparated(props.chunkArray(data, 3))
       return data;
   }
@@ -161,8 +177,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
       <div className=" flex mt-[10px] gap-[15px]">
         <p className=" text-[18px] ">Material:</p>
         <ul className=" flex flex-col gap-[5px]">
-            <li onClick={() => setMaterialSelected(materialSelected === "Zlato" ? null : "Zlato")} className=" text-slate-300  text-[18px] cursor-pointer">Zlato</li>
-            <li onClick={() => setMaterialSelected(materialSelected === "Stribro" ? null : "Stribro")} className=" text-slate-300 text-[18px] cursor-pointer">Stříbro</li>
+          {categoryFech?.map((e) =>  <li onClick={() => setMaterialSelected(materialSelected === e.id ? null : e.id)} className=" text-slate-300  text-[18px] cursor-pointer">{e.name}</li>)}
         </ul>
       </div>
       <div className="mt-4">
