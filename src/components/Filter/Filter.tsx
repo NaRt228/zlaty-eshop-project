@@ -34,18 +34,9 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
    product = MaxPriceRange(props.product, priceRange)
    categoryFech?.forEach(element => {
     if(element.id === materialSelected){
-      product = MaterialFilterZlato(product);
+      product = MaterialFilterZlato(product, element.id);
     }
    });
-  //  switch (materialSelected ?? "") {
-     
-  //    case "Zlato":
-  //      product = MaterialFilterZlato(product);
-  //      break;
-  //    case "Stribro":
-  //      product = MaterialFilterStribro(product);
-  //      break;
-  //  }
    switch (sortSelected?.value) {
      case "priceAsc":
        product = SortToMin(product);
@@ -125,16 +116,10 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
       return data;
   }
 
-  function MaterialFilterZlato(data: ItemProps[]){
+  function MaterialFilterZlato(data: ItemProps[], category: number){
       
-      const category =  get_categories().then(e=>e); 
-      data = data.filter(e => 1 == e.category_id);
-      props.setSeparated(props.chunkArray(data, 3))
-      return data;
-  }
-
-    function MaterialFilterStribro(data: ItemProps[]){
-      data = data.filter(e => 2 == e.category_id);
+      
+      data = data.filter(e => category == e.category_id);
       props.setSeparated(props.chunkArray(data, 3))
       return data;
   }
@@ -177,7 +162,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
       <div className=" flex mt-[10px] gap-[15px]">
         <p className=" text-[18px] ">Material:</p>
         <ul className=" flex flex-col gap-[5px]">
-          {categoryFech?.map((e) =>  <li onClick={() => setMaterialSelected(materialSelected === e.id ? null : e.id)} className=" text-slate-300  text-[18px] cursor-pointer">{e.name}</li>)}
+          {categoryFech?.map((e) =>  <li key={e.id} onClick={() => setMaterialSelected(materialSelected === e.id ? null : e.id)} className=" text-slate-300  text-[18px] cursor-pointer">{e.name}</li>)}
         </ul>
       </div>
       <div className="mt-4">
