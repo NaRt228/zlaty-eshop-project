@@ -3,7 +3,7 @@ import Image from "next/image";
 import { MutableRefObject, useEffect, useRef} from "react";
 
 let f:number= 0;
-export const SliderItem = (props: {move: (item: MutableRefObject<HTMLDivElement | null>, items: MutableRefObject<HTMLDivElement | null>[], f:number) => void, items: MutableRefObject<HTMLDivElement | null>[], image: string},   ) => {
+export const SliderItem = (props: {move: (item: MutableRefObject<HTMLDivElement | null>, items: MutableRefObject<HTMLDivElement | null>[], f:number) => void, items: MutableRefObject<HTMLDivElement | null>[], image: string , name: string, price: string},   ) => {
   const item = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     props.move(item, props.items, f)
@@ -18,7 +18,7 @@ export const SliderItem = (props: {move: (item: MutableRefObject<HTMLDivElement 
     <section className="slider-item" ref={item}>
       <div className="slider-img"><Image src={props.image} alt="poduct" fill style={{ objectFit: 'cover' }}/></div>
       <div className="text-info-slider-item">
-        <h3 className="max-[600px]:!text-[30px]">Lorem</h3>
+        <h3 className="max-[600px]:!text-[30px]"></h3>
         <p className="max-[600px]:!text-[28px]">100Kč</p>
       </div>
     </section>

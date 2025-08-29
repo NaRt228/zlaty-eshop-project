@@ -12,6 +12,8 @@ import { Product_cart } from "@/interface/product_cart";
 export const Slider = () => {
   const [priveousWidth, setPreviousWidth] = useState<number>(typeof window !== 'undefined' ? window.innerWidth : 0)
   const [images, setImages] = useState<string[]>([""]);
+  const [names, setNames] = useState<string[]>([""]);
+  const [prices, setPrices] = useState<string[]>([""]);
    const items: MutableRefObject<HTMLDivElement | null>[] = [
   useRef<HTMLDivElement | null>(null),
   useRef<HTMLDivElement | null>(null),
@@ -27,8 +29,11 @@ export const Slider = () => {
         console.log(product);
         if(product !== undefined){
           const imageFromApi: string[] = product.products.map((e:Product_cart) => e.mediaUrls[0]);
+          const nameFromApi: string[] = product.products.map((e:Product_cart) => e.name);
+          const priceFromApi: string[] = product.products.map((e:Product_cart) => e.price);
           setImages(imageFromApi);
-
+          setNames(nameFromApi);
+          setPrices(priceFromApi);
         }
       
       }
@@ -67,7 +72,7 @@ export const Slider = () => {
       </div>
       <section className="slider">
         {items.map((it, i) => (
-          <SliderItem move={move}  items={items} key={i} image={images[i < images.length ? i : images.length-1]}/>
+          <SliderItem move={move}  items={items} key={i} image={images[i < images.length ? i : images.length-1]} name={i < names.length ? names[i] : names[i-1]} price={i < names.length ? prices[i] : prices[i-1]}/>
         ))}
       </section>
     </section>
