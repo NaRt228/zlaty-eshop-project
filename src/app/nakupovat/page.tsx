@@ -101,7 +101,7 @@ const Page = () => {
         
       </button>
       
-      {isModal ? <Filter product={products} separated={separatedData} setSeparated={setSeparatedData} chunkArray={chunkArray}/> : <></>}
+      <div className={isModal ? "visible" : "hidden"}><Filter product={products} separated={separatedData} setSeparated={setSeparatedData} chunkArray={chunkArray}/></div>
       
       </div>
   
