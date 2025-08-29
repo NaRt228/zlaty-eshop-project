@@ -8,7 +8,7 @@ export default async function move(position: MutableRefObject<HTMLDivElement | n
        let space = 100;
        let neco = 376;
           if (window.innerWidth < 1000) {
-            if (window.innerWidth < 500) {
+            if (window.innerWidth <= 500) {
                 space = 5;
               neco = 280
             } else {
@@ -27,7 +27,7 @@ export default async function move(position: MutableRefObject<HTMLDivElement | n
            let space = 100;
        let neco = 376;
           if (window.innerWidth < 1000) {
-            if (window.innerWidth < 500) {
+            if (window.innerWidth <= 500) {
               space = 5;
               neco = 280
             } else {

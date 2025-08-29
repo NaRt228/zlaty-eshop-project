@@ -10,7 +10,7 @@ import { Product_cart } from "@/interface/product_cart";
 
 
 export const Slider = () => {
-  const [priveousWidth, setPreviousWidth] = useState<number>(typeof window !== 'undefined' ? window.innerWidth : 0)
+  const [priveousWidth, setPreviousWidth] = useState<number>(typeof window !== 'undefined' ? window.innerWidth+1 : 0)
   const [images, setImages] = useState<string[]>([""]);
   const [names, setNames] = useState<string[]>([""]);
   const [prices, setPrices] = useState<string[]>([""]);
@@ -41,15 +41,18 @@ export const Slider = () => {
     AAA();
     const resize = async () => {
       if(window.innerWidth == priveousWidth){
+        console.log(window.innerWidth, "wsertfdserfderftgf");
         return;
       }
       setTimeout(function() {
         const diferensOfWidth = window.innerWidth + priveousWidth;
+       
         setPreviousWidth(diferensOfWidth);
          items.forEach(e => { 
          if(e.current){
            const width = e.current.style.left.split("px");
-           e.current.style.left = `${parseFloat(width[0]) + diferensOfWidth}px`;
+           e.current.style.left = `${diferensOfWidth}px`;
+           console.log(window.innerWidth);
          }
        }, 1)
       }
