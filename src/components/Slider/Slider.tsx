@@ -50,7 +50,7 @@ export const Slider = () => {
         setPreviousWidth(diferensOfWidth);
          items.forEach(e => { 
          if(e.current){
-           const width = e.current.style.left.split("px");
+          
            e.current.style.left = `${diferensOfWidth}px`;
            console.log(window.innerWidth);
          }
