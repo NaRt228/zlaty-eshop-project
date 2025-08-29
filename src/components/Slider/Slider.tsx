@@ -40,7 +40,7 @@ export const Slider = () => {
     
     AAA();
     const resize = async () => {
-      if(window.innerWidth == priveousWidth){
+      if( window.innerWidth >= priveousWidth - 5 && window.innerWidth <= priveousWidth + 5){
         console.log(window.innerWidth, "wsertfdserfderftgf");
         return;
       }
