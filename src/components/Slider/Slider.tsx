@@ -72,7 +72,7 @@ export const Slider = () => {
       </div>
       <section className="slider">
         {items.map((it, i) => (
-          <SliderItem move={move}  items={items} key={i} image={images[i < images.length ? i : images.length-1]} name={i < names.length ? names[i] : names[i-1]} price={i < names.length ? prices[i] : prices[i-1]}/>
+          <SliderItem move={move}  items={items} key={i} image={images[i < images.length ? i : images.length-1]} name={i < names.length ? names[i] : names[names.length-1]} price={i < names.length ? prices[i] : prices[names.length-1]}/>
         ))}
       </section>
     </section>
