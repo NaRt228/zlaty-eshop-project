@@ -41,7 +41,6 @@ export const Slider = () => {
     AAA();
     const resize = async () => {
       if( window.innerWidth >= priveousWidth - 5 && window.innerWidth <= priveousWidth + 5){
-        alert(window.innerWidth);
         return;
       }
       setTimeout(function() {
@@ -51,7 +50,6 @@ export const Slider = () => {
          items.forEach(e => { 
          if(e.current){
            e.current.style.left = `${diferensOfWidth}px`;
-          alert(window.innerWidth);
          }
        }, 1)
       }
