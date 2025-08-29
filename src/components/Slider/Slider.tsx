@@ -41,7 +41,7 @@ export const Slider = () => {
     AAA();
     const resize = async () => {
       if( window.innerWidth >= priveousWidth - 5 && window.innerWidth <= priveousWidth + 5){
-        console.log(window.innerWidth, "wsertfdserfderftgf");
+        alert(window.innerWidth);
         return;
       }
       setTimeout(function() {
@@ -50,9 +50,8 @@ export const Slider = () => {
         setPreviousWidth(diferensOfWidth);
          items.forEach(e => { 
          if(e.current){
-          
            e.current.style.left = `${diferensOfWidth}px`;
-           console.log(window.innerWidth);
+          alert(window.innerWidth);
          }
        }, 1)
       }

@@ -131,7 +131,8 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
       return data;
   }
   return (
-    <div className="bg-[#1D1D1DF7] bg-opacity-80 text-opacity-80 p-5 w-[300px] ml-3  text-white absolute mt-4 z-10">
+    
+    <div className="bg-[#1D1D1DF7] bg-opacity-80 text-opacity-80 p-7 w-[350px] ml-3  text-white absolute mt-4 z-10 max-h-[300px] overflow-y-auto">
       <p className="text-[18px] font-bold">Filtry:</p>
       <div className=" flex justify-between">
         <p className="text-[18px] mt-[10px]">Seřadit podle:</p>

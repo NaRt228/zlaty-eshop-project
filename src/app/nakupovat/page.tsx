@@ -94,14 +94,14 @@ const Page = () => {
       <h1 className="text-6xl text-white mt-12 text-center mb-10 max-[600px]:text-[48px]">Nakupovat</h1>
       <div className="sticky top-3 z-20">
     <button
-        className=" bg-[#ECDFCC] w-fit px-4 py-3 z-30 max-[600px]:text-[16px] ab text-black   font-bold text-[20px] transition duration-300 hover:bg-[#d9c4a8] hover:scale-105"
+        className=" bg-[#ECDFCC] w-fit px-4 py-3 z-30 max-[600px]:text-[16px] ab text-black font-bold text-[20px] transition duration-300 hover:bg-[#d9c4a8] hover:scale-105"
         onClick={onClickModal}
         >
         Filtry
         
       </button>
       
-      <div className={isModal ? "visible" : "hidden"}><Filter product={products} separated={separatedData} setSeparated={setSeparatedData} chunkArray={chunkArray}/></div>
+      <div className={`${isModal ? "visible" : "hidden"}`}><Filter product={products} separated={separatedData} setSeparated={setSeparatedData} chunkArray={chunkArray}/></div>
       
       </div>
   
