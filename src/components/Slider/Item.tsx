@@ -56,8 +56,15 @@ export const SliderItem = (props: ISliderItem) => {
       ;
     const maxLeft =  parseInt(items.sort((a, b) =>  parseFloat(a.current?.style.left || "0") - parseFloat(b.current?.style.left || "0"))[items.length - 1].current?.style.left || "0")
      console.log(x - start + "  ", maxLeft);
-    
-     const width = min-neco;
+     let spaceA = 100;
+     if (window.innerWidth < 1000) {
+            if (window.innerWidth <= 500) {
+             spaceA = 30;
+            } else {
+             spaceA = 50;
+            }
+          }
+     const width = min-neco - spaceA;
       if(width >= maxLeft){
         if(x <= start){
            console.log(x - start + "  ", parseInt(items[items.length - 1].current?.style.left || "0"));
