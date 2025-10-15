@@ -15,7 +15,6 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
 
   const handlePriceChange = (event: Event, newValue:number[]) => {
     setPriceRange(newValue);
-    
   };
    const [width, setWidth] = useState<number>( typeof window !== "undefined" ? window.innerHeight : 0);
   useEffect(() => {
@@ -169,7 +168,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
       <div className=" flex mt-[10px] gap-[15px]">
         <p className=" text-[18px] ">Material:</p>
         <ul className=" flex flex-col gap-[5px]">
-          {categoryFech?.map((e) =>  <li key={e.id} onClick={() => setMaterialSelected(materialSelected === e.id ? null : e.id)} className=" text-slate-300  text-[18px] cursor-pointer">{e.name}</li>)}
+          {categoryFech?.map((e) =>  <li key={e.id} onClick={() => setMaterialSelected(materialSelected === e.id ? null : e.id)} className={`${materialSelected === e.id ? "text-slate-300" : "text-blue-400"}   text-[18px] cursor-pointer`}>{e.name}</li>)}
         </ul>
       </div>
       <div className="mt-4">
