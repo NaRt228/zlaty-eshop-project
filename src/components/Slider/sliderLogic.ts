@@ -52,7 +52,6 @@ export default async function move(prop: LogicProps) {
             }
           }
           if (state[0]) {
-          console.log("stop: "+ state[0])
           prop.items.forEach((element) => {
             if (element.current) {
               const width = element.current.style.left.split("px")[0];

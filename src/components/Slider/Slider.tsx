@@ -51,7 +51,7 @@ export const Slider = () => {
          if(e.current){
            e.current.style.left = `${diferensOfWidth}px`;
          }
-       }, 1)
+       }, 50)
       }
     )
     };

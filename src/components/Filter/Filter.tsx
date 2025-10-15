@@ -10,6 +10,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
     { label: "Nejlevnější", value: "priceDesc" },
     { label: "A-Z", value: "abcASC" },
     { label: "Z-A", value: "abcDESC" },
+    { label: "Nic", value: "" },
   ];
    const [priceRange, setPriceRange] = useState([0, 15632]);
 
@@ -145,11 +146,11 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
           className="bg-zinc-800 p-2 rounded cursor-pointer flex justify-between items-center"
           onClick={() => setIsOpen(!isOpen)}
         >
-          {sortSelected?.label}
+           {sortSelected?.label === "Nic" ? "" : sortSelected?.label}
           <span>{isOpen?<>▲</>:<>▼</>}</span>
         </div>
         {isOpen && (
-          <div className="bg-[#1D1D1DF7] border mt-1 rounded shadow-md absolute w-full z-10">
+          <div className="bg-[#1D1D1DF7] border mt-1 rounded shadow-md absolute w-[250px] z-10">
             {sortOptions.map((option) => (
               <div
                 key={option.value}
@@ -191,10 +192,10 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
       <div className=" flex mt-[10px] gap-[15px]">
         <p className=" text-[18px] ">Kategorie:</p>
         <ul className=" flex flex-col gap-[5px]">
-            <li onClick={() =>  setCategorySelected(categorySelected === "Prsteny" ? null : "Prsteny")} className=" text-slate-300 text-[18px] cursor-pointer">Prsteny</li>
-            <li onClick={() => setCategorySelected(categorySelected === "Nahrdelniky" ? null : "Nahrdelniky")} className=" text-slate-300 text-[18px] cursor-pointer">Nahrdelniky</li>
-            <li onClick={() => setCategorySelected(categorySelected === "Kyvadla" ? null : "Kyvadla")} className=" text-slate-300 text-[18px] cursor-pointer">Kyvadla</li>
-            <li onClick={() => setCategorySelected(categorySelected === "Nausnice" ? null : "Nausnice")} className=" text-slate-300 text-[18px] cursor-pointer">Nausnice</li>
+            <li onClick={() =>  setCategorySelected(categorySelected === "Prsteny" ? null : "Prsteny")} className={`${categorySelected === "Prsteny" ? "text-blue-400" : "text-slate-300"} text-[18px] cursor-pointer`}>Prsteny</li>
+            <li onClick={() => setCategorySelected(categorySelected === "Nahrdelniky" ? null : "Nahrdelniky")} className={`${categorySelected === "Nahrdelniky" ? "text-blue-400" : "text-slate-300"} text-[18px] cursor-pointer`}>Nahrdelniky</li>
+            <li onClick={() => setCategorySelected(categorySelected === "Kyvadla" ? null : "Kyvadla")} className={`${categorySelected === "Kyvadla" ? "text-blue-400" : "text-slate-300"} text-[18px] cursor-pointer`}>Kyvadla</li>
+            <li onClick={() => setCategorySelected(categorySelected === "Nausnice" ? null : "Nausnice")} className={`${categorySelected ==="Nausnice" ? "text-blue-400" : "text-slate-300"} text-[18px] cursor-pointer`}>Nausnice</li>
         </ul>
       </div>
     </div>
