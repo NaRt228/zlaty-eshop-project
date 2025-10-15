@@ -10,7 +10,7 @@ import { Product_cart } from "@/interface/product_cart";
 
 
 export const Slider = () => {
-  const [priveousWidth, setPreviousWidth] = useState<number>(typeof window !== 'undefined' ? window.innerWidth+1 : 0)
+  let priveousWidth: number = typeof window !== 'undefined' ? window.innerWidth+1 : 0;
   const [images, setImages] = useState<string[]>([""]);
   const [names, setNames] = useState<string[]>([""]);
   const [prices, setPrices] = useState<string[]>([""]);
@@ -40,20 +40,17 @@ export const Slider = () => {
     
     AAA();
     const resize = async () => {
-      if( window.innerWidth >= priveousWidth - 5 && window.innerWidth <= priveousWidth + 5){
+      if( window.innerWidth >= priveousWidth - 10 && window.innerWidth <= priveousWidth + 10){
         return;
       }
-      setTimeout(function() {
         const diferensOfWidth = window.innerWidth + priveousWidth;
-       
-        setPreviousWidth(diferensOfWidth);
+        console.log("qwerewq");
+        priveousWidth = window.innerWidth;
          items.forEach(e => { 
          if(e.current){
            e.current.style.left = `${diferensOfWidth}px`;
          }
-       }, 50)
-      }
-    )
+      })
     };
    addEventListener("resize", resize)
 
