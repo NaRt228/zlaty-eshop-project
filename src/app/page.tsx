@@ -21,7 +21,7 @@ export default function Home() {
             Lorem ipsum nevim nevimLorem ipsum nevim nevimLorem ipsum nevim
             nevimLorem ipsum nevim nevim
           </p>
-          <button className="button-vice mr-auto">Více</button>
+         <button className="button-vice mr-auto"><Link href={"/about"} >Více</Link></button> 
         </section>
         <section className="img-container ml-[150px] !relative max-[1372px]:!m-0 max-[600px]:!w-[300px] max-[600px]:!h-[320px]">
           <div className=" absolute h-[100%] w-[100%] bg-[#3E3E3E] top-[15px] left-[15px] "></div>
