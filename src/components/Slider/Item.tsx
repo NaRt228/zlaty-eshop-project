@@ -59,9 +59,9 @@ export const SliderItem = (props: ISliderItem) => {
      let spaceA = 100;
      if (window.innerWidth < 1000) {
             if (window.innerWidth <= 500) {
-             spaceA = 30;
+             spaceA = 10;
             } else {
-             spaceA = 50;
+             spaceA = 30;
             }
           }
      const width = min-neco - spaceA;
@@ -92,18 +92,27 @@ export const SliderItem = (props: ISliderItem) => {
           
        start=x;
     }
+    
     const handleMouseMove = (e: MouseEvent) => moveSliderCursor(e.clientX, items);
+    const handleTouchMove = (e: TouchEvent) => moveSliderCursor(e.touches[0].clientX, items);
     if (stop != null) {
       
       if (stop[0]) {
         document.addEventListener("mousemove", handleMouseMove)
+        document.addEventListener("touchmove", handleTouchMove)
       }
     const handleMouseUp = () => {
+        document.removeEventListener("touchmove", handleTouchMove)
+
         document.removeEventListener("mousemove", handleMouseMove);
         document.removeEventListener("mouseup", handleMouseUp);
+        document.removeEventListener("touchend", handleMouseUp)
+
         stop[0] = !stop[0];
       };
     document.addEventListener("mouseup", handleMouseUp);
+    document.addEventListener("touchend", handleMouseUp)
+
      stop[0] = !stop[0];
     }
   },
@@ -123,6 +132,14 @@ export const SliderItem = (props: ISliderItem) => {
     <section
       className="slider-item"
       ref={item}
+      onTouchStart={(e) =>
+        props.move({
+          item,
+          items: props.items,
+          f: 7,
+          takeUpStop,
+          mouseX: e.touches[0].clientX,
+        })}
       onMouseDown={(e) =>
         props.move({
           item,

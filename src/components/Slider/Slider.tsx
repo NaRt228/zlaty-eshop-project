@@ -44,7 +44,7 @@ export const Slider = () => {
         return;
       }
         const diferensOfWidth = window.innerWidth + priveousWidth;
-        console.log("qwerewq");
+    
         priveousWidth = window.innerWidth;
          items.forEach(e => { 
          if(e.current){
