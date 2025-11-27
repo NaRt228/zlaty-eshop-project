@@ -40,12 +40,12 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
    product = MaxPriceRange(props.product, priceRange)
    categoryFech?.forEach(element => {
     if(element.id === categorySelected){
-        console.log("categorySelected"+categorySelected);
+        console.log("categorySelected "+categorySelected);
         product = MaterialFilterZlato(product, element.id);
-        console.log("MaterialFilterZlato"+product);
+        console.log("MaterialFilterZlato"+{...product});
       return;
     }
-   console.log("yuio"+product);
+   console.log(product);
 
    });
    switch (sortSelected?.value) {
