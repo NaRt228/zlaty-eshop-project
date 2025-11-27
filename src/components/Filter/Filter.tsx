@@ -12,7 +12,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
     { label: "Z-A", value: "abcDESC" },
     { label: "Nic", value: "" },
   ];
-   const [priceRange, setPriceRange] = useState([0, 15555632]);
+   const [priceRange, setPriceRange] = useState([0, 155555632]);
 
   const handlePriceChange = (event: Event, newValue:number[]) => {
     setPriceRange(newValue);
@@ -139,7 +139,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
           value={priceRange}
           onChange={handlePriceChange}
           min={0}
-          max={15632}
+          max={155555632}
           valueLabelDisplay="auto"
           sx={{
             color: "#555", // Barva slideru
