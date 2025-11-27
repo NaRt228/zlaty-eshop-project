@@ -36,13 +36,17 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
   }, [])
  useEffect(() => {
    let product = props.product;
-   console.log(props.product);
+   console.log("qwer"+product);
    product = MaxPriceRange(props.product, priceRange)
    categoryFech?.forEach(element => {
     if(element.id === categorySelected){
-      product = MaterialFilterZlato(product, element.id);
+        console.log("categorySelected"+categorySelected);
+        product = MaterialFilterZlato(product, element.id);
+        console.log("MaterialFilterZlato"+product);
       return;
     }
+   console.log("yuio"+product);
+
    });
    switch (sortSelected?.value) {
      case "priceAsc":
@@ -58,6 +62,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
        product = SortToA(product);
        break;
    }
+ 
   
  }, [sortSelected, priceRange, categorySelected]);
 
