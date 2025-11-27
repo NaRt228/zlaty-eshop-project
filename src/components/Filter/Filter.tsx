@@ -24,9 +24,8 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
     return () => {  window.removeEventListener("resize", resize) }
   }, [])
   const [sortSelected, setSortSelected] = useState<{label: string, value: string} | null>(null);
-  const [categorySelected, setCategorySelected] = useState<string | null>(null);
   const [categoryFech, setCategoryFech] = useState<{name: string, id: number}[] | undefined>(undefined);
-  const [materialSelected, setMaterialSelected] = useState<number | null>(null);
+  const [categorySelected, setCategorySelected] = useState<number | null>(null);
   
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
@@ -39,7 +38,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
    let product = props.product;
    product = MaxPriceRange(props.product, priceRange)
    categoryFech?.forEach(element => {
-    if(element.id === materialSelected){
+    if(element.id === categorySelected){
       product = MaterialFilterZlato(product, element.id);
     }
    });
@@ -57,21 +56,8 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
        product = SortToA(product);
        break;
    }
-   switch (categorySelected ?? "") {
-     case "Prsteny":
-       MaterialFilterP(product);
-       break;
-     case "Nahrdelniky":
-       MaterialFilterN(product);
-       break;
-     case "Kyvadla":
-       MaterialFilterK(product);
-       break;
-     case "Nausnice":
-       MaterialFilterNA(product);
-       break;
-   }
- }, [sortSelected, categorySelected, priceRange, materialSelected]);
+  
+ }, [sortSelected, priceRange, categorySelected]);
 
   function SortToMax(data: ItemProps[]){
     data.sort((a, b) => a.price - b.price);
@@ -88,7 +74,6 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
     function SortToZ(data: ItemProps[]){
     data.sort((a, b) => a.title.localeCompare(b.title));
      props.setSeparated(props.chunkArray(data, 3))
-     MaxPriceRange(props.product, priceRange)
      return data;
   }
 
@@ -103,36 +88,8 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
      props.setSeparated(props.chunkArray(data, 3))
      return data;
   }
-
-  function MaterialFilterP(data: ItemProps[]){
-      data = data.filter(e => "Prsteny" == e.specification);
-      props.setSeparated(props.chunkArray(data, 3))
-      return data;
-  }
-
-  function MaterialFilterN(data: ItemProps[]){
-      data = data.filter(e => "Nahrdelniky" == e.specification);
-      props.setSeparated(props.chunkArray(data, 3))
-      return data;
-  } 
-
-  function MaterialFilterK(data: ItemProps[]){
-      data = data.filter(e => "Kyvadla" == e.specification);
-      props.setSeparated(props.chunkArray(data, 3))
-      return data;
-  }
-
   function MaterialFilterZlato(data: ItemProps[], category: number){
-      
-      
       data = data.filter(e => category == e.category_id);
-      props.setSeparated(props.chunkArray(data, 3))
-      return data;
-  }
-
-  function MaterialFilterNA(data: ItemProps[]){
-      MaxPriceRange(props.product, priceRange)
-      data = data.filter(e => "Nausnice" == e.specification);
       props.setSeparated(props.chunkArray(data, 3))
       return data;
   }
@@ -169,7 +126,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
       <div className=" flex mt-[10px] gap-[15px]">
         <p className=" text-[18px] ">Material:</p>
         <ul className=" flex flex-col gap-[5px]">
-          {categoryFech?.map((e) =>  <li key={e.id} onClick={() => setMaterialSelected(materialSelected === e.id ? null : e.id)} className={`${materialSelected === e.id ? "text-slate-300" : "text-blue-400"}   text-[18px] cursor-pointer`}>{e.name}</li>)}
+
         </ul>
       </div>
       <div className="mt-4">
@@ -192,10 +149,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
       <div className=" flex mt-[10px] gap-[15px]">
         <p className=" text-[18px] ">Kategorie:</p>
         <ul className=" flex flex-col gap-[5px]">
-            <li onClick={() =>  setCategorySelected(categorySelected === "Prsteny" ? null : "Prsteny")} className={`${categorySelected === "Prsteny" ? "text-blue-400" : "text-slate-300"} text-[18px] cursor-pointer`}>Prsteny</li>
-            <li onClick={() => setCategorySelected(categorySelected === "Nahrdelniky" ? null : "Nahrdelniky")} className={`${categorySelected === "Nahrdelniky" ? "text-blue-400" : "text-slate-300"} text-[18px] cursor-pointer`}>Nahrdelniky</li>
-            <li onClick={() => setCategorySelected(categorySelected === "Kyvadla" ? null : "Kyvadla")} className={`${categorySelected === "Kyvadla" ? "text-blue-400" : "text-slate-300"} text-[18px] cursor-pointer`}>Kyvadla</li>
-            <li onClick={() => setCategorySelected(categorySelected === "Nausnice" ? null : "Nausnice")} className={`${categorySelected ==="Nausnice" ? "text-blue-400" : "text-slate-300"} text-[18px] cursor-pointer`}>Nausnice</li>
+          {categoryFech?.map((e) =>  <li key={e.id} onClick={() => setCategorySelected(categorySelected === e.id ? null : e.id)} className={`${categorySelected === e.id ? "text-slate-300" : "text-blue-400"}   text-[18px] cursor-pointer first-letter:uppercase`}>{e.name}</li>)}
         </ul>
       </div>
     </div>
