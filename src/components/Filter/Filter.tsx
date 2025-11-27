@@ -36,15 +36,16 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
   }, [])
  useEffect(() => {
    let product = props.product;
-   product = MaxPriceRange(product, priceRange)
-   if(categorySelected){
+   product = MaxPriceRange(props.product, priceRange)
+  
    categoryFech?.forEach(element => {
     if(element.id === categorySelected){
         product = MaterialFilterZlato(product, element.id);
+        console.log("qwert");
        return;
     }
    });
-  }
+  
    switch (sortSelected?.value) {
      case "priceAsc":
        product = SortToMin(product);
