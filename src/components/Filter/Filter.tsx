@@ -12,7 +12,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
     { label: "Z-A", value: "abcDESC" },
     { label: "Nic", value: "" },
   ];
-   const [priceRange, setPriceRange] = useState([0, 15632]);
+   const [priceRange, setPriceRange] = useState([0, 15555632]);
 
   const handlePriceChange = (event: Event, newValue:number[]) => {
     setPriceRange(newValue);
@@ -36,19 +36,15 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
   }, [])
  useEffect(() => {
    let product = props.product;
-   console.log({...product});
    product = MaxPriceRange(product, priceRange)
    if(categorySelected){
    categoryFech?.forEach(element => {
     if(element.id === categorySelected){
-        console.log("categorySelected "+categorySelected);
-        console.log({...product});
         product = MaterialFilterZlato(product, element.id);
-        console.log({...product});
+       return;
     }
    });
   }
-    console.log({...product});
    switch (sortSelected?.value) {
      case "priceAsc":
        product = SortToMin(product);
