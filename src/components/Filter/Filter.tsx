@@ -37,7 +37,8 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
  useEffect(() => {
    let product = props.product;
    console.log({...product});
-   product = MaxPriceRange(props.product, priceRange)
+   product = MaxPriceRange(product, priceRange)
+   if(categorySelected){
    categoryFech?.forEach(element => {
     if(element.id === categorySelected){
         console.log("categorySelected "+categorySelected);
@@ -46,6 +47,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
         console.log({...product});
     }
    });
+  }
     console.log({...product});
    switch (sortSelected?.value) {
      case "priceAsc":
