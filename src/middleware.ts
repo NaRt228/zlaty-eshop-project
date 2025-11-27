@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
         }
 
         try {
-            const res = await fetch('https://apigolde-shop-production-5431.up.railway.app/api/auth/isAdmin', {
+            const res = await fetch('https://aspgoldeshop-production.up.railway.app/api/auth/isAdmin', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
