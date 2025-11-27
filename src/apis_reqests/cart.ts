@@ -4,7 +4,7 @@ import type { Product_cart } from "@/interface/product_cart"
 import type { responde_cart } from "@/interface/product_response"
 
 const reqest = axios.create({
-  baseURL: "https://apigolde-shop-production-5431.up.railway.app/",
+  baseURL: "https://aspgoldeshop-production.up.railway.app/",
   headers: {
         Authorization: `Bearer ${typeof window !== "undefined" && localStorage.getItem('jwtToken')}`,
         "Content-Type": "application/json",
