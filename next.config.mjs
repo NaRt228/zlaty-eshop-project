@@ -3,7 +3,7 @@ const nextConfig = {
   images: {
     domains: [
       "scontent-prg1-1.cdninstagram.com",
-      "apigolde-shop-production-5431.up.railway.app"
+      "https://zlaty-eshop-project-production.up.railway.app"
     ],
   },
 };
