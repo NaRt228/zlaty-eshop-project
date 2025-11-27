@@ -42,7 +42,7 @@ const Page = () => {
       try {
         setLoading(true)
         const response = await axios.get<ProductsResponse>(
-          `https://apigolde-shop-production-5431.up.railway.app/api/products?page=${currentPage}`,
+          `https://aspgoldeshop-production.up.railway.app/api/products?page=${currentPage}`,
           { withCredentials: true },
         )
 
