@@ -81,7 +81,7 @@ background: linear-gradient(rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, .2) 50%, rgba(0,
     position: relative;
     width: 350px !important;
     height: 350px !important;
-    background-color: rgba(240, 255, 255, 0.264);
+    background-color: transparent;
 }
 }
 @media (max-width: 500px) {
@@ -112,14 +112,14 @@ background: linear-gradient(rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, .2) 50%, rgba(0,
     position: relative;
     width: 250px !important;
     height: 250px !important;
-    background-color: rgba(240, 255, 255, 0.264);
+    background-color: transparent;
 }
 }
 .slider-img{
     position: relative;
     width: 450px;
     height: 450px;
-    background-color: rgba(240, 255, 255, 0.264);
+    background-color: transparent;
 }
 .text-info-slider-item{
     display: flex;
