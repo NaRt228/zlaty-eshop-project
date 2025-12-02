@@ -25,7 +25,16 @@ export default function Home() {
         </section>
         <section className="img-container ml-[150px] !relative max-[1372px]:!m-0 max-[600px]:!w-[300px] max-[600px]:!h-[320px]">
           <div className=" absolute h-[100%] w-[100%] bg-[#3E3E3E] top-[15px] left-[15px] "></div>
-            <Image src={IMG} alt="ring" fill style={{ objectFit: 'cover' }}/>
+           <Image
+  src={IMG}
+  alt="ring"
+  draggable={false}
+  onContextMenu={(e) => e.preventDefault()}
+  className="no-drag"
+  fill
+  style={{ objectFit: "cover" }}
+/>
+
         </section>
       </div>
       <div>

@@ -154,6 +154,9 @@ export const SliderItem = (props: ISliderItem) => {
         <Image
           src={props.image}
           alt="poduct"
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
+            className="no-drag"
           fill
           style={{ objectFit: "cover" }}
         />

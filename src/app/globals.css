@@ -34,3 +34,8 @@ html {
  
 }
 
+.no-drag {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+}

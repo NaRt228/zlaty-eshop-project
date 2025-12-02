@@ -65,7 +65,9 @@ const Item = (props: ItemProps) => {
           width={imageWidth}
           height={imageHeight}
           alt={props.title}
-          className="transition-transform duration-300 transform hover:scale-110 cursor-pointer object-cover"
+          className="transition-transform duration-300 transform hover:scale-110 cursor-pointer object-cover no-drag"
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
         /></Link>
       </div>
 

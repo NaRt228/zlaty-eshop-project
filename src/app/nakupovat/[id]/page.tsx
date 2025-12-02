@@ -43,7 +43,9 @@ export default function NakupovatItem(){
           <div className="flex gap-[20px] justify-center flex-wrap rounded-sm w-[100%]">
             <div className="flex flex-col gap-[10px]">
             <div className="w-[630px] h-[549px] relative rounded-sm max-[700px]:w-[350px] max-[700px]:h-[319px]">
-             {currentImage.split(".")[currentImage.split(".").length-1] === "mp4" ? <video src={currentImage} controls autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover" /> : <Image className="rounded-sm" src={currentImage} alt="product_picture" fill />} 
+             {currentImage.split(".")[currentImage.split(".").length-1] === "mp4" ? <video src={currentImage} controls autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover no-drag" draggable={false}
+            onContextMenu={(e) => e.preventDefault()} /> : <Image className="rounded-sm" src={currentImage} alt="product_picture no-drag" draggable={false}
+            onContextMenu={(e) => e.preventDefault()} fill />} 
             </div>
            
               <div className="relative flex gap-[10px]  max-[700px]:gap-[4px]">{item.mediaUrls.map((e,i) => e !== currentImage && <div key={i} onClick={() => setCurrentImage(e)} className="relative w-[131px] h-[119px] max-[700px]:w-[90px] max-[700px]:h-[80px]"> {e.split(".")[e.split(".").length-1] === "mp4" ?<div><Image src={IMG} alt="play" width={40} height={40} className="absolute z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"/><video src={e} className="absolute inset-0 w-full h-full object-cover" /></div> : <Image className=" rounded-sm absolute inset-0 w-full h-full object-cover" src={e} alt="SecondImage" width={131} height={119}/>} </div>)}</div>
