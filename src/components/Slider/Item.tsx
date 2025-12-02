@@ -1,12 +1,6 @@
 "use client";
 import Image from "next/image";
-import {
-  MutableRefObject,
-  useCallback,
-  useEffect,
-  useRef,
-} from "react";
-
+import { MutableRefObject, useCallback, useEffect, useRef } from "react";
 
 interface MoveLogic {
   (prop: LogicProps): void;
@@ -51,24 +45,28 @@ export const SliderItem = (props: ISliderItem) => {
     function moveSliderCursor(
       x: number,
       items: MutableRefObject<HTMLDivElement | null>[],
-      SomeMin = min,
+      SomeMin = min
     ) {
-      ;
-    const maxLeft =  parseInt(items.sort((a, b) =>  parseFloat(a.current?.style.left || "0") - parseFloat(b.current?.style.left || "0"))[items.length - 1].current?.style.left || "0")
-   
-     let spaceA = 100;
-     if (window.innerWidth < 1000) {
-            if (window.innerWidth <= 500) {
-             spaceA = 10;
-            } else {
-             spaceA = 30;
-            }
-          }
-     const width = min-neco - spaceA;
-      if(width >= maxLeft){
-        if(x <= start){
-          
-          start=x;
+      const maxLeft = parseInt(
+        items.sort(
+          (a, b) =>
+            parseFloat(a.current?.style.left || "0") -
+            parseFloat(b.current?.style.left || "0")
+        )[items.length - 1].current?.style.left || "0"
+      );
+
+      let spaceA = 100;
+      if (window.innerWidth < 1000) {
+        if (window.innerWidth <= 500) {
+          spaceA = 10;
+        } else {
+          spaceA = 30;
+        }
+      }
+      const width = min - neco - spaceA;
+      if (width >= maxLeft) {
+        if (x <= start) {
+          start = x;
           return;
         }
       }
@@ -78,42 +76,48 @@ export const SliderItem = (props: ISliderItem) => {
           element.current.style.left = `${parseFloat(width) + (x - start)}px`;
         }
       });
-        items.forEach((element) => {
-            if (element.current && element.current?.getBoundingClientRect().left > window.innerWidth) {
-              items.forEach((element2) => {
-                if (element2.current) {
-                  SomeMin = Math.min(SomeMin, element2.current.getBoundingClientRect().left);
-                  
-                }
-              });
-              element.current.style.left = `${SomeMin - neco - space}px`;
+      items.forEach((element) => {
+        if (
+          element.current &&
+          element.current?.getBoundingClientRect().left > window.innerWidth
+        ) {
+          items.forEach((element2) => {
+            if (element2.current) {
+              SomeMin = Math.min(
+                SomeMin,
+                element2.current.getBoundingClientRect().left
+              );
             }
           });
-          
-       start=x;
+          element.current.style.left = `${SomeMin - neco - space}px`;
+        }
+      });
+
+      start = x;
     }
-    
-    const handleMouseMove = (e: MouseEvent) => moveSliderCursor(e.clientX, items);
-    const handleTouchMove = (e: TouchEvent) => moveSliderCursor(e.touches[0].clientX, items);
+
+    const handleMouseMove = (e: MouseEvent) =>
+      moveSliderCursor(e.clientX, items);
+    const handleTouchMove = (e: TouchEvent) =>
+      moveSliderCursor(e.touches[0].clientX, items);
     if (stop != null) {
-      
       if (stop[0]) {
-        document.addEventListener("mousemove", handleMouseMove)
-        document.addEventListener("touchmove", handleTouchMove)
+        document.addEventListener("mousemove", handleMouseMove);
+        document.addEventListener("touchmove", handleTouchMove);
       }
-    const handleMouseUp = () => {
-        document.removeEventListener("touchmove", handleTouchMove)
+      const handleMouseUp = () => {
+        document.removeEventListener("touchmove", handleTouchMove);
 
         document.removeEventListener("mousemove", handleMouseMove);
         document.removeEventListener("mouseup", handleMouseUp);
-        document.removeEventListener("touchend", handleMouseUp)
+        document.removeEventListener("touchend", handleMouseUp);
 
         stop[0] = !stop[0];
       };
-    document.addEventListener("mouseup", handleMouseUp);
-    document.addEventListener("touchend", handleMouseUp)
+      document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener("touchend", handleMouseUp);
 
-     stop[0] = !stop[0];
+      stop[0] = !stop[0];
     }
   },
   []);
@@ -139,7 +143,8 @@ export const SliderItem = (props: ISliderItem) => {
           f: 7,
           takeUpStop,
           mouseX: e.touches[0].clientX,
-        })}
+        })
+      }
       onMouseDown={(e) =>
         props.move({
           item,
@@ -154,16 +159,28 @@ export const SliderItem = (props: ISliderItem) => {
         <Image
           src={props.image}
           alt="poduct"
-            draggable={false}
-            onContextMenu={(e) => e.preventDefault()}
-            className="no-drag"
+          draggable={false}
+          onContextMenu={(e) => e.preventDefault()}
+          className="no-drag"
           fill
           style={{ objectFit: "cover" }}
         />
       </div>
       <div className="text-info-slider-item">
-        <h3 className="max-[600px]:!text-[30px]">{props.name}</h3>
-        <p className="max-[600px]:!text-[28px]">{props.price}</p>
+        <h3
+          className="max-[600px]:!text-[30px] no-drag"
+          draggable={false}
+          onContextMenu={(e) => e.preventDefault()}
+        >
+          {props.name}
+        </h3>
+        <p
+          className="max-[600px]:!text-[28px] no-drag"
+          draggable={false}
+          onContextMenu={(e) => e.preventDefault()}
+        >
+          {props.price}
+        </p>
       </div>
     </section>
   );
