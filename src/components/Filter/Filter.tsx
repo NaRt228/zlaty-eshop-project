@@ -128,12 +128,6 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
           </div>
         )}
       </div>
-      <div className=" flex mt-[10px] gap-[15px]">
-        <p className=" text-[18px] ">Material:</p>
-        <ul className=" flex flex-col gap-[5px]">
-
-        </ul>
-      </div>
       <div className="mt-4">
         <p className="text-[18px]">Cena:</p>
         <Slider
