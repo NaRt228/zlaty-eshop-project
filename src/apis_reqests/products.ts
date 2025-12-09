@@ -118,7 +118,7 @@ export async function delete_product(id: number) {
 
 export async function make_order(order: Order): Promise<string | null> {
   return await reqest
-    .post(`/api/orders`, order, { headers: {}})
+    .post(`/api/orders`, order)
     .then((e) => { alert(e.status); return "ok"})
     .catch((e) => {
       alert(e.response.data);
