@@ -198,6 +198,7 @@ export default function Podtvrzeni() {
                         cartItems: orderProducts,
                       };
                       await make_order(order).then((e) => {
+                        console.log("1234");
                         if (e == "ok") {
                           (async function () {
                             await clear_cart().then(cart.refreshCart);
