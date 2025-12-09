@@ -22,7 +22,7 @@ export default function Cart() {
       setCarItems(f);
       const newItems = f?.filter((e) => e.quantity !== 0);
       console.log(newItems);
-      if (newItems?.length === 0) localStorage.setItem("itemsCount", "none");
+      if (newItems?.length === 0 && !newItems) localStorage.setItem("itemsCount", "none");
       else localStorage.setItem("itemsCount", "ok");
       if (f) setFullPrice(getPrice(f));
     }
@@ -69,7 +69,7 @@ export default function Cart() {
         
         const newItems = cartItems?.filter((e) => e.quantity !== 0);
         console.log(newItems);
-        if(newItems?.length === 0) localStorage.setItem("itemsCount", "none");
+        if(newItems?.length === 0 && !newItems) localStorage.setItem("itemsCount", "none");
         else localStorage.setItem("itemsCount", "ok" );
         setCarItems(newItems);
       } else if (value.quantity >= 1) {

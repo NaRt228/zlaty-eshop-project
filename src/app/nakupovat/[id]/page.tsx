@@ -13,7 +13,6 @@ export default function NakupovatItem(){
     const [currentImage, setCurrentImage] = useState<string>("");
     const cart = useCart();
     useEffect(() => {
-      
       async function get_item(){
         if(typeof(id) === "string"){
             const item_get = await get_product_by_id(id);
@@ -22,7 +21,6 @@ export default function NakupovatItem(){
             setCurrentImage(item_get?.mediaUrls[0] ?? "");
         };
       };
-
       get_item();
     }, [])
     async function add_to_cart(id: number) {

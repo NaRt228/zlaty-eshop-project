@@ -68,6 +68,8 @@ const Item = (props: ItemProps) => {
           className="transition-transform duration-300 transform hover:scale-110 cursor-pointer object-cover no-drag"
             draggable={false}
             onContextMenu={(e) => e.preventDefault()}
+               fill
+          style={{ objectFit: "cover" }}
         /></Link>
       </div>
 
