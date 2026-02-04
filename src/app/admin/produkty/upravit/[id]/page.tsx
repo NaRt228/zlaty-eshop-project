@@ -122,8 +122,8 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     )
   }
 else{
-   alert(categories);
- return (
+  alert(categories);
+  return (
     <div className="space-y-6">
       <PageHeader title={`Upravit produkt: ${product.name}`} description="Upravte informace o produktu" />
 
@@ -195,7 +195,7 @@ else{
                   <SelectTrigger>
                     <SelectValue placeholder="Vyberte kategorii" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="text-black">
                     {categories?.map((category) => (
                       <SelectItem key={category.id} value={category.id.toString()}>
                         {category.name}
