@@ -10,7 +10,7 @@ export interface Products {
     name: string; 
     description: string;
     price: number; 
-    category_id: number;
+    categoryId: number;
     stock: number;
     specification: string;
     material: string;
