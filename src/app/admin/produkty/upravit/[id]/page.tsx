@@ -83,7 +83,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
       setMediaFiles(filesArray)
     }
   }
-  alert(categories);
+ 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -121,8 +121,9 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
       </div>
     )
   }
-
-  return (
+else{
+   alert(categories);
+ return (
     <div className="space-y-6">
       <PageHeader title={`Upravit produkt: ${product.name}`} description="Upravte informace o produktu" />
 
@@ -307,4 +308,6 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
       </form>
     </div>
   )
+}
+ 
 }
