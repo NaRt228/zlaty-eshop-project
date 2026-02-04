@@ -14,7 +14,7 @@ const reqest = axios.create({
 export async function get_categories(): Promise<Category[] | undefined> {
   return await reqest
     .get("/api/categories")
-    .then((e) => {console.log(e.data);return e.data})
+    .then((e) => {return e.data})
     .catch(() => undefined)
 }
 

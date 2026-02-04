@@ -49,7 +49,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
   const [material, setMaterial] = useState("")
   const [weight, setWeight] = useState("")
   const [mediaFiles, setMediaFiles] = useState<File[]>([])
-  const [categories, setCategories] = useState<Category[]>([])
+  const [categories, setCategories] = useState<Category[]| undefined>(undefined)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const router = useRouter()
@@ -59,7 +59,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     const fetchData = async () => {
       try {
         const [productData, categoriesData] = await Promise.all([get_product(productId), get_categories().then(e => e)])
-
+    
         setProduct(productData)
         setName(productData.name)
         setDescription(productData.description)
@@ -70,11 +70,12 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
         setMaterial(productData.material || "")
         setWeight(productData.weight ? productData.weight.toString() : "")
 
-        setCategories(categoriesData || [])
-        console.log(categoriesData);
+        setCategories(categoriesData || undefined)
+           console.log(categoriesData);
+           alert(categoriesData);
 
       } catch (err: any) {
-        setError(err.message || "Nepodařilo se načíst data")
+        setError(err.message || alert("Nepodařilo se načíst data"))
       }
     }
 
@@ -91,7 +92,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
       setMediaFiles(filesArray)
     }
   }
-
+   alert(categories);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -203,7 +204,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
                     <SelectValue placeholder="Vyberte kategorii" />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((category) => (
+                    {categories?.map((category) => (
                       <SelectItem key={category.id} value={category.id.toString()}>
                         {category.name}
                       </SelectItem>
