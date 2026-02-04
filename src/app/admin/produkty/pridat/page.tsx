@@ -74,7 +74,7 @@ export default function AddProductPage() {
         name,
         description,
         price: Number.parseFloat(price),
-        category_id: Number.parseInt(categoryId),
+        categoryId: Number.parseInt(categoryId),
         stock: Number.parseInt(stock),
         specification,
         material,
