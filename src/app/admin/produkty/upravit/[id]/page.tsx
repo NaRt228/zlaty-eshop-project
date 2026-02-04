@@ -94,7 +94,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
         name,
         description,
         price: Number.parseFloat(price),
-        category_id: Number.parseInt(categoryId),
+        categoryId: Number.parseInt(categoryId),
         stock: Number.parseInt(stock),
         specification,
         material,
