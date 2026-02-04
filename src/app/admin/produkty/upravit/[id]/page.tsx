@@ -58,7 +58,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [productData, categoriesData] = await Promise.all([get_product(productId), get_categories().then(e => e)])
+        const productData = await get_product(productId).then(e => e);
     
         setProduct(productData)
         setName(productData.name)
@@ -69,10 +69,9 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
         setSpecification(productData.specification || "")
         setMaterial(productData.material || "")
         setWeight(productData.weight ? productData.weight.toString() : "")
-
-        setCategories(categoriesData || undefined)
-           console.log(categoriesData);
-           alert(categoriesData);
+      
+        setCategories(await get_categories().then(e => { console.log(e); return e }) || undefined)
+       
 
       } catch (err: any) {
         setError(err.message || alert("Nepodařilo se načíst data"))
@@ -92,7 +91,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
       setMediaFiles(filesArray)
     }
   }
-   alert(categories);
+  alert(categories);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
