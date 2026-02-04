@@ -122,7 +122,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     )
   }
 else{
-  alert(categories);
+  console.log(product);
   return (
     <div className="space-y-6">
       <PageHeader title={`Upravit produkt: ${product.name}`} description="Upravte informace o produktu" />
