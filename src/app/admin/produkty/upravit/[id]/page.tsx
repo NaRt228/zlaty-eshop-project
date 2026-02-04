@@ -43,6 +43,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     ( async function() {
         const productData = await get_product(productId).then(e => e);
         setCategories(await get_categories().then(e => { console.log(e); return e }) || undefined)
+         setProduct(productData)
         setName(productData.name)
         setDescription(productData.description)
         setPrice(productData.price.toString())
@@ -51,10 +52,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
         setSpecification(productData.specification || "")
         setMaterial(productData.material || "")
         setWeight(productData.weight ? productData.weight.toString() : "")
-        setProduct(productData)
        
-      
-    
     })()
   }, [])
 
@@ -131,7 +129,7 @@ else{
                 <Input
                   id="name"
                   placeholder="Např. Smartphone XYZ"
-                  value={name}
+                  value={product.name}
                   onChange={(e) => setName(e.target.value)}
                   required
                 />
@@ -141,7 +139,7 @@ else{
                 <Textarea
                   id="description"
                   placeholder="Detailní popis produktu..."
-                  value={description}
+                  value={product.description}
                   onChange={(e) => setDescription(e.target.value)}
                   required
                   rows={5}
@@ -156,7 +154,7 @@ else{
                     step="0.01"
                     min="0"
                     placeholder="0.00"
-                    value={price}
+                    value={product.price}
                     onChange={(e) => setPrice(e.target.value)}
                     required
                   />
@@ -168,7 +166,7 @@ else{
                     type="number"
                     min="0"
                     placeholder="0"
-                    value={stock}
+                    value={product.stock}
                     onChange={(e) => setStock(e.target.value)}
                     required
                   />
@@ -176,7 +174,7 @@ else{
               </div>
               <div className="space-y-2">
                 <Label htmlFor="category">Kategorie *</Label>
-                <Select value={categoryId} onValueChange={setCategoryId} required>
+                <Select value={product.categoryId.toString()} onValueChange={setCategoryId} required>
                   <SelectTrigger>
                     <SelectValue placeholder="Vyberte kategorii" />
                   </SelectTrigger>
@@ -203,7 +201,7 @@ else{
                 <Textarea
                   id="specification"
                   placeholder="Technické specifikace produktu..."
-                  value={specification}
+                  value={product.specification}
                   onChange={(e) => setSpecification(e.target.value)}
                   rows={3}
                 />
@@ -213,7 +211,7 @@ else{
                 <Input
                   id="material"
                   placeholder="Např. Kov, Plast, Dřevo..."
-                  value={material}
+                  value={product.material}
                   onChange={(e) => setMaterial(e.target.value)}
                 />
               </div>
@@ -225,7 +223,7 @@ else{
                   step="0.01"
                   min="0"
                   placeholder="0.00"
-                  value={weight}
+                  value={product.weight}
                   onChange={(e) => setWeight(e.target.value)}
                 />
               </div>
