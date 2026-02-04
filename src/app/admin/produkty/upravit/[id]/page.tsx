@@ -72,6 +72,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
         setWeight(productData.weight ? productData.weight.toString() : "")
 
         setCategories(categoriesData || [])
+        console.log(categoriesData);
       } catch (err: any) {
         setError(err.message || "Nepodařilo se načíst data")
       }
