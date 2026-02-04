@@ -25,19 +25,6 @@ interface Category {
   name: string
 }
 
-interface Product {
-  id: number
-  name: string
-  description: string
-  price: number
-  category_id: number
-  stock: number
-  specification: string
-  material: string
-  weight: number
-  mediaUrls: string[]
-}
-
 export default function EditProductPage({ params }: { params: { id: string } }) {
   const productId = Number.parseInt(params.id)
   const [product, setProduct] = useState<Products | null>(null)
