@@ -44,6 +44,9 @@ export default function AddProductPage() {
     const fetchCategories = async () => {
       try {
         const data = await get_categories()
+        if(data){
+        setCategoryId(data[0].id.toString());
+        }
         setCategories(data || [])
       } catch (err: any) {
         setError(err.message || "Nepodařilo se načíst kategorie")

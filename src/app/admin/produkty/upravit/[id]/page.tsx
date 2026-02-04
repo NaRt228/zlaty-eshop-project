@@ -174,7 +174,7 @@ else{
               </div>
               <div className="space-y-2">
                 <Label htmlFor="category">Kategorie *</Label>
-                <Select value={product.categoryId.toString()} onValueChange={setCategoryId} required>
+                <Select value={product.categoryId.toString() ?? ""} onValueChange={setCategoryId} required>
                   <SelectTrigger>
                     <SelectValue placeholder="Vyberte kategorii" />
                   </SelectTrigger>
