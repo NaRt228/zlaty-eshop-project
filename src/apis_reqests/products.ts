@@ -3,7 +3,6 @@ import type { Get_Once_Product, Product_cart } from "@/interface/product_cart"
 import type { product_curt_post_Interface, responde_cart } from "../interface/product_response"
 import axios from "axios"
 import { Order } from "@/interface/oreders"
-import { Products } from "@/utils/interfaces/IFetchGallery"
 
 const reqest = axios.create({
     baseURL: "https://aspgoldeshop-production.up.railway.app/",

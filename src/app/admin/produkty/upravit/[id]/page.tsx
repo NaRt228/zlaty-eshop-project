@@ -18,28 +18,12 @@ import { get_categories } from "@/apis_reqests/category"
 import { get_product, update_product } from "@/apis_reqests/products"
 import { PageHeader } from "@/components/page-header"
 import Image from "next/image"
-
-interface Category {
-  id: number
-  name: string
-}
-
-interface Product {
-  id: number
-  name: string
-  description: string
-  price: number
-  categoryId: number
-  stock: number
-  specification: string
-  material: string
-  weight: number
-  mediaUrls: string[]
-}
+import { Category } from "@/interface/category"
+import { Products } from "@/utils/interfaces/IFetchGallery"
 
 export default function EditProductPage({ params }: { params: { id: string } }) {
   const productId = Number.parseInt(params.id)
-  const [product, setProduct] = useState<Product | null>(null)
+  const [product, setProduct] = useState<Products | null>(null)
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
   const [price, setPrice] = useState("")
