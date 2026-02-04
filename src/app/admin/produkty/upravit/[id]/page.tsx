@@ -56,10 +56,9 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
   const { toast } = useToast()
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
+    ( async function() {
         const productData = await get_product(productId).then(e => e);
-    
+        setCategories(await get_categories().then(e => { console.log(e); return e }) || undefined)
         setProduct(productData)
         setName(productData.name)
         setDescription(productData.description)
@@ -70,16 +69,9 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
         setMaterial(productData.material || "")
         setWeight(productData.weight ? productData.weight.toString() : "")
       
-        setCategories(await get_categories().then(e => { console.log(e); return e }) || undefined)
-       
-
-      } catch (err: any) {
-        setError(err.message || alert("Nepodařilo se načíst data"))
-      }
-    }
-
-    fetchData()
-  }, [productId])
+    
+    })()
+  }, [])
 
   const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -122,7 +114,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     }
   }
 
-  if (!product) {
+  if (!product && !categories) {
     return (
       <div className="flex items-center justify-center h-full">
         <p>Načítání produktu...</p>
