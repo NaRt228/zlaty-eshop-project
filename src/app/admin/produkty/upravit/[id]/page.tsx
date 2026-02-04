@@ -114,7 +114,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     }
   }
 
-  if (!product && !categories) {
+  if (!product || !categories) {
     return (
       <div className="flex items-center justify-center h-full">
         <p>Načítání produktu...</p>
