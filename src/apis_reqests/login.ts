@@ -47,7 +47,7 @@ export async function logout() {
 
         // Smazat token z localStorage
         localStorage.removeItem("jwtToken");
-
+//wq
         // Smazat všechny cookies (client-side způsob)
         document.cookie.split(";").forEach((cookie) => {
             const eqPos = cookie.indexOf("=");
