@@ -18,16 +18,28 @@ import { get_categories } from "@/apis_reqests/category"
 import { get_product, update_product } from "@/apis_reqests/products"
 import { PageHeader } from "@/components/page-header"
 import Image from "next/image"
-import { Products } from "@/utils/interfaces/IFetchGallery"
 
 interface Category {
   id: number
   name: string
 }
 
+interface Product {
+  id: number
+  name: string
+  description: string
+  price: number
+  categoryId: number
+  stock: number
+  specification: string
+  material: string
+  weight: number
+  mediaUrls: string[]
+}
+
 export default function EditProductPage({ params }: { params: { id: string } }) {
   const productId = Number.parseInt(params.id)
-  const [product, setProduct] = useState<Products | null>(null)
+  const [product, setProduct] = useState<Product | null>(null)
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
   const [price, setPrice] = useState("")
@@ -46,15 +58,12 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
   useEffect(() => {
     ( async function() {
         const productData = await get_product(productId).then(e => e);
-        if(!productData){
-          return;
-        }
         setCategories(await get_categories().then(e => { console.log(e); return e }) || undefined)
         setProduct(productData)
         setName(productData.name)
         setDescription(productData.description)
         setPrice(productData.price.toString())
-        setCategoryId(productData.categoryId.toString())
+        setCategoryId(productData.category_id.toString())
         setStock(productData.stock.toString())
         setSpecification(productData.specification || "")
         setMaterial(productData.material || "")
@@ -113,6 +122,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     )
   }
 else{
+  alert(categories);
   return (
     <div className="space-y-6">
       <PageHeader title={`Upravit produkt: ${product.name}`} description="Upravte informace o produktu" />
@@ -185,7 +195,7 @@ else{
                   <SelectTrigger>
                     <SelectValue placeholder="Vyberte kategorii" />
                   </SelectTrigger>
-                  <SelectContent className="text-black">
+                  <SelectContent className=" text-black">
                     {categories?.map((category) => (
                       <SelectItem key={category.id} value={category.id.toString()}>
                         {category.name}

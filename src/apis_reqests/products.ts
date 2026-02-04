@@ -49,7 +49,7 @@ export async function get_products(page = 1, limit = 10) {
     .catch((e) => e)
 }
 
-export async function get_product(id: number): Promise<Products|undefined> {
+export async function get_product(id: number) {
   return await reqest
     .get(`/api/products/${id}`)
     .then((e) => e.data)
