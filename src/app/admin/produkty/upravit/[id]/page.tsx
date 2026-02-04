@@ -129,7 +129,8 @@ else{
                 <Input
                   id="name"
                   placeholder="Např. Smartphone XYZ"
-                  value={product.name}
+                  value={name}
+                  
                   onChange={(e) => setName(e.target.value)}
                   required
                 />
@@ -139,7 +140,7 @@ else{
                 <Textarea
                   id="description"
                   placeholder="Detailní popis produktu..."
-                  value={product.description}
+                  value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   required
                   rows={5}
@@ -154,7 +155,7 @@ else{
                     step="0.01"
                     min="0"
                     placeholder="0.00"
-                    defaultValue={product.price}
+                    value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     required
                   />
@@ -166,7 +167,6 @@ else{
                     type="number"
                     min="0"
                     placeholder="0"
-                    defaultValue={product.stock}
                     value={stock}
                     onChange={(e) => setStock(e.target.value)}
                     required
@@ -175,7 +175,7 @@ else{
               </div>
               <div className="space-y-2">
                 <Label htmlFor="category">Kategorie *</Label>
-                <Select value={product.categoryId.toString() ?? ""} onValueChange={setCategoryId} required>
+                <Select defaultValue={product.categoryId.toString() ?? ""} value={categoryId} onValueChange={setCategoryId} required>
                   <SelectTrigger>
                     <SelectValue placeholder="Vyberte kategorii" />
                   </SelectTrigger>
@@ -202,7 +202,7 @@ else{
                 <Textarea
                   id="specification"
                   placeholder="Technické specifikace produktu..."
-                  value={product.specification}
+                  value={specification}
                   onChange={(e) => setSpecification(e.target.value)}
                   rows={3}
                 />
@@ -212,7 +212,7 @@ else{
                 <Input
                   id="material"
                   placeholder="Např. Kov, Plast, Dřevo..."
-                  value={product.material}
+                  value={material}
                   onChange={(e) => setMaterial(e.target.value)}
                 />
               </div>
@@ -224,7 +224,7 @@ else{
                   step="0.01"
                   min="0"
                   placeholder="0.00"
-                  value={product.weight}
+                  value={weight}
                   onChange={(e) => setWeight(e.target.value)}
                 />
               </div>
