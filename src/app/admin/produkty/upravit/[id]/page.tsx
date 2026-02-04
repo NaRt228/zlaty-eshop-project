@@ -154,7 +154,7 @@ else{
                     step="0.01"
                     min="0"
                     placeholder="0.00"
-                    value={product.price}
+                    defaultValue={product.price}
                     onChange={(e) => setPrice(e.target.value)}
                     required
                   />
@@ -166,7 +166,8 @@ else{
                     type="number"
                     min="0"
                     placeholder="0"
-                    value={product.stock}
+                    defaultValue={product.stock}
+                    value={stock}
                     onChange={(e) => setStock(e.target.value)}
                     required
                   />
