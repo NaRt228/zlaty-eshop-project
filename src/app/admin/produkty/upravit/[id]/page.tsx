@@ -58,7 +58,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [productData, categoriesData] = await Promise.all([get_product(productId), get_categories()])
+        const [productData, categoriesData] = await Promise.all([get_product(productId), get_categories().then(e => e)])
 
         setProduct(productData)
         setName(productData.name)
