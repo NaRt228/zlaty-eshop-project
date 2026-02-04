@@ -55,7 +55,6 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
   const router = useRouter()
   const { toast } = useToast()
 
-  // Změnit volání funkcí v komponentě
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -73,7 +72,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
 
         setCategories(categoriesData || [])
         console.log(categoriesData);
-        
+
       } catch (err: any) {
         setError(err.message || "Nepodařilo se načíst data")
       }
