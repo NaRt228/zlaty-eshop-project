@@ -43,7 +43,6 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     ( async function() {
         const productData = await get_product(productId).then(e => e);
         setCategories(await get_categories().then(e => { console.log(e); return e }) || undefined)
-        setProduct(productData)
         setName(productData.name)
         setDescription(productData.description)
         setPrice(productData.price.toString())
@@ -52,6 +51,8 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
         setSpecification(productData.specification || "")
         setMaterial(productData.material || "")
         setWeight(productData.weight ? productData.weight.toString() : "")
+        setProduct(productData)
+       
       
     
     })()

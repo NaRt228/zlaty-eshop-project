@@ -25,19 +25,8 @@ import { get_categories } from "@/apis_reqests/category"
 import { PageHeader } from "@/components/page-header"
 import { Pagination } from "@/components/pagination"
 import Image from "next/image"
+import { Products } from "@/utils/interfaces/IFetchGallery"
 
-interface Product {
-  id: number
-  name: string
-  description: string
-  price: number
-  category_id: number
-  stock: number
-  specification: string
-  material: string
-  weight: number
-  mediaUrls: string[]
-}
 
 interface Category {
   id: number
@@ -45,7 +34,7 @@ interface Category {
 }
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState<Product[]>([])
+  const [products, setProducts] = useState<Products[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
@@ -60,6 +49,7 @@ export default function ProductsPage() {
     setLoading(true)
     try {
       const data = await get_products(pageNum)
+      
       setProducts(data.products)
       setPage(data.page)
       setTotalPages(data.totalPages)
@@ -193,7 +183,7 @@ export default function ProductsPage() {
                       </TableCell>
                       <TableCell>{product.name}</TableCell>
                       <TableCell>{product.price.toLocaleString()} Kč</TableCell>
-                      <TableCell>{getCategoryName(product.category_id)}</TableCell>
+                      <TableCell>{getCategoryName(product.categoryId)}</TableCell>
                       <TableCell>{product.stock} ks</TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
