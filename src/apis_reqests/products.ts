@@ -3,6 +3,7 @@ import type { Get_Once_Product, Product_cart } from "@/interface/product_cart"
 import type { product_curt_post_Interface, responde_cart } from "../interface/product_response"
 import axios from "axios"
 import { Order } from "@/interface/oreders"
+import { Products } from "@/utils/interfaces/IFetchGallery"
 
 const reqest = axios.create({
     baseURL: "https://aspgoldeshop-production.up.railway.app/",
@@ -48,7 +49,7 @@ export async function get_products(page = 1, limit = 10) {
     .catch((e) => e)
 }
 
-export async function get_product(id: number) {
+export async function get_product(id: number): Promise<Products|undefined> {
   return await reqest
     .get(`/api/products/${id}`)
     .then((e) => e.data)

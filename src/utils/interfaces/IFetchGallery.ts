@@ -17,3 +17,4 @@ export interface Products {
     weight: number; 
     mediaUrls: string[]; 
 }
+

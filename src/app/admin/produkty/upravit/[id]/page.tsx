@@ -18,6 +18,7 @@ import { get_categories } from "@/apis_reqests/category"
 import { get_product, update_product } from "@/apis_reqests/products"
 import { PageHeader } from "@/components/page-header"
 import Image from "next/image"
+import { Products } from "@/utils/interfaces/IFetchGallery"
 
 interface Category {
   id: number
@@ -39,7 +40,7 @@ interface Product {
 
 export default function EditProductPage({ params }: { params: { id: string } }) {
   const productId = Number.parseInt(params.id)
-  const [product, setProduct] = useState<Product | null>(null)
+  const [product, setProduct] = useState<Products | null>(null)
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
   const [price, setPrice] = useState("")
@@ -58,6 +59,9 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
   useEffect(() => {
     ( async function() {
         const productData = await get_product(productId).then(e => e);
+        if(!productData){
+          return;
+        }
         setCategories(await get_categories().then(e => { console.log(e); return e }) || undefined)
         setProduct(productData)
         setName(productData.name)
