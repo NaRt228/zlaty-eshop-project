@@ -12,7 +12,7 @@ export default function NakupovatItem(){
     const { id } = useParams();
     const [item , setItem] = useState<Get_Once_Product | undefined>(undefined);
     const [currentImage, setCurrentImage] = useState<string>("");
-      const [categoryFech, setCategoryFech] = useState<string | undefined>("");
+      const [categoryFech, setCategoryFech] = useState<{name: string, id: number}[] | undefined>(undefined);
     
     const cart = useCart();
     useEffect(() => {
@@ -26,9 +26,10 @@ export default function NakupovatItem(){
       };
       get_item();
           (async function(){
-            const datas = await get_categories().then(e=> e?.find(e => e.id.toString() === item?.category_id)?.name);
+            const datas = await get_categories().then(e=>e)
           setCategoryFech(datas)
           console.log(datas);
+          console.log(datas?.find(e => e.id.toString() === item?.category_id));
        })()
     }, [])
 
@@ -67,7 +68,7 @@ export default function NakupovatItem(){
                 <h3>Váha:</h3> <p>{item.weight}g</p>
               </div>
               <div className="flex gap-[10px] bg-[#47474733] w-[330px] h-[80px] text-[24px] p-[20px] rounded-sm max-[700px]:w-[220px] max-[700px]:h-[60px] max-[700px]:text-[16px] max-[700px]:justify-center max-[700px]:items-center text-center">
-                <h3>Kategorie:</h3> <p className="max-[700px]:text-end">{categoryFech}</p>
+                <h3>Kategorie:</h3> <p className="max-[700px]:text-end">{categoryFech?.find(e => e.id === Number.parseInt(item.category_id))?.name}</p>
               </div>
               </div>
               <div className="flex justify-between">
