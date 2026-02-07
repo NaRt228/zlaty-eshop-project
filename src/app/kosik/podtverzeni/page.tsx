@@ -202,7 +202,7 @@ export default function Podtvrzeni() {
               (fullPrice - (fullPrice / 100) * 21).toString().substring(0, 8)}
             kč
           </div>
-              <button className="py-[10px] px-[25px] w-auto self-start bg-orange-100 text-3xl max-[660px]:text-xl text-black font-bold ml-auto mt-auto">
+              <button className="py-[10px] px-[25px] w-auto self-start bg-orange-100 text-3xl max-[660px]:text-xl text-black font-bold ml-auto mt-auto cursor-pointer">
                 <button
                   onClick={() => {
                     (async function () {
