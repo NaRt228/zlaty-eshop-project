@@ -22,15 +22,18 @@ export default function NakupovatItem(){
             setItem(() => item_get)
             console.log(item_get?.mediaUrls);
             setCurrentImage(item_get?.mediaUrls[0] ?? "");
+                 const datas = await get_categories().then(e=>e)
+          setCategoryFech(datas);
+          console.log(datas);
+            if(datas){
+              console.log(datas[0].id.toString());
+              console.log(item_get?.category_id);
+              console.log(datas?.filter(e => e.id.toString() == item_get?.category_id));
+            }
         };
       };
       get_item();
-          (async function(){
-            const datas = await get_categories().then(e=>e)
-          setCategoryFech(datas)
-          console.log(datas);
-          console.log(datas?.find(e => e.id.toString() === item?.category_id));
-       })()
+    
     }, [])
 
     async function add_to_cart(id: number) {
