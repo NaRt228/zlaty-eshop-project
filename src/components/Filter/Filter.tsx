@@ -134,7 +134,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
           value={priceRange}
           onChange={handlePriceChange}
           min={0}
-          max={155555632}
+          max={100000}
           valueLabelDisplay="auto"
           sx={{
             color: "#555", // Barva slideru
