@@ -14,7 +14,7 @@ export interface Get_Once_Product {
     name: string
     description: string
     price: string
-    category_id: string
+    categoryId: string
     stock: string
     specification: string
     material: string

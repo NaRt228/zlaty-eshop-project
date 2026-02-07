@@ -27,8 +27,8 @@ export default function NakupovatItem(){
           console.log(datas);
             if(datas){
               console.log(datas[0].id.toString());
-              console.log(item_get?.category_id);
-              console.log(datas?.filter(e => e.id.toString() == item_get?.category_id));
+              console.log(item_get?.categoryId);
+              console.log(datas?.filter(e => e.id.toString() == item_get?.categoryId));
             }
         };
       };
@@ -71,7 +71,7 @@ export default function NakupovatItem(){
                 <h3>Váha:</h3> <p>{item.weight}g</p>
               </div>
               <div className="flex gap-[10px] bg-[#47474733] w-[330px] h-[80px] text-[24px] p-[20px] rounded-sm max-[700px]:w-[220px] max-[700px]:h-[60px] max-[700px]:text-[16px] max-[700px]:justify-center max-[700px]:items-center text-center">
-                <h3>Kategorie:</h3> <p className="max-[700px]:text-end">{categoryFech?.find(e => e.id === Number.parseInt(item.category_id))?.name}</p>
+                <h3>Kategorie:</h3> <p className="max-[700px]:text-end">{categoryFech?.find(e => e.id === Number.parseInt(item.categoryId))?.name}</p>
               </div>
               </div>
               <div className="flex justify-between">
