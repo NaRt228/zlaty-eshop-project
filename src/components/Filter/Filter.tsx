@@ -39,9 +39,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
    product = MaxPriceRange(props.product, priceRange)
   
    categoryFech?.forEach(element => {
-    console.log(element.id === categorySelected);
     if(element.id === categorySelected){
-      console.log(element.id);
         product = MaterialFilterZlato(product, element.id);
         console.log("qwert");
        return;
@@ -96,7 +94,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
      return data;
   }
   function MaterialFilterZlato(data: ItemProps[], category: number){
-      data = data.filter(e => {console.log(`filter :${category == e.categoryId}`) ;return category == e.categoryId});
+      data = data.filter(e => category == e.category_id);
       props.setSeparated(props.chunkArray(data, 3))
       return data;
   }
