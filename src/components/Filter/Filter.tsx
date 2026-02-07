@@ -12,7 +12,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
     { label: "Z-A", value: "abcDESC" },
     { label: "Nic", value: "" },
   ];
-   const [priceRange, setPriceRange] = useState([0, 155555632]);
+   const [priceRange, setPriceRange] = useState([0, 100000]);
 
   const handlePriceChange = (event: Event, newValue:number[]) => {
     setPriceRange(newValue);
@@ -137,7 +137,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
           max={100000}
           valueLabelDisplay="auto"
           sx={{
-            color: "#555", // Barva slideru
+            color: "#555",
           }}
         />
         <div className="flex justify-between text-[16px]">
