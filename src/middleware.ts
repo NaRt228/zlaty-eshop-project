@@ -4,7 +4,6 @@ import type { NextRequest } from 'next/server';
 export async function middleware(request: NextRequest) {
     const token = request.cookies.get('jwtToken')?.value;
     const url = new URL(request.url);
-
     // Pokud je uživatel na /login a má token, přesměruj na /admin (nebo kamkoliv jinam)
     if (url.pathname === '/login' && token) {
         return NextResponse.redirect(new URL('/admin', request.url));
@@ -27,10 +26,12 @@ export async function middleware(request: NextRequest) {
             const data = await res.json();
 
             if (!data.isAdmin) {
+                request.cookies.delete('jwtToken');
                 return NextResponse.redirect(new URL('/login', request.url));
             }
         } catch (err) {
             console.error("Middleware auth check failed:", err);
+            request.cookies.delete('jwtToken');
             return NextResponse.redirect(new URL('/login', request.url));
         }
     }
