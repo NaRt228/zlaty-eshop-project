@@ -12,6 +12,7 @@ const counter = false;
 export default function Podtvrzeni() {
   const [cartItems, setCarItems] = useState<Product_cart[] | undefined>([]);
   const [orderProducts, setOrderProducts] = useState<CartItem[]>([]);
+    const [fullPrice, setFullPrice] = useState<number>();
   const cart = useCart();
   const route = useRouter();
   useEffect(() => {
@@ -23,14 +24,28 @@ export default function Podtvrzeni() {
     }
     async function Get_Data() {
       //await post_product({ productId: 2, quantity: 6}).then(e => alert(e?.message));
-      const f = await get_products_cart().then((e) => e);
-      setCarItems(f);
-      if(f){
-        const products : CartItem[] = f?.map(e => ({productId: parseInt(e.id), quantity: e.quantity}));
+      const g = await get_products_cart().then((e) => e);
+      setCarItems(g);
+      if(g){
+        const products : CartItem[] = g?.map(e => ({productId: parseInt(e.id), quantity: e.quantity}));
         setOrderProducts(products)
       }
+       const f = await get_products_cart().then((e) => e);
+      setCarItems(f);
+      const newItems = f?.filter((e) => e.quantity !== 0);
+      console.log(newItems);
+      if (newItems?.length === 0 && !newItems) localStorage.setItem("itemsCount", "none");
+      else localStorage.setItem("itemsCount", "ok");
+      if (f) setFullPrice(getPrice(f));
     }
     Get_Data();
+    function getPrice(values: Product_cart[]): number {
+    let price = 0;
+    for (let i = 0; i < values.length; i++) {
+      price += values[i].price * values[i].quantity;
+    }
+    return price;
+  }
   }, []);
   // function getPrice(values: Product_cart[]): number {
   //   let price = 0;
@@ -178,6 +193,15 @@ export default function Podtvrzeni() {
                     </div>
                   ))
                 )}
+                 <h2 className="text-[44px] max-[660px]:text-[30px] max-[1180px]:text-[38px]">
+            <b>Celkem: {fullPrice && fullPrice.toString().substring(0, 6)}kč</b>
+          </h2>
+          <div className="text-[30px] max-[660px]:text-[20px] max-[1180px]:text-[26px]">
+            Celkem bez DPH:{" "}
+            {fullPrice &&
+              (fullPrice - (fullPrice / 100) * 21).toString().substring(0, 8)}
+            kč
+          </div>
               <button className="py-[10px] px-[25px] w-auto self-start bg-orange-100 text-3xl max-[660px]:text-xl text-black font-bold ml-auto mt-auto">
                 <button
                   onClick={() => {

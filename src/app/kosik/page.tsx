@@ -17,7 +17,6 @@ export default function Cart() {
   const { removeCart } = useCart();
   useEffect(() => {
     async function Get_Data() {
-    // await post_product({ productId: 2, quantity: 6}).then(e => alert(e?.message));
       const f = await get_products_cart().then((e) => e);
       setCarItems(f);
       const newItems = f?.filter((e) => e.quantity !== 0);
@@ -30,7 +29,7 @@ export default function Cart() {
     Get_Data();
   }, []);
 
-  function getPrice(values: Product_cart[]): number {
+   function getPrice(values: Product_cart[]): number {
     let price = 0;
     for (let i = 0; i < values.length; i++) {
       price += values[i].price * values[i].quantity;
