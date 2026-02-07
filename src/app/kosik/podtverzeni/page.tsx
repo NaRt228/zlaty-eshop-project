@@ -193,10 +193,10 @@ export default function Podtvrzeni() {
                     </div>
                   ))
                 )}
-                 <h2 className="text-[44px] max-[660px]:text-[30px] max-[1180px]:text-[38px]">
+                 <h2 className="text-[44px] max-[660px]:text-[30px] max-[1180px]:text-[38px] text-right">
             <b>Celkem: {fullPrice && fullPrice.toString().substring(0, 6)}kč</b>
           </h2>
-          <div className="text-[30px] max-[660px]:text-[20px] max-[1180px]:text-[26px]">
+          <div className="text-[30px] max-[660px]:text-[20px] max-[1180px]:text-[26px] mb-10 text-right">
             Celkem bez DPH:{" "}
             {fullPrice &&
               (fullPrice - (fullPrice / 100) * 21).toString().substring(0, 8)}
