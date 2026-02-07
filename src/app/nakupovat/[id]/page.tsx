@@ -7,10 +7,13 @@ import IMG from "../../../../public/free-icon-play-buttton-5577228.png"
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useCart } from "@/contexts/CartContext";
+import { get_categories } from "@/apis_reqests/category";
 export default function NakupovatItem(){
     const { id } = useParams();
     const [item , setItem] = useState<Get_Once_Product | undefined>(undefined);
     const [currentImage, setCurrentImage] = useState<string>("");
+      const [categoryFech, setCategoryFech] = useState<{name: string, id: number}[] | undefined>(undefined);
+    
     const cart = useCart();
     useEffect(() => {
       async function get_item(){
@@ -22,7 +25,11 @@ export default function NakupovatItem(){
         };
       };
       get_item();
+          (async function(){
+          setCategoryFech(await get_categories().then(e=>e))
+       })()
     }, [])
+
     async function add_to_cart(id: number) {
       const productData: product_curt_post_Interface = {
         productId: id,
@@ -58,12 +65,12 @@ export default function NakupovatItem(){
                 <h3>Váha:</h3> <p>{item.weight}g</p>
               </div>
               <div className="flex gap-[10px] bg-[#47474733] w-[330px] h-[80px] text-[24px] p-[20px] rounded-sm max-[700px]:w-[220px] max-[700px]:h-[60px] max-[700px]:text-[16px] max-[700px]:justify-center max-[700px]:items-center text-center">
-                <h3>Material:</h3> <p className="max-[700px]:text-end">{item.material}</p>
+                <h3>Kategorie:</h3> <p className="max-[700px]:text-end">{categoryFech?.find(e => e.id === Number.parseInt(item.category_id))?.name}</p>
               </div>
               </div>
               <div className="flex justify-between">
               <div className="flex gap-[10px] bg-[#47474733] w-[470px] h-[80px] text-[24px] p-[20px] rounded-sm max-[700px]:w-[220px] max-[700px]:h-[60px] max-[700px]:text-[16px] max-[700px]:justify-center max-[700px]:items-center text-center">
-                <h3>Specifikace:</h3> <p className="max-[700px]:text-end">{item.specification}</p>
+                <h3>Material:</h3> <p className="max-[700px]:text-end">{item.material}</p>
               </div>
               <div className="flex gap-[10px] bg-[#47474733] w-[190px] h-[80px] text-[24px] p-[20px] rounded-sm max-[700px]:w-[130px] max-[700px]:h-[60px] max-[700px]:text-[16px] max-[700px]:justify-center max-[700px]:items-center text-center">
                 <h3>Skladem:</h3> <p>{item.stock}ks</p>
