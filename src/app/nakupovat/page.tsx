@@ -10,7 +10,7 @@ interface Product {
   name: string
   description: string
   price: string
-  category_id: number
+  categoryId: number
   stock: number
   created_at: string
   image_url: string | null
@@ -53,7 +53,7 @@ const Page = () => {
           price: Number.parseFloat(product.price),
           id: product.id,
           description: product.description,
-          category_id: product.category_id,
+          category_id: product.categoryId,
           
           material: product.material,
           stock: product.stock,

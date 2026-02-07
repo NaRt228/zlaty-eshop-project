@@ -40,6 +40,7 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
   
    categoryFech?.forEach(element => {
     if(element.id === categorySelected){
+      console.log(element.id);
         product = MaterialFilterZlato(product, element.id);
         console.log("qwert");
        return;
@@ -95,7 +96,6 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
   }
   function MaterialFilterZlato(data: ItemProps[], category: number){
       data = data.filter(e => category == e.categoryId);
-      console.log(category);
       props.setSeparated(props.chunkArray(data, 3))
       return data;
   }
