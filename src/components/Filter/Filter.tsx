@@ -94,7 +94,8 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
      return data;
   }
   function MaterialFilterZlato(data: ItemProps[], category: number){
-      data = data.filter(e => category == e.category_id);
+      data = data.filter(e => category == e.categoryId);
+      console.log(category);
       props.setSeparated(props.chunkArray(data, 3))
       return data;
   }

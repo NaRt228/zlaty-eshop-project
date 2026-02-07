@@ -12,7 +12,7 @@ export interface ItemProps {
   id?: number;
   description?: string;
   material: string;
-  category_id?: number | string;
+  categoryId?: number | string;
   stock?: number | string;
   mediaUrls?: string[];
   imageHeight?: number;
