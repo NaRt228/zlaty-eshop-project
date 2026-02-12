@@ -238,7 +238,6 @@ export default function Podtvrzeni() {
                           localStorage.setItem("county", "");
                         }
                       });
-                     
                     })();
                   }}
                 >
