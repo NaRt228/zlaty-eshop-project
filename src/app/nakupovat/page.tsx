@@ -116,7 +116,7 @@ const Page = () => {
             <div className="flex flex-col gap-[30px]">
               {separatedData.map((chunk, index) => (
                 <div key={index} className="flex gap-[70px] flex-wrap justify-center">
-                  {chunk.map((item, itemIndex) => (
+                  {chunk.filter(e => e.stock != 0).map((item, itemIndex) => (
                     <Item key={itemIndex} specification={item.specification} material={item.material} image={item.image} price={item.price} title={item.title} id={item.id} />
                   ))}
                 </div>
