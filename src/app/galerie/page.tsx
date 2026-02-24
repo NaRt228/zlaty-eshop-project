@@ -14,7 +14,7 @@ export default function Page() {
   console.log("qwerewerewq");
   try {
     const response = await axios.get<GalleryProps>(url);
-    const filteredProducts = response.data.products.filter(product => product.stock > 0);
+    const filteredProducts = response.data.products;
 
     return {
       ...response.data,
@@ -29,7 +29,7 @@ export default function Page() {
           
             setProductsData(await fetchImages().then(e => e));
         })()
-    })
+    }, [])
 
   if (!productsData) {
     return <div>Failed to load images</div>;

@@ -25,7 +25,6 @@ export default function FetchGallery({ products }: Props) {
     setCurImg(input);
     Border(input);
   }
-
   function Border(url: string) {
     const ur = url.split("/").pop() as string;
     const img = document.getElementById(ur);
