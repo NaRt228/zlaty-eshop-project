@@ -4,7 +4,12 @@ import DisplayGallery from '../../utils/DisplayGallery';
 import GalleryProps from '../../utils/interfaces/IFetchGallery';
 import axios from 'axios';
 
-async function fetchImages(): Promise<GalleryProps | null> {
+
+
+export default function Page() {
+    const [productsData, setProductsData] = useState<any>();
+    useEffect(() => {
+      async function fetchImages(): Promise<GalleryProps | null> {
   const url = "https://aspgoldeshop-production.up.railway.app/api/products";
   console.log("qwerewerewq");
   try {
@@ -20,11 +25,8 @@ async function fetchImages(): Promise<GalleryProps | null> {
     return null;
   }
 }
-
-export default function Page() {
-    const [productsData, setProductsData] = useState<any>();
-    useEffect(() => {
         (async function(){
+          
             setProductsData(await fetchImages().then(e => e));
         })()
     })
