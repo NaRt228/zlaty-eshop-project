@@ -5,7 +5,7 @@ import GalleryProps from '../../utils/interfaces/IFetchGallery';
 import axios from 'axios';
 
 async function fetchImages(): Promise<GalleryProps | null> {
-  const url = "https://apigolde-shop-production-5431.up.railway.app/api/products";
+  const url = "https://aspgoldeshop-production.up.railway.app/api/products";
   console.log("qwerewerewq");
   try {
     const response = await axios.get<GalleryProps>(url);
