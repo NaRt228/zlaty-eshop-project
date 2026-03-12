@@ -53,22 +53,22 @@ export function Cart_form() {
             <h2 className="text-[36px] text-white text-opacity-75 max-[660px]:text-[28px]">Základní informace</h2>
             <div className="relative">
               <Field name="name" id="name" className="bg-neutral-600 h-[80px] w-[540px] rounded-md py-[18px] px-[20px] text-[32px] placeholder:text-white placeholder:text-opacity-80 max-[660px]:w-[360px] max-[660px]:h-[65px] max-[660px]:text-[26px]" placeholder="Jmeno*"/>
-              <ErrorMessage name="name" component="div" className="absolute top-[98%] left-[20px] text-white-700 text-[14px]"/>
+              <ErrorMessage name="name" component="div" className="absolute top-[98%] left-[20px] text-red-700 text-[14px]"/>
               
             </div>{" "}
             <div  className="relative">
               <Field name="secondName" id="secondName" className="bg-neutral-600 h-[80px] w-[540px] rounded-md py-[18px] px-[20px] text-[32px] placeholder:text-white placeholder:text-opacity-80 max-[660px]:w-[360px] max-[660px]:h-[65px] max-[660px]:text-[26px]" placeholder="Příjmení*"/>
-              <ErrorMessage name="secondName" component="div" className="absolute top-[98%] left-[20px] text-white-700 text-[14px]"/>
+              <ErrorMessage name="secondName" component="div" className="absolute top-[98%] left-[20px] text-red-700 text-[14px]"/>
               
             </div>{" "}
             <div   className="relative">
               <Field name="telefon"  inputMode="numeric"  value={values.telefon.replace(/(\d{3})(\d{3})(\d{3})/, "$1 $2 $3")} maxLength={15} id="telefon"className="bg-neutral-600 h-[80px] w-[540px] rounded-md py-[18px] px-[20px] text-[32px] placeholder:text-white placeholder:text-opacity-80 max-[660px]:w-[360px] max-[660px]:h-[65px] max-[660px]:text-[26px]" placeholder="Tel. číslo*"/>
-              <ErrorMessage name="telefon" component="div" className="absolute top-[98%] left-[20px] text-white-700 text-[14px]"/>
+              <ErrorMessage name="telefon" component="div" className="absolute top-[98%] left-[20px] text-red-700 text-[14px]"/>
               
             </div>{" "}
             <div  className="relative">
               <Field name="email" id="email" className="bg-neutral-600 h-[80px] w-[540px] rounded-md py-[18px] px-[20px] text-[32px] placeholder:text-white placeholder:text-opacity-80 max-[660px]:w-[360px] max-[660px]:h-[65px] max-[660px]:text-[26px]" placeholder="Email*"/>
-              <ErrorMessage name="email" component="div" className="absolute top-[98%] left-[20px] text-white-700 text-[14px]"/>
+              <ErrorMessage name="email" component="div" className="absolute top-[98%] left-[20px] text-red-700 text-[14px]"/>
               
             </div>{" "}
           </div> 
@@ -76,22 +76,22 @@ export function Cart_form() {
             <h2 className="text-[36px] text-white text-opacity-75 max-[660px]:text-[28px]">Fakturační adresa</h2>
             <div  className="relative">
               <Field name="streat" id="streat" className="bg-neutral-600 h-[80px] w-[540px] rounded-md py-[18px] px-[20px] text-[32px] placeholder:text-white placeholder:text-opacity-80 max-[660px]:w-[360px] max-[660px]:h-[65px] max-[660px]:text-[26px]" type="telefon" placeholder="Ulice*"/>
-              <ErrorMessage name="streat" component="div" className="absolute top-[98%] left-[20px] text-white-700 text-[14px]"/>
+              <ErrorMessage name="streat" component="div" className="absolute top-[98%] left-[20px] text-red-700 text-[14px]"/>
               
             </div>{" "}
             <div  className="relative">
               <Field name="sity" id="sity" className="bg-neutral-600 h-[80px] w-[540px] rounded-md py-[18px] px-[20px] text-[32px] placeholder:text-white placeholder:text-opacity-80 max-[660px]:w-[360px] max-[660px]:h-[65px] max-[660px]:text-[26px]" placeholder="Město*"/>
-              <ErrorMessage name="sity" component="div" className="absolute top-[98%] left-[20px] text-white-700 text-[14px]"/>
+              <ErrorMessage name="sity" component="div" className="absolute top-[98%] left-[20px] text-red-700 text-[14px]"/>
               
             </div>{" "}
             <div  className="relative" >
               <Field  inputMode="numeric" value={values.psc.replace(/^(\d{3})(\d{2})$/, "$1 $2")} maxLength={6}  name="psc" id="psc"className="bg-neutral-600 h-[80px] w-[540px] rounded-md py-[18px] px-[20px] text-[32px] placeholder:text-white placeholder:text-opacity-80 max-[660px]:w-[360px] max-[660px]:h-[65px] max-[660px]:text-[26px]" placeholder="Číslo popisné*"/>
-              <ErrorMessage name="psc" component="div" className="absolute top-[98%] left-[20px] text-white-700 text-[14px]" />
+              <ErrorMessage name="psc" component="div" className="absolute top-[98%] left-[20px] text-red-700 text-[14px]" />
               
             </div>{" "}
             <div  className="relative">
               <Field name="county" id="county" className="bg-neutral-600 h-[80px] w-[540px] rounded-md py-[18px] px-[20px] text-[32px] placeholder:text-white placeholder:text-opacity-80 max-[660px]:w-[360px] max-[660px]:h-[65px] max-[660px]:text-[26px]" placeholder="Země*"/>
-              <ErrorMessage name="county" component="div" className="absolute top-[98%] left-[20px] text-white-700 text-[14px]"/>
+              <ErrorMessage name="county" component="div" className="absolute top-[98%] left-[20px] text-red-700 text-[14px]"/>
             
             </div>{" "}
           </div>

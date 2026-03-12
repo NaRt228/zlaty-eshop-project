@@ -48,7 +48,7 @@ function AdminSidebar() {
         )}
       >
         <div className="border-b border-gray-700 px-6 py-4">
-          <Link href="/admin" className="flex items-center gap-2 font-semibold text-white">
+          <Link href="/" className="flex items-center gap-2 font-semibold text-white">
             <Package className="h-6 w-6" />
             <span>Zlatý E-shop</span>
           </Link>
@@ -76,6 +76,17 @@ function AdminSidebar() {
             >
               <Package className="h-5 w-5" />
               Produkty
+            </Link>
+             <Link
+              href="/admin/orders"
+              className={cn(
+                "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-colors",
+                pathname === "/admin/kategorie" ? "bg-gray-800 text-white" : "",
+              )}
+              onClick={() => setIsOpen(false)}
+            >
+              <Tag className="h-5 w-5" />
+              Objednavky
             </Link>
           </nav>
         </ScrollArea>

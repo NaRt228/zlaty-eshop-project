@@ -120,7 +120,7 @@ export async function make_order(order: Order): Promise<string | null> {
   console.log("123456789");
   const g = await reqest
     .post(`/api/orders`, order)
-    .then((e) => { alert(e.status); return "ok"})
+    .then((e) => { return "ok"})
     .catch((e) => {
       alert(e.response.data);
       return null})
