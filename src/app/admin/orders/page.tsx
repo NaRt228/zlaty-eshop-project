@@ -17,12 +17,12 @@ function StatCard({
   description?: string;
 }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+    <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-gray-500">{title}</span>
+        <span className="text-xs font-medium text-gray-500 sm:text-sm">{title}</span>
         <span className="text-gray-400">{icon}</span>
       </div>
-      <div className="mt-2 text-2xl font-bold text-gray-900">{value}</div>
+      <div className="mt-2 text-xl font-bold text-gray-900 sm:text-2xl">{value}</div>
       {description && (
         <p className="mt-1 text-xs text-gray-500">{description}</p>
       )}
@@ -67,19 +67,19 @@ export default function OrdersPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
               Objednávky
             </h1>
-            <p className="mt-1 text-gray-500">
+            <p className="mt-1 text-sm text-gray-500 sm:text-base">
               Správa objednávek vašeho obchodu
             </p>
           </div>
           <button
             onClick={fetchOrders}
             disabled={isLoading}
-            className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 disabled:opacity-50 sm:w-auto"
           >
             <svg
               className={`size-4 ${isLoading ? "animate-spin" : ""}`}
@@ -156,13 +156,13 @@ export default function OrdersPage() {
 
         {/* Orders Table */}
         <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
-          <div className="border-b border-gray-200 px-6 py-4">
-            <h2 className="text-lg font-semibold text-gray-900">Seznam objednávek</h2>
-            <p className="mt-1 text-sm text-gray-500">
+          <div className="border-b border-gray-200 px-4 py-3 sm:px-6 sm:py-4">
+            <h2 className="text-base font-semibold text-gray-900 sm:text-lg">Seznam objednávek</h2>
+            <p className="mt-1 text-xs text-gray-500 sm:text-sm">
               Prohlížejte, upravujte a odstraňujte objednávky
             </p>
           </div>
-          <div className="p-6">
+          <div className="p-3 sm:p-6">
             {isLoading ? (
               <div className="space-y-3">
                 {Array.from({ length: 5 }).map((_, i) => (
