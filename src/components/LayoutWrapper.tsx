@@ -56,17 +56,6 @@ function AdminSidebar() {
         <ScrollArea className="flex-1 py-4">
           <nav className="grid gap-1 px-2">
             <Link
-              href="/admin"
-              className={cn(
-                "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-colors",
-                pathname === "/admin" ? "bg-gray-800 text-white" : "",
-              )}
-              onClick={() => setIsOpen(false)}
-            >
-              <LayoutDashboard className="h-5 w-5" />
-              Dashboard
-            </Link>
-            <Link
               href="/admin/kategorie"
               className={cn(
                 "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-colors",

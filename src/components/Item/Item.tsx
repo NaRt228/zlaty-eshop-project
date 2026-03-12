@@ -3,7 +3,7 @@ import Image from "next/image";
 import { post_product } from "@/apis_reqests/products";
 import { useCart } from "@/contexts/CartContext";
 import Link from "next/link";
-
+import Swal from "sweetalert2";
 // Define props for each item
 export interface ItemProps {
   image: string;
@@ -42,12 +42,35 @@ const Item = (props: ItemProps) => {
 
       const response = await post_product(productData);
 
-      if (response) {
-        await refreshCart();
-        alert("Produkt byl přidán do košíku!");
-      } else {
-        alert("Nepodařilo se přidat produkt do košíku.");
-      }
+     if (response) {
+  await refreshCart();
+
+  Swal.fire({
+    toast: true,
+    position: "top-end",
+    icon: "success",
+    title: "Produkt byl přidán do košíku",
+    background: "#0a0a0a",
+    color: "#e5e5e5",
+    showConfirmButton: false,
+    timer: 2500,
+    timerProgressBar: true
+  });
+
+} else {
+
+  Swal.fire({
+    toast: true,
+    position: "top-end",
+    icon: "error",
+    title: "Nepodařilo se přidat produkt",
+    background: "#0a0a0a",
+    color: "#e5e5e5",
+    showConfirmButton: false,
+    timer: 3000
+  });
+
+}
     } catch (error) {
       console.error("Error adding product to cart:", error);
       alert("Došlo k chybě při přidávání produktu do košíku.");

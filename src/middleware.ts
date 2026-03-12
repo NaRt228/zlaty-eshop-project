@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest) {
     const url = new URL(request.url);
     // Pokud je uživatel na /login a má token, přesměruj na /admin (nebo kamkoliv jinam)
     if (url.pathname === '/login' && token) {
-        return NextResponse.redirect(new URL('/admin', request.url));
+        return NextResponse.redirect(new URL('/admin/produkty', request.url));
     }
 
     // Ověření admina na /admin routes

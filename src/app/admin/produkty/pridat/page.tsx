@@ -84,7 +84,10 @@ export default function AddProductPage() {
         weight: Number.parseFloat(weight || "0"),
       }
 
-      await add_product(productData, mediaFiles)
+      const reqest = await add_product(productData, mediaFiles).then(e => e).catch(e => e)
+      if(reqest === 401){
+           router.push("/login")
+      }
       toast({
         title: "Produkt přidán",
         description: `Produkt "${name}" byl úspěšně přidán.`,
@@ -92,6 +95,7 @@ export default function AddProductPage() {
       router.push("/admin/produkty")
     } catch (err: any) {
       setError(err.message || "Nepodařilo se přidat produkt")
+
     } finally {
       setLoading(false)
     }

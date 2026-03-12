@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { get_categories } from "@/apis_reqests/category";
+import Swal from "sweetalert2";
 export default function NakupovatItem(){
     const { id } = useParams();
     const [item , setItem] = useState<Get_Once_Product | undefined>(undefined);
@@ -44,9 +45,35 @@ export default function NakupovatItem(){
 
       const response = await post_product(productData);
       await cart.refreshCart();
-      if (!response) {
-        alert("Nepodařilo se přidat produkt do košíku.");
-      }
+      if (response) {
+    
+     
+       Swal.fire({
+         toast: true,
+         position: "top-end",
+         icon: "success",
+         title: "Produkt byl přidán do košíku",
+         background: "#0a0a0a",
+         color: "#e5e5e5",
+         showConfirmButton: false,
+         timer: 2500,
+         timerProgressBar: true
+       });
+     
+     } else {
+     
+       Swal.fire({
+         toast: true,
+         position: "top-end",
+         icon: "error",
+         title: "Nepodařilo se přidat produkt",
+         background: "#0a0a0a",
+         color: "#e5e5e5",
+         showConfirmButton: false,
+         timer: 3000
+       });
+     
+     }
     }
     return (
       <main className="mt-[200px] max-[1000px]:mb-[100px] flex flex-col justify-center items-center max-[1335px]:mt-[100px]">

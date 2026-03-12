@@ -78,7 +78,7 @@ export async function add_product(productData: any, mediaFiles: File[]) {
         "Content-Type": "multipart/form-data",
       },
     })
-    return response.data
+    return response.status
   } catch {
     return undefined
   }

@@ -49,12 +49,10 @@ console.log("wtf");
       style={{ backgroundImage: `url(${HeaderImage.src})` }}
     >
       <div className="absolute inset-x-0 bottom-[-30px] bg-gradient-to-t from-black/100 to-transparent h-20"></div>
-
       <div className="flex justify-between max-[600px]:gap-10 items-center p-4 container mx-auto">
         <Link href="/" className="text-white text-5xl z-30">
           Jovana Šichová
         </Link>
-
         <div className="hidden md:flex space-x-6 gap-3 ">
           {navLinks.map((link, i) => (
             <button key={i} onClick={() => setNavbarOpen(false)}>
