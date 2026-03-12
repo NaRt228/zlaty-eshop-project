@@ -44,8 +44,8 @@ export async function remove_from_cart(productId: number) {
 export async function clear_cart(): Promise<string | null> {
   return await reqest
     .delete("/api/cart/clear")
-    .then((e) => { return "ok"})
-    .catch((e) => { return null})
+    .then(() => { return "ok"})
+    .catch(() => { return null})
 }
 export async function getAllOrders(): Promise<Order[] | undefined> {
   return await reqest
