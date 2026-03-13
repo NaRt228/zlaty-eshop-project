@@ -35,6 +35,7 @@ export interface Order {
   orderId: number;
   total_amount: number;
   status: string;
+  
   created_at: string;
   guest: Guest | null;
   items: OrderItem[];
