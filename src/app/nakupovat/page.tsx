@@ -43,7 +43,7 @@ const Page = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const baseURL = process.env.NEXT_PUBLIC_API_URL || "https://aspgoldeshop-production.up.railway.app";
+        const baseURL = process.env.NEXT_PUBLIC_API_URL || "https://golde-shop-production.up.railway.app";
         const response = await axios.get<ProductsResponse>(
           `${baseURL}/api/products?page=${currentPage}`,
           { withCredentials: true }

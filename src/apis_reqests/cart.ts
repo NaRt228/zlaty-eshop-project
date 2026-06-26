@@ -5,7 +5,7 @@ import type { responde_cart } from "@/interface/product_response"
 import { Order } from "@/interface/Orders"
 
 const reqest = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "https://aspgoldeshop-production.up.railway.app/",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "https://golde-shop-production.up.railway.app/",
   headers: {
         "Content-Type": "application/json",
       },

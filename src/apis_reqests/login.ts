@@ -2,7 +2,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 const reqest = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL || "https://aspgoldeshop-production.up.railway.app/",
+    baseURL: process.env.NEXT_PUBLIC_API_URL || "https://golde-shop-production.up.railway.app/",
     withCredentials: true,
     headers: {
         Authorization: `Bearer ${typeof window !== "undefined" && localStorage.getItem('jwtToken')}`,

@@ -10,7 +10,7 @@ export default function Page() {
 
   useEffect(() => {
     async function fetchImages() {
-      const baseURL = process.env.NEXT_PUBLIC_API_URL || "https://aspgoldeshop-production.up.railway.app";
+      const baseURL = process.env.NEXT_PUBLIC_API_URL || "https://golde-shop-production.up.railway.app";
       const url = `${baseURL}/api/products`;
       try {
         const response = await axios.get<GalleryProps>(url);

@@ -5,7 +5,7 @@ import axios from "axios"
 import { Order } from "@/interface/oreders"
 
 const reqest = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL || "https://aspgoldeshop-production.up.railway.app/",
+    baseURL: process.env.NEXT_PUBLIC_API_URL || "https://golde-shop-production.up.railway.app/",
     headers: {
           "Content-Type": "application/json",
         },
