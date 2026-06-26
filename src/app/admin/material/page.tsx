@@ -23,81 +23,72 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-// Upravit importy pro novou strukturu API
-import { get_categories, add_category, delete_category } from "@/apis_reqests/category"
+import { get_materials, add_material, delete_material, Material } from "@/apis_reqests/material"
 import { PageHeader } from "@/components/page-header"
 
-interface Category {
-  id: number
-  name: string
-}
-
-export default function CategoriesPage() {
-  const [categories, setCategories] = useState<Category[]>([])
-  const [newCategoryName, setNewCategoryName] = useState("")
+export default function MaterialsPage() {
+  const [materials, setMaterials] = useState<Material[]>([])
+  const [newMaterialName, setNewMaterialName] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const { toast } = useToast()
 
-  // Změnit volání funkcí v komponentě
-  const fetchCategories = async () => {
+  const fetchMaterials = async () => {
     try {
-      const data = await get_categories()
-      setCategories(data || [])
+      const data = await get_materials()
+      setMaterials(data || [])
     } catch (err: any) {
-      setError(err.message || "Nepodařilo se načíst kategorie")
+      setError(err.message || "Nepodařilo se načíst materiály")
     }
   }
 
   useEffect(() => {
-    fetchCategories()
+    fetchMaterials()
   }, [])
 
-  const handleAddCategory = async (e: React.FormEvent) => {
+  const handleAddMaterial = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError("")
 
     try {
-      await add_category(newCategoryName)
+      await add_material(newMaterialName)
       toast({
-        title: "Kategorie přidána",
-        description: `Kategorie "${newCategoryName}" byla úspěšně přidána.`,
+        title: "Materiál přidán",
+        description: `Materiál "${newMaterialName}" byl úspěšně přidán.`,
       })
-      setNewCategoryName("")
+      setNewMaterialName("")
       setIsDialogOpen(false)
-      fetchCategories()
+      fetchMaterials()
     } catch (err: any) {
-      setError(err.message || "Nepodařilo se přidat kategorii")
+      setError(err.message || "Nepodařilo se přidat materiál")
     } finally {
       setLoading(false)
     }
   }
 
-  const handleDeleteCategory = async (categoryId: number, categoryName: string) => {
+  const handleDeleteMaterial = async (materialId: number, materialName: string) => {
     try {
-      const result = await delete_category(categoryId).then(e => e);
-      if(result){
+      const result = await delete_material(materialId)
+      if (result === true) {
         toast({
-          title: "Kategorie smazána",
-          description: `Kategorie "${categoryName}" byla úspěšně smazána.`,
+          title: "Materiál smazán",
+          description: `Materiál "${materialName}" byl úspěšně smazán.`,
         })
-
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Chyba",
+          description: "Nepodařilo se smazat materiál",
+        })
       }
-      else{
-         toast({
-        variant: "destructive",
-        title: "Chyba",
-        description: "Nepodařilo se smazat kategorii",
-      })
-      }
-      fetchCategories()
+      fetchMaterials()
     } catch (err: any) {
       toast({
         variant: "destructive",
         title: "Chyba",
-        description: err.message || "Nepodařilo se smazat kategorii",
+        description: err.message || "Nepodařilo se smazat materiál",
       })
     }
   }
@@ -105,19 +96,19 @@ export default function CategoriesPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Správa kategorií"
-        description="Zde můžete spravovat kategorie produktů vašeho e-shopu"
+        title="Správa materiálů"
+        description="Zde můžete spravovat materiály produktů vašeho e-shopu"
         action={
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Button>
                 <Plus className="mr-2 h-4 w-4" />
-                Přidat kategorii
+                Přidat materiál
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Přidat novou kategorii</DialogTitle>
+                <DialogTitle>Přidat nový materiál</DialogTitle>
               </DialogHeader>
               {error && (
                 <Alert variant="destructive" className="mb-4">
@@ -125,21 +116,21 @@ export default function CategoriesPage() {
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
-              <form onSubmit={handleAddCategory} className="space-y-4">
+              <form onSubmit={handleAddMaterial} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="categoryName">Název kategorie</Label>
+                  <Label htmlFor="materialName">Název materiálu</Label>
                   <Input
-                   className="text-black"
-                    id="categoryName"
-                    placeholder="Např. Elektronika"
-                    value={newCategoryName}
-                    onChange={(e) => setNewCategoryName(e.target.value)}
+                  className="text-black"
+                    id="materialName"
+                    placeholder="Např. Stříbro 925/1000"
+                    value={newMaterialName}
+                    onChange={(e) => setNewMaterialName(e.target.value)}
                     required
                   />
-                  <p className="text-sm text-muted-foreground">Zadejte název nové kategorie produktů</p>
+                  <p className="text-sm text-muted-foreground">Zadejte název nového materiálu</p>
                 </div>
                 <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? "Přidávání..." : "Přidat kategorii"}
+                  {loading ? "Přidávání..." : "Přidat materiál"}
                 </Button>
               </form>
             </DialogContent>
@@ -149,8 +140,8 @@ export default function CategoriesPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Seznam kategorií</CardTitle>
-          <CardDescription>Přehled všech kategorií produktů ve vašem e-shopu</CardDescription>
+          <CardTitle>Seznam materiálů</CardTitle>
+          <CardDescription>Přehled všech materiálů produktů ve vašem e-shopu</CardDescription>
         </CardHeader>
         <CardContent>
           {error && (
@@ -163,16 +154,16 @@ export default function CategoriesPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>ID</TableHead>
-                <TableHead>Název kategorie</TableHead>
+                <TableHead>Název materiálu</TableHead>
                 <TableHead className="text-right">Akce</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {categories.length > 0 ? (
-                categories.map((category) => (
-                  <TableRow key={category.id}>
-                    <TableCell>{category.id}</TableCell>
-                    <TableCell>{category.name}</TableCell>
+              {materials.length > 0 ? (
+                materials.map((material) => (
+                  <TableRow key={material.id}>
+                    <TableCell>{material.id}</TableCell>
+                    <TableCell>{material.name}</TableCell>
                     <TableCell className="text-right">
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
@@ -182,20 +173,20 @@ export default function CategoriesPage() {
                             className="text-red-600 hover:text-red-700 hover:bg-red-50"
                           >
                             <Trash2 className="h-4 w-4" />
-                            <span className="sr-only">Smazat kategorii</span>
+                            <span className="sr-only">Smazat materiál</span>
                           </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>Smazat kategorii</AlertDialogTitle>
+                            <AlertDialogTitle>Smazat materiál</AlertDialogTitle>
                             <AlertDialogDescription>
-                              Opravdu chcete smazat kategorii &ldquo;{category.name}&ldquo;? Tato akce je nevratná.
+                              Opravdu chcete smazat materiál &ldquo;{material.name}&ldquo;? Tato akce je nevratná.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
                             <AlertDialogCancel>Zrušit</AlertDialogCancel>
                             <AlertDialogAction
-                              onClick={() => handleDeleteCategory(category.id, category.name)}
+                              onClick={() => handleDeleteMaterial(material.id, material.name)}
                               className="bg-red-600 hover:bg-red-700"
                             >
                               Smazat
@@ -209,7 +200,7 @@ export default function CategoriesPage() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={3} className="text-center py-4">
-                    Žádné kategorie nebyly nalezeny
+                    Žádné materiály nebyly nalezeny
                   </TableCell>
                 </TableRow>
               )}

@@ -16,9 +16,15 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 // Upravit importy pro novou strukturu API
 import { get_categories } from "@/apis_reqests/category"
 import { add_product } from "@/apis_reqests/products"
+import { get_materials } from "@/apis_reqests/material"
 import { PageHeader } from "@/components/page-header"
 
 interface Category {
+  id: number
+  name: string
+}
+
+interface MaterialOption {
   id: number
   name: string
 }
@@ -30,10 +36,11 @@ export default function AddProductPage() {
   const [categoryId, setCategoryId] = useState("")
   const [stock, setStock] = useState("")
   const [specification, setSpecification] = useState("")
-  const [material, setMaterial] = useState("")
+  const [materialId, setMaterialId] = useState("")
   const [weight, setWeight] = useState("")
   const [mediaFiles, setMediaFiles] = useState<File[]>([])
   const [categories, setCategories] = useState<Category[]>([])
+  const [materialOptions, setMaterialOptions] = useState<MaterialOption[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const router = useRouter()
@@ -41,19 +48,20 @@ export default function AddProductPage() {
 
   // Změnit volání funkcí v komponentě
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchData = async () => {
       try {
-        const data = await get_categories()
-        if(data){
-        setCategoryId(data[0].id.toString());
+        const [catData, matData] = await Promise.all([get_categories(), get_materials()])
+        if (catData) {
+          setCategoryId(catData[0].id.toString())
         }
-        setCategories(data || [])
+        setCategories(catData || [])
+        setMaterialOptions(matData || [])
       } catch (err: any) {
-        setError(err.message || "Nepodařilo se načíst kategorie")
+        setError(err.message || "Nepodařilo se načíst data")
       }
     }
 
-    fetchCategories()
+    fetchData()
   }, [])
 
   const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,6 +81,9 @@ export default function AddProductPage() {
     setError("")
 
     try {
+      const selectedMaterial = materialOptions.find((m) => m.id.toString() === materialId)
+      const materialName = selectedMaterial ? selectedMaterial.name : ""
+
       const productData = {
         name,
         description,
@@ -80,7 +91,7 @@ export default function AddProductPage() {
         categoryId: Number.parseInt(categoryId),
         stock: Number.parseInt(stock),
         specification,
-        material,
+        material: materialName,
         weight: Number.parseFloat(weight || "0"),
       }
 
@@ -203,12 +214,18 @@ export default function AddProductPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="material">Materiál</Label>
-                <Input
-                  id="material"
-                  placeholder="Např. Kov, Plast, Dřevo..."
-                  value={material}
-                  onChange={(e) => setMaterial(e.target.value)}
-                />
+                <Select value={materialId} onValueChange={setMaterialId} >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Vyberte materiál"  className="bg-black"/>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {materialOptions.map((mat) => (
+                      <SelectItem  className="bg-black" key={mat.id} value={mat.id.toString()}>
+                        {mat.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="weight">Hmotnost (kg)</Label>

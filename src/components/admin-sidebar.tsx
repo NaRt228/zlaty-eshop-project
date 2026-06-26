@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { cn } from "@/lib/utils"
-import { LayoutDashboard, Package, Tag, ShoppingCart, Menu, X } from "lucide-react"
+import { LayoutDashboard, Package, Tag, ShoppingCart, Menu, X, Gem } from "lucide-react"
 
 interface SidebarProps {
   className?: string
@@ -66,6 +66,17 @@ export function Sidebar({ className }: SidebarProps) {
             >
               <Tag className="h-5 w-5" />
               Kategorie
+            </Link>
+            <Link
+              href="/admin/material"
+              className={cn(
+                "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
+                pathname === "/admin/material" ? "bg-accent text-accent-foreground" : "transparent",
+              )}
+              onClick={() => setIsOpen(false)}
+            >
+              <Gem className="h-5 w-5" />
+              Materiál
             </Link>
             <Link
               href="/admin/produkty"

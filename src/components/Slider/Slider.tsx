@@ -1,77 +1,150 @@
 "use client";
-import IMG from "../../utils/images/Footer.jpg";
+import React, { useEffect, useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
-import "./Slider.css";
-import { SliderItem } from "./Item";
-import move from "./sliderLogic";
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { get_products } from "@/apis_reqests/products";
 import { Product_cart } from "@/interface/product_cart";
-
+import "./Slider.css";
 
 export const Slider = () => {
-  let priveousWidth: number = typeof window !== 'undefined' ? window.innerWidth+1 : 0;
-  const [images, setImages] = useState<string[]>([""]);
-  const [names, setNames] = useState<string[]>([""]);
-  const [prices, setPrices] = useState<string[]>([""]);
-   const items: MutableRefObject<HTMLDivElement | null>[] = [
-  useRef<HTMLDivElement | null>(null),
-  useRef<HTMLDivElement | null>(null),
-  useRef<HTMLDivElement | null>(null),
-  useRef<HTMLDivElement | null>(null),
-  useRef<HTMLDivElement | null>(null),
-  useRef<HTMLDivElement | null>(null),
-];
-  
-  useEffect(() => {
-    async function AAA(){
-        const product = await get_products();
-        console.log(product);
-        if(product !== undefined){
-          const imageFromApi: string[] = product.products.map((e:Product_cart) => e.mediaUrls[0]);
-          const nameFromApi: string[] = product.products.map((e:Product_cart) => e.name);
-          const priceFromApi: string[] = product.products.map((e:Product_cart) => e.price);
-          setImages(imageFromApi);
-          setNames(nameFromApi);
-          setPrices(priceFromApi);
-        }
-      
-      }
-    
-    AAA();
-    const resize = async () => {
-      if( window.innerWidth >= priveousWidth - 10 && window.innerWidth <= priveousWidth + 10){
-        return;
-      }
-        const diferensOfWidth = window.innerWidth + priveousWidth;
-    
-        priveousWidth = window.innerWidth;
-         items.forEach(e => { 
-         if(e.current){
-           e.current.style.left = `${diferensOfWidth}px`;
-         }
-      })
-    };
-   addEventListener("resize", resize)
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    loop: true, 
+    dragFree: true,
+    align: "start"
+  });
+  const [products, setProducts] = useState<Product_cart[]>([]);
 
-   return () => { removeEventListener("resize", resize)};
-  }, [])
+  // Duplicate slides if products count is small to allow Embla's loop to function properly
+  const slidesToRender = products.length > 0 && products.length < 12
+    ? Array.from({ length: Math.ceil(12 / products.length) }).flatMap(() => products)
+    : products;
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const res = await get_products();
+      if (res && res.products) {
+        // Filter out products without media or use placeholder if empty
+        setProducts(res.products);
+      }
+    }
+    fetchProducts();
+  }, []);
+
+  // Autoplay / Continuous auto-scroll functionality
+  useEffect(() => {
+    if (!emblaApi || products.length === 0) return;
+
+    const startIndex = products.length;
+    emblaApi.reInit({ startIndex });
+
+    let isPlaying = false;
+    let requestRef = 0;
+    let timeoutId: NodeJS.Timeout;
+
+    const play = () => {
+      if (!isPlaying) return;
+
+      // Scrolling speed (adjust as needed, positive value scrolls left-to-right)
+      const speed = 0.55;
+
+      const engine = emblaApi.internalEngine();
+      engine.location.add(speed);
+      engine.target.set(engine.location);
+      engine.offsetLocation.set(engine.location);
+      engine.scrollLooper.loop(speed > 0 ? 1 : -1);
+      engine.translate.to(engine.offsetLocation.get());
+      engine.slideLooper.loop();
+
+      requestRef = requestAnimationFrame(play);
+    };
+
+    const start = () => {
+      if (isPlaying) return;
+      isPlaying = true;
+      requestRef = requestAnimationFrame(play);
+    };
+
+    const stop = () => {
+      isPlaying = false;
+      cancelAnimationFrame(requestRef);
+    };
+
+    // Pause on pointer down/drag
+    emblaApi.on("pointerDown", () => {
+      stop();
+      clearTimeout(timeoutId);
+    });
+
+    // Resume scrolling after releasing drag/touch
+    emblaApi.on("pointerUp", () => {
+      clearTimeout(timeoutId);
+      // Wait 1.5 seconds before resuming auto-scroll
+      timeoutId = setTimeout(() => {
+        if (!emblaApi.internalEngine().dragHandler.pointerDown()) {
+          start();
+        }
+      }, 1500);
+    });
+
+    // Start auto-scrolling
+    start();
+
+    return () => {
+      stop();
+      clearTimeout(timeoutId);
+    };
+  }, [emblaApi, products]);
+
   return (
-    <section className="slider-container">
-      <div className="bacground-container">
-        <div className="background-hidder"></div>
-        <div className="img-cont">
-          <Image src={IMG} alt="background" className="back-img" />
+    <section className="slider-container relative overflow-hidden bg-black text-white py-16 border-y border-neutral-900">
+      {/* Title */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 mb-12 text-center sm:text-left">
+        <h2 className="text-2xl md:text-3xl font-light tracking-widest uppercase mb-3">
+          Vybrané šperky
+        </h2>
+        <div className="w-16 h-[1px] bg-neutral-700 mx-auto sm:mx-0"></div>
+      </div>
+
+      {/* Embla Viewport */}
+      {products.length > 0 ? (
+        <div className="embla relative z-10 max-w-7xl mx-auto px-4" ref={emblaRef}>
+          <div className="embla__container">
+            {slidesToRender.map((product, index) => {
+              const mainImage = product.mediaUrls && product.mediaUrls.length > 0 
+                ? product.mediaUrls[0] 
+                : "/placeholder.png";
+
+              return (
+                <div className="embla__slide" key={`${product.id}-${index}`}>
+                  <Link href={`/nakupovat/${product.id}`} className="block">
+                    <div className="slider-item">
+                      <div className="slider-img">
+                        <Image
+                          src={mainImage}
+                          alt={product.name}
+                          fill
+                          sizes="(max-w-768px) 260px, 320px"
+                          draggable={false}
+                          className="object-cover select-none"
+                        />
+                      </div>
+                      <div className="text-info-slider-item">
+                        <h3>{product.name}</h3>
+                        <p>{product.price.toLocaleString("cs-CZ")} Kč</p>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-      <div className="h2-container">
-        <h2 className="h2-moje">Moje práce</h2>
-      </div>
-      <section className="slider">
-        {items.map((it, i) => (
-          <SliderItem move={move}  items={items} key={i} image={images[i < images.length ? i : images.length-1]} name={i < names.length ? names[i] : names[names.length-1]} price={i < names.length ? prices[i] : prices[names.length-1]}/>
-        ))}
-      </section>
+      ) : (
+        <div className="relative z-10 text-center py-12 text-neutral-400 font-light">
+          Načítání produktů...
+        </div>
+      )}
     </section>
   );
 };

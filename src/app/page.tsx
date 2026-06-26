@@ -1,82 +1,158 @@
 "use client"
 import "./domu.css";
 import Image from "next/image";
-import IMG from "../utils/images/image1.png";
 import { Slider } from "@/components/Slider/Slider";
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { get_content } from "@/apis_reqests/content";
+
 export default function Home() {
-   const [width, setWidth] = useState<number>( typeof window !== "undefined" ? window.innerWidth : 0);
+  const [content, setContent] = useState<any>(null);
+
   useEffect(() => {
-    const resize = () => setTimeout(() => { setWidth(window.innerWidth) }, 1);
-    window.addEventListener("resize", resize)
-    return () => {  window.removeEventListener("resize", resize) }
-  }, [])
+    async function loadData() {
+      const data = await get_content();
+      if (data) {
+        setContent(data);
+      }
+    }
+    loadData();
+  }, []);
+
+  const heroTitle = content?.heroTitle || "Výroba autorských šperků";
+  const heroText = content?.heroText || "Autorské šperky vznikající v tichu rukou a záměru. Každý kus je originál – osobní talisman inspirovaný přírodou, symbolikou a vnitřní silou. Vyber si šperk, který s tebou rezonuje.";
+  const heroImageUrl = content?.heroImageUrl || "/jewelry1.jpg";
+
+  const card1Title = content?.card1Title || "Prsteny";
+  const card1Text = content?.card1Text || "Ručně kované detaily";
+  const card1ImageUrl = content?.card1ImageUrl || "/jewelry2.jpg";
+
+  const card2Title = content?.card2Title || "Přívěsky";
+  const card2Text = content?.card2Text || "Inspirace přírodou";
+  const card2ImageUrl = content?.card2ImageUrl || "/jewelry3.jpg";
+
+  const card3Title = content?.card3Title || "Náušnice";
+  const card3Text = content?.card3Text || "Elegance a harmonie";
+  const card3ImageUrl = content?.card3ImageUrl || "/utils/images/image1.png";
+
   return (
-    <main className="overflow-hidden text-white">
-      <div className="first-vi max-[1360px]:!flex-col max-[1360px]:gap-[30px] max-[600px]:!pl-[15px] max-[450px]:!mt-[50px]">
-        <section className="section-vyroba max-[1360px]:!w-[500px] max-[600px]:!w-[300px]  max-[1360px]:!justify-center max-[1360px]:!items-center">
-          <h1 className="h1-vyroba max-[1372px]:!text-[46px] max-[600px]:!text-[30px] z-40">Výroba autorských šperků</h1>
-          <p className="h1-p-vyroba max-[1372px]:!w-[500px] max-[1372px]:!text-[22px] max-[600px]:!w-[300px] max-[600px]:!text-[16px]">
-          Autorské šperky vznikající v tichu rukou a záměru.
-          Každý kus je originál – osobní talisman inspirovaný přírodou, symbolikou a vnitřní silou.
-          Vyber si šperk, který s tebou rezonuje.
+    <main className="w-full min-h-screen bg-black text-white overflow-hidden">
+      {/* Hero Section */}
+      <div className="max-w-7xl mx-auto px-4 pt-32 pb-20 md:py-40 flex flex-col lg:flex-row items-center justify-between gap-16">
+        
+        {/* Left text column */}
+        <section className="flex flex-col gap-6 max-w-xl text-center lg:text-left items-center lg:items-start">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-wide leading-tight text-white uppercase">
+            {heroTitle}
+          </h1>
+          <div className="w-20 h-[1px] bg-neutral-800 my-2"></div>
+          <p className="text-neutral-400 text-base sm:text-lg font-light leading-relaxed whitespace-pre-line">
+            {heroText}
           </p>
-         <button className="button-vice mr-auto"><Link href={"/about"} >Více</Link></button> 
+          <div className="relative group w-fit mt-4">
+            <div className="absolute inset-0 border border-white/20 translate-x-2 translate-y-2 group-hover:translate-x-3 group-hover:translate-y-3 transition-transform duration-300 z-0"></div>
+            <Link href="/about" className="relative z-10 block px-8 py-3.5 bg-white text-black border border-white hover:bg-black hover:text-white transition duration-300 tracking-widest text-sm uppercase font-semibold">
+              Více o mně
+            </Link>
+          </div>
         </section>
-        <section className="img-container ml-[150px] !relative max-[1372px]:!m-0 max-[600px]:!w-[300px] max-[600px]:!h-[320px]">
-          <div className=" absolute h-[100%] w-[100%] bg-[#3E3E3E] top-[15px] left-[15px] "></div>
-           <Image
-  src={IMG}
-  alt="ring"
-  draggable={false}
-  onContextMenu={(e) => e.preventDefault()}
-  className="no-drag"
-  fill
-  style={{ objectFit: "cover" }}
-/>
 
+        {/* Right image column with offset box */}
+        <section className="relative w-full max-w-[460px] aspect-[4/5] sm:aspect-square flex-shrink-0 group">
+          <div className="absolute inset-0 border border-white/10 translate-x-4 translate-y-4 group-hover:translate-x-5 group-hover:translate-y-5 transition-transform duration-500 z-0"></div>
+          <div className="relative z-10 w-full h-full bg-black border border-white/20 overflow-hidden">
+            <Image
+              src={heroImageUrl}
+              alt="Jovana Šichová autorský šperk"
+              fill
+              priority
+              unoptimized
+              draggable={false}
+              className="object-cover transition-all duration-700 group-hover:scale-105 select-none"
+            />
+          </div>
         </section>
       </div>
-      <div>
-        <Slider/>
+
+      {/* Slider Section */}
+      <div className="w-full py-10 bg-black">
+        <Slider />
       </div>
-      <div>
-        <section className="imgs-container ">
-          {(width > 1000) && <div className="fir relative">
-            <Link className="absolute bottom-[-15px] right-[10px] z-10 bg-black px-[10px] py-[5px] text-[20px]" href={`/nakupovat`}>Nakupovat</Link>
-          <Image src={IMG} alt="work3" id="work3"/>
-          </div>}
-          {width < 620 && 
-          <div className="fir relative">
-          <Image src={IMG} alt="work3" id="work3"/>
-           <Link className="absolute bottom-[10px] right-[10px] z-10 bg-black px-[10px] py-[5px] text-[20px]" href={`/nakupovat`}>Nakupovat</Link>
-          </div>}
-          {width > 620 &&  
- <div className="sco relative">
 
-  <Link
-    href="/nakupovat"
-    className="absolute bottom-[230px] right-[10px] max-[700px]:bottom-[30px] z-10 bg-black px-[10px] max-[700px]:right-[320px] py-[5px] max-[1000px]:right-[330px] text-white max-[1000px]:bottom-[35px]"
-  >
-    Nakupovat
-  </Link>
+      {/* Asymmetric Showcase Grid Section */}
+      <div className="py-24 bg-black">
+        <div className="max-w-7xl mx-auto px-4 mb-16 text-center">
+          <h2 className="text-2xl md:text-3xl font-light tracking-widest uppercase mb-3">Autorská tvorba</h2>
+          <div className="w-16 h-[1px] bg-neutral-800 mx-auto"></div>
+        </div>
 
- 
-  <Link
-    href="/nakupovat"
-    className="absolute max-[1000px]:bottom-[10px] bottom-[-15px] max-[1000px]:right-[-90px]  max-[700px]:right-[10px] max-[800px]:right-[10px] max-[900px]:right-[-40px] right-[10px] z-10 bg-black px-[10px] py-[5px] text-white"
-  >
-    Nakupovat
-  </Link>
+        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+          {/* Card 1 */}
+          <div className="relative group flex flex-col">
+            <div className="absolute inset-0 border border-white/10 translate-x-3 translate-y-3 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-500 z-0"></div>
+            <div className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden">
+              <Image
+                src={card1ImageUrl}
+                alt={card1Title}
+                fill
+                unoptimized
+                className="object-cover transition-all duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-black/45 group-hover:bg-black/20 transition-all duration-300"></div>
+              <div className="absolute bottom-6 left-6 right-6 flex flex-col justify-end z-20">
+                <h3 className="text-xl font-light uppercase tracking-widest text-white mb-2">{card1Title}</h3>
+                <p className="text-xs text-neutral-400 uppercase tracking-wider font-light">{card1Text}</p>
+              </div>
+            </div>
+            <Link href="/nakupovat" className="cursor-pointer z-10 mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300">
+              Prozkoumat kolekci &rarr;
+            </Link>
+          </div>
+          
+          {/* Card 2 - Slightly offset vertically for visual interest */}
+          <div className="relative group flex flex-col md:translate-y-6">
+            <div className="absolute inset-0 border border-white/10 translate-x-3 translate-y-3 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-500 z-0"></div>
+            <div className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden">
+              <Image
+                src={card2ImageUrl}
+                alt={card2Title}
+                fill
+                unoptimized
+                className="object-cover transition-all duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-black/45 group-hover:bg-black/20 transition-all duration-300"></div>
+              <div className="absolute bottom-6 left-6 right-6 flex flex-col justify-end z-20">
+                <h3 className="text-xl font-light uppercase tracking-widest text-white mb-2">{card2Title}</h3>
+                <p className="text-xs text-neutral-400 uppercase tracking-wider font-light">{card2Text}</p>
+              </div>
+            </div>
+            <Link href="/nakupovat" className="cursor-pointer z-10 mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300">
+              Prozkoumat kolekci &rarr;
+            </Link>
+          </div>
 
-
-  <Image src={IMG} alt="work" id="work" />
-  <Image src={IMG} alt="work2" id="work2" />
-</div>
-          }
-         
-        </section>
+          {/* Card 3 */}
+          <div className="relative group flex flex-col">
+            <div className="absolute inset-0 border border-white/10 translate-x-3 translate-y-3 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-500 z-0"></div>
+            <div className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden">
+              <Image
+                src={card3ImageUrl}
+                alt={card3Title}
+                fill
+                unoptimized
+                className="object-cover transition-all duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-black/45 group-hover:bg-black/20 transition-all duration-300"></div>
+              <div className="absolute bottom-6 left-6 right-6 flex flex-col justify-end z-20">
+                <h3 className="text-xl font-light uppercase tracking-widest text-white mb-2">{card3Title}</h3>
+                <p className="text-xs text-neutral-400 uppercase tracking-wider font-light">{card3Text}</p>
+              </div>
+            </div>
+            <Link href="/nakupovat" className="mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300 cursor-pointer z-10">
+              Prozkoumat kolekci &rarr;
+            </Link>
+          </div>
+        </div>
       </div>
     </main>
   );

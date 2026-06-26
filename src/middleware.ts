@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
         }
 
         try {
-            const res = await fetch('https://aspgoldeshop-production.up.railway.app/api/auth/isAdmin', {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://aspgoldeshop-production.up.railway.app'}/api/auth/isAdmin`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -28,6 +28,10 @@ export async function middleware(request: NextRequest) {
             if (!data.isAdmin) {
                 request.cookies.delete('jwtToken');
                 return NextResponse.redirect(new URL('/login', request.url));
+            }
+
+            if (url.pathname === '/admin' || url.pathname === '/admin/') {
+                return NextResponse.redirect(new URL('/admin/produkty', request.url));
             }
         } catch (err) {
             console.error("Middleware auth check failed:", err);

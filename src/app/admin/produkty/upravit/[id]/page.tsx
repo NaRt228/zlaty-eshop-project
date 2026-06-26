@@ -16,6 +16,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 // Upravit importy pro novou strukturu API
 import { get_categories } from "@/apis_reqests/category"
 import { get_product, update_product } from "@/apis_reqests/products"
+import { get_materials, Material as MaterialType } from "@/apis_reqests/material"
 import { PageHeader } from "@/components/page-header"
 import Image from "next/image"
 import { Category } from "@/interface/category"
@@ -30,10 +31,11 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
   const [categoryId, setCategoryId] = useState("")
   const [stock, setStock] = useState("")
   const [specification, setSpecification] = useState("")
-  const [material, setMaterial] = useState("")
+  const [materialId, setMaterialId] = useState("")
   const [weight, setWeight] = useState("")
   const [mediaFiles, setMediaFiles] = useState<File[]>([])
   const [categories, setCategories] = useState<Category[]| undefined>(undefined)
+  const [materialOptions, setMaterialOptions] = useState<MaterialType[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const router = useRouter()
@@ -42,15 +44,18 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
   useEffect(() => {
     ( async function() {
         const productData = await get_product(productId).then(e => e);
-        setCategories(await get_categories().then(e => { console.log(e); return e }) || undefined)
-         setProduct(productData)
+        const [cats, mats] = await Promise.all([get_categories(), get_materials()]);
+        setCategories(cats || undefined)
+        setMaterialOptions(mats || [])
+        setProduct(productData)
         setName(productData.name)
         setDescription(productData.description)
         setPrice(productData.price.toString())
         setCategoryId(productData.categoryId.toString())
         setStock(productData.stock.toString())
         setSpecification(productData.specification || "")
-        setMaterial(productData.material || "")
+        const matchedMaterial = mats?.find((m) => m.name.toLowerCase() === productData.material?.toLowerCase())
+        setMaterialId(matchedMaterial ? matchedMaterial.id.toString() : "")
         setWeight(productData.weight ? productData.weight.toString() : "")
        
     })()
@@ -73,6 +78,9 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     setError("")
 
     try {
+      const selectedMaterial = materialOptions.find((m) => m.id.toString() === materialId)
+      const materialName = selectedMaterial ? selectedMaterial.name : ""
+
       const productData = {
         name,
         description,
@@ -80,7 +88,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
         categoryId: Number.parseInt(categoryId),
         stock: Number.parseInt(stock),
         specification,
-        material,
+        material: materialName,
         weight: Number.parseFloat(weight || "0"),
       }
 
@@ -209,12 +217,18 @@ else{
               </div>
               <div className="space-y-2">
                 <Label htmlFor="material">Materiál</Label>
-                <Input
-                  id="material"
-                  placeholder="Např. Kov, Plast, Dřevo..."
-                  value={material}
-                  onChange={(e) => setMaterial(e.target.value)}
-                />
+                <Select value={materialId} onValueChange={setMaterialId}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Vyberte materiál" />
+                  </SelectTrigger>
+                  <SelectContent className=" text-black">
+                    {materialOptions.map((mat) => (
+                      <SelectItem key={mat.id} value={mat.id.toString()}>
+                        {mat.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="weight">Hmotnost (kg)</Label>

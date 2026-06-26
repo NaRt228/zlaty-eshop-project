@@ -10,26 +10,25 @@ const Footer = () => {
       return () => {  window.removeEventListener("resize", resize) }
     }, [])
   return (
-    <footer className={`relative bg-Footer w-full flex justify-around bg-cover font-playfair py-20 mt-auto  ${width < 600 ? "flex-col items-center gap-[60px]" : ""}`}>
-      
-      <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/90 to-transparent h-20"></div>
-
-      <div className="flex flex-col gap-3">
-        <h2 className="font-bold text-4xl">Kontaktuj</h2>
-        <p>email: jovanak@seznam.cz</p>
-        <p>číslo: 123 456 789</p>
+    <footer className={`relative bg-black border-t border-neutral-900 w-full flex justify-around font-playfair py-20 mt-auto ${width < 600 ? "flex-col items-center gap-[60px]" : ""}`}>
+      <div className="flex flex-col gap-3 text-center sm:text-left">
+        <h2 className="font-light text-2xl uppercase tracking-widest text-neutral-400">Kontakt</h2>
+        <p className="text-neutral-300 font-light">email: jovanak@seznam.cz</p>
+        <p className="text-neutral-300 font-light">číslo: 123 456 789</p>
       </div>
-      <div className="flex flex-col gap-3">
-        <h2 className="font-bold text-4xl">Sociální sitě</h2>
-        <p>Instagram</p>
+      <div className="flex flex-col gap-3 text-center sm:text-left">
+        <h2 className="font-light text-2xl uppercase tracking-widest text-neutral-400">Sociální sítě</h2>
+        <a href="#" className="text-neutral-300 hover:text-white transition font-light">Instagram</a>
       </div>
-      {width >= 600 &&     <div className="flex flex-col gap-3">
-        <Link href={'/'}><p>Domu</p></Link>
-        <Link href={'/about'}><p>O mně</p></Link>
-        <Link href={'/shop'}><p>Nakupovat</p></Link>
-        <Link href={'/galerie'}><p>Galerie</p></Link>
-      </div>}
-  
+      {width >= 600 && (
+        <div className="flex flex-col gap-3">
+          <h2 className="font-light text-2xl uppercase tracking-widest text-neutral-400">Menu</h2>
+          <Link href={'/'} className="text-neutral-300 hover:text-white transition font-light">Domů</Link>
+          <Link href={'/about'} className="text-neutral-300 hover:text-white transition font-light">O mně</Link>
+          <Link href={'/nakupovat'} className="text-neutral-300 hover:text-white transition font-light">Nakupovat</Link>
+          <Link href={'/galerie'} className="text-neutral-300 hover:text-white transition font-light">Galerie</Link>
+        </div>
+      )}
     </footer>
   );
 };

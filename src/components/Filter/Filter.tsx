@@ -1,10 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Slider from "@mui/material/Slider";
 import { ItemProps } from "../Item/Item";
 import { get_categories } from "@/apis_reqests/category";
+import { get_materials, Material } from "@/apis_reqests/material";
 
-const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSeparated: (value: ItemProps[][]) => void, chunkArray:  (arr: ItemProps[], size: number) => ItemProps[][]} ) => {
+const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSeparated: (value: ItemProps[][]) => void, chunkArray: (arr: ItemProps[], size: number) => ItemProps[][] }) => {
   const sortOptions = [
     { label: "Nejdražší", value: "priceAsc" },
     { label: "Nejlevnější", value: "priceDesc" },
@@ -12,111 +13,96 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
     { label: "Z-A", value: "abcDESC" },
     { label: "Nic", value: "" },
   ];
-   const [priceRange, setPriceRange] = useState([0, 100000]);
 
-  const handlePriceChange = (event: Event, newValue:number[]) => {
-    setPriceRange(newValue);
-  };
-   const [width, setWidth] = useState<number>( typeof window !== "undefined" ? window.innerHeight : 0);
+  const [priceRange, setPriceRange] = useState([0, 100000]);
+  const [sortSelected, setSortSelected] = useState<{ label: string; value: string } | null>(null);
+  const [categoryFech, setCategoryFech] = useState<{ name: string; id: number }[] | undefined>(undefined);
+  const [categorySelected, setCategorySelected] = useState<number | null>(null);
+  const [materialSelected, setMaterialSelected] = useState<number | null>(null);
+  const [materials, setMaterials] = useState<Material[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [width, setWidth] = useState<number>(typeof window !== "undefined" ? window.innerHeight : 0);
+
   useEffect(() => {
     const resize = () => setTimeout(() => { setWidth(window.innerHeight) }, 1);
-    window.addEventListener("resize", resize)
-    return () => {  window.removeEventListener("resize", resize) }
-  }, [])
-  const [sortSelected, setSortSelected] = useState<{label: string, value: string} | null>(null);
-  const [categoryFech, setCategoryFech] = useState<{name: string, id: number}[] | undefined>(undefined);
-  const [categorySelected, setCategorySelected] = useState<number | null>(null);
-  
-  const [isOpen, setIsOpen] = useState(false);
+    window.addEventListener("resize", resize);
+    return () => { window.removeEventListener("resize", resize) };
+  }, []);
+
   useEffect(() => {
-   (async function(){
-      setCategoryFech(await get_categories().then(e=>e))
-   })()
-    
-  }, [])
- useEffect(() => {
-   let product = props.product;
-   product = MaxPriceRange(props.product, priceRange)
-  
-   categoryFech?.forEach(element => {
-    if(element.id === categorySelected){
-        product = MaterialFilterZlato(product, element.id);
-        console.log("qwert");
-       return;
+    (async function () {
+      const [cats, mats] = await Promise.all([get_categories(), get_materials()]);
+      setCategoryFech(cats);
+      setMaterials(mats || []);
+    })();
+  }, []);
+
+
+  // Apply all filters whenever any filter state changes
+  useEffect(() => {
+    let product = [...props.product];
+
+    // Price range filter
+    product = product.filter(e => e.price >= priceRange[0] && e.price <= priceRange[1]);
+
+    // Category filter
+    if (categorySelected !== null) {
+      product = product.filter(e => e.category_id === categorySelected);
     }
-   });
-  
-   switch (sortSelected?.value) {
-     case "priceAsc":
-       product = SortToMin(product);
-       break;
-     case "priceDesc":
-       product = SortToMax(product);
-       break;
-     case "abcASC":
-       product = SortToZ(product);
-       break;
-     case "abcDESC":
-       product = SortToA(product);
-       break;
-   }
- 
-  
- }, [sortSelected, priceRange, categorySelected]);
 
-  function SortToMax(data: ItemProps[]){
-    data.sort((a, b) => a.price - b.price);
-     props.setSeparated(props.chunkArray(data, 3))
-      return data;
-  }
+    // Material filter
+    if (materialSelected !== null) {
+      const selectedMat = materials.find((m) => m.id === materialSelected)
+      if (selectedMat) {
+        product = product.filter(
+          (e) => e.material && e.material.toLowerCase() === selectedMat.name.toLowerCase()
+        )
+      }
+    }
 
-  function SortToMin(data: ItemProps[]){
-    data.sort((a, b) => b.price - a.price);
-     props.setSeparated(props.chunkArray(data, 3))
-      return data;
-  }
-  
-    function SortToZ(data: ItemProps[]){
-    data.sort((a, b) => a.title.localeCompare(b.title));
-     props.setSeparated(props.chunkArray(data, 3))
-     return data;
-  }
+    // Sort
+    switch (sortSelected?.value) {
+      case "priceAsc":
+        product.sort((a, b) => b.price - a.price);
+        break;
+      case "priceDesc":
+        product.sort((a, b) => a.price - b.price);
+        break;
+      case "abcASC":
+        product.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case "abcDESC":
+        product.sort((a, b) => b.title.localeCompare(a.title));
+        break;
+    }
 
-   function SortToA(data: ItemProps[]){
-    data.sort((a, b) => b.title.localeCompare(a.title));
-    props.setSeparated(props.chunkArray(data, 3))
-    return data;
-  }
+    props.setSeparated(props.chunkArray(product, 3));
+  }, [sortSelected, priceRange, categorySelected, materialSelected, props.product, materials]);
 
-  function MaxPriceRange(data: ItemProps[], range: number[]){
-     data = data.filter(e => e.price > range[0] && range[1] > e.price);
-     props.setSeparated(props.chunkArray(data, 3))
-     return data;
-  }
-  function MaterialFilterZlato(data: ItemProps[], category: number){
-      data = data.filter(e => category == e.category_id);
-      props.setSeparated(props.chunkArray(data, 3))
-      return data;
-  }
+  const handlePriceChange = (event: Event, newValue: number[]) => {
+    setPriceRange(newValue);
+  };
+
   return (
-    
-    <div className={`bg-[#1D1D1DF7] bg-opacity-80 text-opacity-80 p-7 w-[350px] ml-3  text-white absolute mt-4 z-10 max-h-[${width < 500 ? 300 : 500}px] overflow-y-auto`}>
-      <p className="text-[18px] font-bold">Filtry:</p>
-      <div className=" flex justify-between">
-        <p className="text-[18px] mt-[10px]">Seřadit podle:</p>
+    <div className={`bg-black border border-neutral-800 p-7 w-[350px] ml-3 text-white absolute mt-4 z-10 max-h-[${width < 500 ? 300 : 500}px] overflow-y-auto shadow-2xl`}>
+      <p className="text-[18px] font-light uppercase tracking-wider mb-4 border-b border-neutral-800 pb-2">Filtry</p>
+
+      {/* Sort */}
+      <div className="flex justify-between items-center mb-4">
+        <p className="text-[16px] font-light">Seřadit podle:</p>
         <div
-          className="bg-zinc-800 p-2 rounded cursor-pointer flex justify-between items-center"
+          className="bg-black border border-neutral-700 p-2 rounded-none cursor-pointer flex justify-between items-center min-w-[120px] text-sm"
           onClick={() => setIsOpen(!isOpen)}
         >
-           {sortSelected?.label === "Nic" ? "" : sortSelected?.label}
-          <span>{isOpen?<>▲</>:<>▼</>}</span>
+          <span className="truncate">{sortSelected?.label === "Nic" ? "Výchozí" : sortSelected?.label}</span>
+          <span className="text-xs ml-2">{isOpen ? "▲" : "▼"}</span>
         </div>
         {isOpen && (
-          <div className="bg-[#1D1D1DF7] border mt-1 rounded shadow-md absolute w-[250px] z-10">
+          <div className="bg-black border border-neutral-700 mt-1 rounded-none shadow-2xl absolute w-[200px] right-7 top-[78px] z-10 text-sm">
             {sortOptions.map((option) => (
               <div
                 key={option.value}
-                className="p-2 hover:bg-gray-900 cursor-pointer"
+                className="p-2.5 hover:bg-neutral-900 cursor-pointer transition-colors duration-150"
                 onClick={() => {
                   setSortSelected(option);
                   setIsOpen(false);
@@ -128,8 +114,10 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
           </div>
         )}
       </div>
-      <div className="mt-4">
-        <p className="text-[18px]">Cena:</p>
+
+      {/* Price Range */}
+      <div className="mt-4 border-t border-neutral-800 pt-4">
+        <p className="text-[16px] font-light mb-2">Cena:</p>
         <Slider
           value={priceRange}
           onChange={handlePriceChange}
@@ -137,20 +125,77 @@ const Filter = (props: { product: ItemProps[],  separated: ItemProps[][], setSep
           max={100000}
           valueLabelDisplay="auto"
           sx={{
-            color: "#555",
+            color: "#fff",
+            "& .MuiSlider-thumb": {
+              borderRadius: "0px",
+              backgroundColor: "#fff",
+            },
+            "& .MuiSlider-track": {
+              backgroundColor: "#fff",
+            },
+            "& .MuiSlider-rail": {
+              backgroundColor: "#333",
+            }
           }}
         />
-        <div className="flex justify-between text-[16px]">
-          <span>{priceRange[0]} czk</span>
-          <span>{priceRange[1]} czk</span>
+        <div className="flex justify-between text-xs text-neutral-400 font-mono mt-1">
+          <span>{priceRange[0].toLocaleString()} Kč</span>
+          <span>{priceRange[1].toLocaleString()} Kč</span>
         </div>
       </div>
-      <div className=" flex mt-[10px] gap-[15px]">
-        <p className=" text-[18px] ">Kategorie:</p>
-        <ul className=" flex flex-col gap-[5px]">
-          {categoryFech?.map((e) =>  <li key={e.id} onClick={() => setCategorySelected(categorySelected === e.id ? null : e.id)} className={`${categorySelected === e.id ? "text-slate-300" : "text-blue-400"}   text-[18px] cursor-pointer first-letter:uppercase`}>{e.name}</li>)}
+
+      {/* Category Filter */}
+      <div className="flex mt-6 gap-4 border-t border-neutral-800 pt-4">
+        <p className="text-[16px] font-light">Kategorie:</p>
+        <ul className="flex flex-col gap-2">
+          {categoryFech?.map((e) => (
+            <li
+              key={e.id}
+              onClick={() => setCategorySelected(categorySelected === e.id ? null : e.id)}
+              className={`${categorySelected === e.id ? "text-white underline underline-offset-4 font-semibold" : "text-neutral-400 hover:text-white"} text-sm tracking-wide cursor-pointer first-letter:uppercase transition-colors duration-200`}
+            >
+              {e.name}
+            </li>
+          ))}
         </ul>
       </div>
+
+      {/* Material Filter */}
+      {materials.length > 0 && (
+        <div className="mt-6 border-t border-neutral-800 pt-4">
+          <p className="text-[16px] font-light mb-3">Materiál:</p>
+          <ul className="flex flex-col gap-2">
+            {materials.map((mat) => (
+              <li
+                key={mat.id}
+                onClick={() => setMaterialSelected(materialSelected === mat.id ? null : mat.id)}
+                className={`${
+                  materialSelected === mat.id
+                    ? "text-white underline underline-offset-4 font-semibold"
+                    : "text-neutral-400 hover:text-white"
+                } text-sm tracking-wide cursor-pointer transition-colors duration-200`}
+              >
+                {mat.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Reset all filters */}
+      {(categorySelected !== null || materialSelected !== null || sortSelected !== null || priceRange[0] !== 0 || priceRange[1] !== 100000) && (
+        <button
+          onClick={() => {
+            setCategorySelected(null);
+            setMaterialSelected(null);
+            setSortSelected(null);
+            setPriceRange([0, 100000]);
+          }}
+          className="mt-6 w-full border border-neutral-700 hover:border-white text-neutral-400 hover:text-white text-xs font-light tracking-widest uppercase py-2 transition-all duration-200 rounded-none"
+        >
+          Zrušit filtry
+        </button>
+      )}
     </div>
   );
 };

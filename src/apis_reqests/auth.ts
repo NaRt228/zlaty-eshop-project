@@ -3,13 +3,27 @@ import axios from "axios"
 import type { AuthResponse } from "@/interface/auth"
 
 const reqest = axios.create({
-  baseURL: "https://aspgoldeshop-production.up.railway.app/",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "https://aspgoldeshop-production.up.railway.app/",
   headers: {
-        Authorization: `Bearer ${typeof window !== "undefined" && localStorage.getItem('jwtToken')}`,
         "Content-Type": "application/json",
       },
   withCredentials: true,
 })
+
+reqest.interceptors.request.use(
+  (config) => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("jwtToken");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export async function register_admin(
   username: string,

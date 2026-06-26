@@ -5,13 +5,44 @@ import type { responde_cart } from "@/interface/product_response"
 import { Order } from "@/interface/Orders"
 
 const reqest = axios.create({
-  baseURL: "https://aspgoldeshop-production.up.railway.app/",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "https://aspgoldeshop-production.up.railway.app/",
   headers: {
-        Authorization: `Bearer ${typeof window !== "undefined" && localStorage.getItem('jwtToken')}`,
         "Content-Type": "application/json",
       },
   withCredentials: true,
 })
+
+// Get or create a persistent guest session ID stored in localStorage
+function getOrCreateGuestSessionId(): string | null {
+  if (typeof window === "undefined") return null;
+  let sessionId = localStorage.getItem("guest_session_id");
+  if (!sessionId) {
+    sessionId = crypto.randomUUID();
+    localStorage.setItem("guest_session_id", sessionId);
+  }
+  return sessionId;
+}
+
+reqest.interceptors.request.use(
+  (config) => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("jwtToken");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      } else {
+        // For guest users: send session ID in header (cookies don't work cross-origin on localhost)
+        const sessionId = getOrCreateGuestSessionId();
+        if (sessionId) {
+          config.headers["X-Guest-Session-Id"] = sessionId;
+        }
+      }
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export async function get_cart(): Promise<Product_cart[] | undefined> {
   return await reqest

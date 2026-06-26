@@ -6,6 +6,7 @@ import { useEffect } from "react";
 
 export default function FormKosik() {
   const route = useRouter();
+  
   useEffect(() => {
     if (
       typeof window !== "undefined" &&
@@ -13,50 +14,52 @@ export default function FormKosik() {
     ) {
       route.push("/kosik");
     }
-  }, []);
+  }, [route]);
+
   return (
-    <main className=" text-white  flex-1 mt-[60px]">
-      <div className={`flex flex-col`}>
-        <div className="mx-auto">
-          <div className="flex gap-10 h-[155px] items-start relative ">
-            <Link href={"/kosik"}>
-              <div className="w-[110px] flex flex-col justify-center items-center gap-2 max-[660px]:w-[90px]">
-                <div className="w-[43px] h-[43px] bg-gray-900 text-[35px] flex justify-center items-center  max-[660px]:w-[34px] max-[660px]:h-[34px] max-[660px]:text-[28px]">
+    <div className="w-full min-h-screen bg-black text-white pt-28 pb-16 px-4 sm:px-8 font-light">
+      <main className="max-w-6xl mx-auto">
+        
+        {/* Modern Checkout Steps Timeline */}
+        <div className="w-full max-w-xl mx-auto mb-16 px-4">
+          <div className="flex justify-between items-center relative">
+            
+            {/* Step 1: Inactive (Link to Cart) */}
+            <Link href="/kosik" className="z-10">
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-10 h-10 rounded-none border border-neutral-800 bg-neutral-900 text-neutral-400 hover:text-white hover:border-neutral-700 flex justify-center items-center font-light text-lg transition-all duration-300">
                   1
                 </div>
-                <p className="text-[24px] max-[660px]:text-[18px]">Košík</p>
+                <span className="text-sm text-neutral-400 hover:text-white transition-colors duration-300">Košík</span>
               </div>
             </Link>
-            <Link href={"/kosik/form"}>
-              <div className="w-[110px] flex flex-col justify-center items-center gap-2 max-[660px]:w-[90px]">
-                <div className="w-[43px] h-[43px] bg-gray-200 text-[35px] flex justify-center items-center text-black max-[660px]:w-[34px] max-[660px]:h-[34px] max-[660px]:text-[28px]">
-                  2
-                </div>
-                <p className="text-[24px] text-center max-[660px]:text-[18px]">
-                  Osobní údaje
-                </p>
+
+            {/* Step 2: Active */}
+            <div className="flex flex-col items-center gap-2 z-10 select-none">
+              <div className="w-10 h-10 rounded-none border border-white bg-white/10 text-white flex justify-center items-center font-medium text-lg shadow-lg shadow-white/5">
+                2
               </div>
-            </Link>
-            <Link
-              href={
-                typeof window !== "undefined" && localStorage.getItem("name")
-                  ? "/kosik/podtverzeni"
-                  : "/nakupovat"
-              }
-            >
-              <div className="w-[110px] flex flex-col justify-center items-center gap-2 max-[660px]:w-[90px]">
-                <div className="w-[43px] h-[43px] bg-gray-900 text-[35px] flex justify-center items-center max-[660px]:w-[34px] max-[660px]:h-[34px] max-[660px]:text-[28px]">
-                  3
-                </div>
-                <p className="text-[24px] max-[660px]:text-[18px]">Potvrzení</p>
+              <span className="text-sm font-semibold text-white">Údaje</span>
+            </div>
+
+            {/* Step 3: Inactive */}
+            <div className="flex flex-col items-center gap-2 z-10 select-none opacity-50">
+              <div className="w-10 h-10 rounded-none border border-neutral-800 bg-neutral-900 text-neutral-400 flex justify-center items-center font-light text-lg">
+                3
               </div>
-            </Link>
-            <div className="absolute w-[100px] h-[1px] bg-gray-600 top-6 left-20 max-[660px]:left-16 max-[660px]:w-[92px] max-[660px]:top-5"></div>
-            <div className="absolute w-[100px] h-[1px] bg-gray-600 top-6 left-[230px] max-[660px]:top-5 max-[660px]:left-[194px] max-[660px]:w-[92px]"></div>
+              <span className="text-sm text-neutral-500">Potvrzení</span>
+            </div>
+
+            {/* Connector Lines */}
+            <div className="absolute top-5 left-0 w-full h-[1px] bg-neutral-900 z-0"></div>
           </div>
         </div>
-      </div>
-      <Cart_form />
-    </main>
+
+        {/* Form Content */}
+        <div className="mt-8">
+          <Cart_form />
+        </div>
+      </main>
+    </div>
   );
 }

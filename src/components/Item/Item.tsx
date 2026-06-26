@@ -4,7 +4,7 @@ import { post_product } from "@/apis_reqests/products";
 import { useCart } from "@/contexts/CartContext";
 import Link from "next/link";
 import Swal from "sweetalert2";
-// Define props for each item
+
 export interface ItemProps {
   image: string;
   title: string;
@@ -12,11 +12,12 @@ export interface ItemProps {
   id?: number;
   description?: string;
   material: string;
+  materialId?: number;
   category_id?: number | string;
   stock?: number | string;
   mediaUrls?: string[];
   imageHeight?: number;
-  specification: string,
+  specification: string;
   imageWidth?: number;
 }
 
@@ -26,12 +27,11 @@ interface product_curt_post_Interface {
 }
 
 const Item = (props: ItemProps) => {
-  const imageHeight = props.imageHeight || 350;
-  const imageWidth = props.imageWidth || 380;
-
   const { refreshCart } = useCart();
 
-  const handleBuyClick = async () => {
+  const handleBuyClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (!props.id) return;
 
     try {
@@ -42,73 +42,92 @@ const Item = (props: ItemProps) => {
 
       const response = await post_product(productData);
 
-     if (response) {
-  await refreshCart();
+      if (response && response.message) {
+        await refreshCart();
 
-  Swal.fire({
-    toast: true,
-    position: "top-end",
-    icon: "success",
-    title: "Produkt byl přidán do košíku",
-    background: "#0a0a0a",
-    color: "#e5e5e5",
-    showConfirmButton: false,
-    timer: 2500,
-    timerProgressBar: true
-  });
-
-} else {
-
-  Swal.fire({
-    toast: true,
-    position: "top-end",
-    icon: "error",
-    title: "Nepodařilo se přidat produkt",
-    background: "#0a0a0a",
-    color: "#e5e5e5",
-    showConfirmButton: false,
-    timer: 3000
-  });
-
-}
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: "Produkt byl přidán do košíku",
+          background: "#0a0a0a",
+          color: "#e5e5e5",
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true
+        });
+      } else if (response && (response as any).error) {
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "warning",
+          title: (response as any).error,
+          background: "#0a0a0a",
+          color: "#e5e5e5",
+          showConfirmButton: false,
+          timer: 3500
+        });
+      } else {
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "error",
+          title: "Nepodařilo se přidat produkt",
+          background: "#0a0a0a",
+          color: "#e5e5e5",
+          showConfirmButton: false,
+          timer: 3000
+        });
+      }
     } catch (error) {
       console.error("Error adding product to cart:", error);
-      alert("Došlo k chybě při přidávání produktu do košíku.");
     }
   };
 
   return (
-    <div className="w-fit">
-      <div
-        className={`relative overflow-hidden w-[${imageHeight}px] h-[${imageHeight}] max-[600px]:w-[320px] max-[600px]:h-[290px]`}
-    
-      >
-        <Link href={`/nakupovat/${props.id}`}><Image
-          src={props.image || `/placeholder.svg?height=${imageHeight}&width=${imageWidth} `}
-          width={imageWidth}
-          height={imageHeight}
-          alt={props.title}
-          className="transition-transform duration-300 transform hover:scale-110 cursor-pointer object-cover no-drag"
-            draggable={false}
-            onContextMenu={(e) => e.preventDefault()}
-        /></Link>
-      </div>
+    <div className="relative group w-[300px] sm:w-[320px] mb-4">
+      {/* Structural Offset Shadow Border (Homepage wireframe style) */}
+      <div className="absolute inset-0 border border-white/10 translate-x-3 translate-y-3 transition-transform duration-500 group-hover:translate-x-4 group-hover:translate-y-4 group-hover:border-white/30 z-0"></div>
 
-      <div className="flex justify-between items-start mt-5">
-        <div>
-          <h2 className="text-[32px] w-[200px] text-white leading-9">
-            {props.title}
-          </h2>
-          <h3 className="text-[20px] leading-5 w-[150px] text-white">
-            {props.price} czk
-          </h3>
+      {/* Main Card Container */}
+      <div className="relative z-10 w-full bg-black border border-white/20 overflow-hidden flex flex-col justify-between transition-all duration-500 group-hover:border-white/40 group-hover:-translate-y-1">
+        {/* Product Image Link */}
+        <Link href={`/nakupovat/${props.id}`} className="block relative aspect-square w-full overflow-hidden bg-black">
+          <Image
+            src={props.image || "/placeholder.png"}
+            alt={props.title}
+            fill
+            sizes="(max-w-768px) 100vw, 320px"
+            draggable={false}
+            className="object-cover transition-all duration-700 group-hover:scale-105 select-none"
+          />
+        </Link>
+
+        {/* Product Details */}
+        <div className="p-5 flex flex-col gap-4 flex-1 justify-between bg-black">
+          <div>
+            <Link href={`/nakupovat/${props.id}`}>
+              <h2 className="text-xl font-light tracking-wide text-white hover:text-neutral-300 transition-colors duration-300 line-clamp-1 mb-1">
+                {props.title}
+              </h2>
+            </Link>
+            <span className="text-sm font-light text-neutral-400">
+              {props.material}
+            </span>
+          </div>
+
+          <div className="flex justify-between items-center mt-2">
+            <span className="text-lg font-light text-white">
+              {props.price.toLocaleString("cs-CZ")} Kč
+            </span>
+            <button
+              className="px-4 py-2 bg-white text-black border border-white rounded-none text-sm font-semibold tracking-wider uppercase hover:bg-black hover:text-white active:scale-95 transition-all duration-300 cursor-pointer"
+              onClick={handleBuyClick}
+            >
+              Koupit
+            </button>
+          </div>
         </div>
-        <button
-          className="px-[25px] py-[7px] bg-[#ECDFCC] text-[#000] text-[18px] transition-colors duration-300 hover:bg-[#d6c4aa]"
-          onClick={handleBuyClick}
-        >
-          Koupit
-        </button>
       </div>
     </div>
   );
