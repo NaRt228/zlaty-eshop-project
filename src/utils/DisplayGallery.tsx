@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import GalleryProps from "../utils/interfaces/IFetchGallery";
 import Image from "next/image";
+import { get_content } from "@/apis_reqests/content";
 
 interface Props {
   products: GalleryProps | null;
@@ -14,6 +15,23 @@ export default function FetchGallery({ products }: Props) {
   const curIndexRef = useRef(0);
   const allUrlsRef = useRef<string[]>([]);
   const msg = "NENAČETL SE OBRÁZEK, ZKUSTE OBNOVIT STRÁNKU";
+
+  const [galleryTitle, setGalleryTitle] = useState("Naše Galerie");
+  const [galleryText, setGalleryText] = useState("Prohlédněte si naši autorskou tvorbu šperků. Každý kousek je originálním spojením umění, precizní práce a ušlechtilých kovů.");
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const content = await get_content();
+        if (content) {
+          if (content.galleryTitle) setGalleryTitle(content.galleryTitle);
+          if (content.galleryText) setGalleryText(content.galleryText);
+        }
+      } catch (e) {
+        console.error("Failed to load gallery content", e);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     const urls =
@@ -78,11 +96,11 @@ export default function FetchGallery({ products }: Props) {
       {/* Title */}
       <div className="max-w-7xl mx-auto mb-12 text-center">
         <h1 className="text-4xl md:text-5xl font-light tracking-wide mb-4">
-          Naše Galerie
+          {galleryTitle}
         </h1>
         <div className="w-24 h-[1px] bg-neutral-500 mx-auto mb-4"></div>
         <p className="text-neutral-400 max-w-xl mx-auto text-sm md:text-base font-light">
-          Prohlédněte si naši autorskou tvorbu šperků. Každý kousek je originálním spojením umění, precizní práce a ušlechtilých kovů.
+          {galleryText}
         </p>
       </div>
 

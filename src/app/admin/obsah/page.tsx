@@ -33,7 +33,9 @@ export default function ContentManagementPage() {
     card3ImageUrl: "",
     contactEmail: "",
     contactPhone: "",
-    contactInstagram: ""
+    contactInstagram: "",
+    galleryTitle: "",
+    galleryText: ""
   })
   
   const [loading, setLoading] = useState(false)
@@ -469,6 +471,35 @@ export default function ContentManagementPage() {
               </div>
             </div>
 
+          </CardContent>
+        </Card>
+
+        {/* GALLERY SECTION */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Sekce Galerie</CardTitle>
+            <CardDescription>Zde můžete upravit nadpis a text v sekci galerie.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="galleryTitle">Nadpis galerie</Label>
+              <Input
+                id="galleryTitle"
+                value={form.galleryTitle || ""}
+                onChange={(e) => handleChange("galleryTitle", e.target.value)}
+                placeholder="Naše Galerie"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="galleryText">Popis galerie</Label>
+              <Textarea
+                id="galleryText"
+                value={form.galleryText || ""}
+                onChange={(e) => handleChange("galleryText", e.target.value)}
+                placeholder="Prohlédněte si naši autorskou tvorbu šperků. Každý kousek je originálním spojením umění, precizní práce a ušlechtilých kovů."
+                rows={3}
+              />
+            </div>
           </CardContent>
         </Card>
 
