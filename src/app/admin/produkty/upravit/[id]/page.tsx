@@ -274,7 +274,7 @@ else{
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="weight">Hmotnost (kg)</Label>
+                <Label htmlFor="weight">Hmotnost (g)</Label>
                 <Input
                   id="weight"
                   type="number"
