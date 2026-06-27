@@ -72,9 +72,12 @@ export async function delete_products_cart(value: { productId: number }) {
     .catch(() => console.log("delete_products_cart response: " + undefined))
 }
 
-export async function get_products(page = 1, limit = 10) {
+export async function get_products(page = 1, limit = 10, inStock?: boolean) {
+  const url = inStock !== undefined
+    ? `/api/products?page=${page}&limit=${limit}&inStock=${inStock}`
+    : `/api/products?page=${page}&limit=${limit}`;
   return await reqest
-    .get(`/api/products?page=${page}&limit=${limit}`)
+    .get(url)
     .then((e) => e.data)
     .catch((e) => e)
 }
@@ -84,6 +87,13 @@ export async function get_product(id: number) {
     .get(`/api/products/${id}`)
     .then((e) => e.data)
     .catch((e) => e)
+}
+
+export async function reorder_products(productIds: number[]) {
+  return await reqest
+    .put("/api/products/reorder", productIds)
+    .then((e) => e.data)
+    .catch(() => undefined)
 }
 
 

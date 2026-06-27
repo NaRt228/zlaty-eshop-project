@@ -190,7 +190,9 @@ export default function NakupovatItem() {
                   </div>
                   <div className="bg-neutral-900/30 border border-neutral-900 p-4 rounded-none backdrop-blur-sm">
                     <span className="text-xs text-neutral-400 tracking-wider block mb-1">Skladem</span>
-                    <span className="text-base font-light text-white">{item.stock ? `${item.stock} ks` : "Na dotaz"}</span>
+                    <span className="text-base font-light text-white">
+                      {item.stock !== undefined && Number(item.stock) === 0 ? "Vyprodáno" : (item.stock ? `${item.stock} ks` : "Na dotaz")}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -204,12 +206,21 @@ export default function NakupovatItem() {
                   </span>
                 </div>
 
-                <button
-                  onClick={() => add_to_cart(parseInt(item.id))}
-                  className="w-full sm:w-auto px-8 py-3.5 bg-white hover:bg-black text-black hover:text-white border border-white font-semibold rounded-none text-base tracking-wider uppercase transition-all duration-300 hover:shadow-xl hover:shadow-white/5 active:scale-95 cursor-pointer"
-                >
-                  Přidat do košíku
-                </button>
+                {item.stock !== undefined && Number(item.stock) === 0 ? (
+                  <button
+                    className="w-full sm:w-auto px-8 py-3.5 bg-neutral-900 text-neutral-500 border border-neutral-900 font-semibold rounded-none text-base tracking-wider uppercase cursor-not-allowed opacity-50"
+                    disabled
+                  >
+                    Vyprodáno
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => add_to_cart(parseInt(item.id))}
+                    className="w-full sm:w-auto px-8 py-3.5 bg-white hover:bg-black text-black hover:text-white border border-white font-semibold rounded-none text-base tracking-wider uppercase transition-all duration-300 hover:shadow-xl hover:shadow-white/5 active:scale-95 cursor-pointer"
+                  >
+                    Přidat do košíku
+                  </button>
+                )}
               </div>
             </div>
           </div>

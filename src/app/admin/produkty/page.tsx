@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useToast } from "@/components/ui/use-toast"
-import { AlertCircle, Edit, Plus, Trash2 } from "lucide-react"
+import { AlertCircle, Edit, Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import {
   AlertDialog,
@@ -20,7 +20,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 // Upravit importy pro novou strukturu API
-import { delete_product, get_products } from "@/apis_reqests/products"
+import { delete_product, get_products, reorder_products } from "@/apis_reqests/products"
 import { get_categories } from "@/apis_reqests/category"
 import { PageHeader } from "@/components/page-header"
 import { Pagination } from "@/components/pagination"
@@ -41,14 +41,16 @@ export default function ProductsPage() {
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [, setTotalProducts] = useState(0)
+  const [availabilityFilter, setAvailabilityFilter] = useState<"all" | "inStock" | "outOfStock">("all")
   const router = useRouter()
   const { toast } = useToast()
 
   // Změnit volání funkcí v komponentě
-  const fetchProducts = async (pageNum = 1) => {
+  const fetchProducts = async (pageNum = 1, filterVal = availabilityFilter) => {
     setLoading(true)
     try {
-      const data = await get_products(pageNum)
+      const inStockParam = filterVal === "inStock" ? true : filterVal === "outOfStock" ? false : undefined;
+      const data = await get_products(pageNum, 10, inStockParam)
       
       setProducts(data.products)
       setPage(data.page)
@@ -58,6 +60,39 @@ export default function ProductsPage() {
       setError(err.message || "Nepodařilo se načíst produkty")
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleFilterChange = (val: "all" | "inStock" | "outOfStock") => {
+    setAvailabilityFilter(val)
+    fetchProducts(1, val)
+  }
+
+  const handleMoveProduct = async (index: number, direction: "up" | "down") => {
+    const newIndex = direction === "up" ? index - 1 : index + 1
+    if (newIndex < 0 || newIndex >= products.length) return
+
+    const updated = [...products]
+    const [moved] = updated.splice(index, 1)
+    updated.splice(newIndex, 0, moved)
+
+    // Optimistic UI update
+    setProducts(updated)
+
+    try {
+      const ids = updated.map((p) => p.id)
+      await reorder_products(ids)
+      toast({
+        title: "Pořadí aktualizováno",
+        description: "Pořadí produktů bylo úspěšně uloženo.",
+      })
+    } catch (err: any) {
+      toast({
+        variant: "destructive",
+        title: "Chyba při ukládání pořadí",
+        description: err.message || "Nepodařilo se uložit nové pořadí.",
+      })
+      fetchProducts(page)
     }
   }
 
@@ -71,7 +106,7 @@ export default function ProductsPage() {
   }
 
   useEffect(() => {
-    fetchProducts()
+    fetchProducts(1, availabilityFilter)
     fetchCategories()
   }, [])
 
@@ -132,9 +167,23 @@ export default function ProductsPage() {
       />
 
       <Card>
-        <CardHeader>
-          <CardTitle>Seznam produktů</CardTitle>
-          <CardDescription>Přehled všech produktů ve vašem e-shopu</CardDescription>
+        <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <CardTitle>Seznam produktů</CardTitle>
+            <CardDescription>Přehled všech produktů ve vašem e-shopu</CardDescription>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-neutral-500 font-medium">Dostupnost:</span>
+            <select
+              value={availabilityFilter}
+              onChange={(e) => handleFilterChange(e.target.value as any)}
+              className="rounded-md border border-neutral-800 bg-neutral-900 px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-neutral-700"
+            >
+              <option value="all">Všechny</option>
+              <option value="inStock">Skladem</option>
+              <option value="outOfStock">Vyprodáno</option>
+            </select>
+          </div>
         </CardHeader>
         <CardContent>
           {error && (
@@ -152,18 +201,19 @@ export default function ProductsPage() {
                   <TableHead>Cena</TableHead>
                   <TableHead>Kategorie</TableHead>
                   <TableHead>Skladem</TableHead>
+                  <TableHead className="text-center w-[150px]">Pořadí</TableHead>
                   <TableHead className="text-right">Akce</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {loading ? (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center py-4">
+                    <TableCell colSpan={7} className="text-center py-4">
                       Načítání produktů...
                     </TableCell>
                   </TableRow>
                 ) : products.length > 0 ? (
-                  products.map((product) => (
+                  products.map((product, index) => (
                     <TableRow key={product.id}>
                       <TableCell>
                         {product.mediaUrls && product.mediaUrls.length > 0 ? (
@@ -184,7 +234,37 @@ export default function ProductsPage() {
                       <TableCell>{product.name}</TableCell>
                       <TableCell>{product.price.toLocaleString()} Kč</TableCell>
                       <TableCell>{getCategoryName(product.categoryId)}</TableCell>
-                      <TableCell>{product.stock} ks</TableCell>
+                      <TableCell>
+                        {product.stock === 0 ? (
+                          <span className="text-red-500 font-medium">Vyprodáno</span>
+                        ) : (
+                          `${product.stock} ks`
+                        )}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <div className="flex justify-center gap-1">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleMoveProduct(index, "up")}
+                            disabled={index === 0}
+                            className="h-8 w-8 text-neutral-400 hover:text-white"
+                            type="button"
+                          >
+                            <ArrowUp className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleMoveProduct(index, "down")}
+                            disabled={index === products.length - 1}
+                            className="h-8 w-8 text-neutral-400 hover:text-white"
+                            type="button"
+                          >
+                            <ArrowDown className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
                           <Button variant="ghost" size="icon" onClick={() => handleEditProduct(product.id)}>
@@ -227,7 +307,7 @@ export default function ProductsPage() {
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center py-4">
+                    <TableCell colSpan={7} className="text-center py-4">
                       Žádné produkty nebyly nalezeny
                     </TableCell>
                   </TableRow>

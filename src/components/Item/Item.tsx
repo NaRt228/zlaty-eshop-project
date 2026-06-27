@@ -120,12 +120,21 @@ const Item = (props: ItemProps) => {
             <span className="text-lg font-light text-white">
               {props.price.toLocaleString("cs-CZ")} Kč
             </span>
-            <button
-              className="px-4 py-2 bg-white text-black border border-white rounded-none text-sm font-semibold tracking-wider uppercase hover:bg-black hover:text-white active:scale-95 transition-all duration-300 cursor-pointer"
-              onClick={handleBuyClick}
-            >
-              Koupit
-            </button>
+            {props.stock !== undefined && Number(props.stock) === 0 ? (
+              <button
+                className="px-4 py-2 bg-neutral-900 text-neutral-500 border border-neutral-900 rounded-none text-sm font-semibold tracking-wider uppercase cursor-not-allowed opacity-50"
+                disabled
+              >
+                Vyprodáno
+              </button>
+            ) : (
+              <button
+                className="px-4 py-2 bg-white text-black border border-white rounded-none text-sm font-semibold tracking-wider uppercase hover:bg-black hover:text-white active:scale-95 transition-all duration-300 cursor-pointer"
+                onClick={handleBuyClick}
+              >
+                Koupit
+              </button>
+            )}
           </div>
         </div>
       </div>
