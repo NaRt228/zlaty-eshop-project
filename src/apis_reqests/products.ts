@@ -164,8 +164,9 @@ export async function make_order(order: Order): Promise<string | null> {
     .post(`/api/orders`, order)
     .then(() => { return "ok"})
     .catch((e) => {
-      alert(e.response.data);
-      return null})
-      console.log("123456789");
-      return g;
+      const errMsg = e.response?.data?.error || e.response?.data?.message || "Nepodařilo se odeslat objednávku";
+      alert(errMsg);
+      return null;
+    });
+  return g;
 }
