@@ -96,7 +96,13 @@ export async function add_product(productData: any, mediaFiles: File[]) {
 
     // Append product data
     Object.keys(productData).forEach((key) => {
-      formData.append(key, productData[key])
+      if (Array.isArray(productData[key])) {
+        productData[key].forEach((val: any) => {
+          formData.append(key, val)
+        })
+      } else {
+        formData.append(key, productData[key])
+      }
     })
 
     // Append media files
@@ -121,7 +127,13 @@ export async function update_product(id: number, productData: any, mediaFiles: F
 
     // Append product data
     Object.keys(productData).forEach((key) => {
-      formData.append(key, productData[key])
+      if (Array.isArray(productData[key])) {
+        productData[key].forEach((val: any) => {
+          formData.append(key, val)
+        })
+      } else {
+        formData.append(key, productData[key])
+      }
     })
 
     // Append media files

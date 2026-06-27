@@ -30,7 +30,10 @@ export default function ContentManagementPage() {
     card2ImageUrl: "",
     card3Title: "",
     card3Text: "",
-    card3ImageUrl: ""
+    card3ImageUrl: "",
+    contactEmail: "",
+    contactPhone: "",
+    contactInstagram: ""
   })
   
   const [loading, setLoading] = useState(false)
@@ -466,6 +469,45 @@ export default function ContentManagementPage() {
               </div>
             </div>
 
+          </CardContent>
+        </Card>
+
+        {/* CONTACT INFORMATION */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Kontaktní informace</CardTitle>
+            <CardDescription>Zde můžete upravit kontaktní údaje zobrazené v patičce (footeru) webu.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="contactEmail">E-mail</Label>
+                <Input
+                  id="contactEmail"
+                  value={form.contactEmail || ""}
+                  onChange={(e) => handleChange("contactEmail", e.target.value)}
+                  placeholder="jovanak@seznam.cz"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="contactPhone">Telefonní číslo</Label>
+                <Input
+                  id="contactPhone"
+                  value={form.contactPhone || ""}
+                  onChange={(e) => handleChange("contactPhone", e.target.value)}
+                  placeholder="123 456 789"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="contactInstagram">Instagram (link nebo uživatelské jméno)</Label>
+              <Input
+                id="contactInstagram"
+                value={form.contactInstagram || ""}
+                onChange={(e) => handleChange("contactInstagram", e.target.value)}
+                placeholder="Instagram"
+              />
+            </div>
           </CardContent>
         </Card>
 

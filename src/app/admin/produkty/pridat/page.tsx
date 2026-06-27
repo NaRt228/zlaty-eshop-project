@@ -36,7 +36,7 @@ export default function AddProductPage() {
   const [categoryId, setCategoryId] = useState("")
   const [stock, setStock] = useState("")
   const [specification, setSpecification] = useState("")
-  const [materialId, setMaterialId] = useState("")
+  const [selectedMaterialIds, setSelectedMaterialIds] = useState<number[]>([])
   const [weight, setWeight] = useState("")
   const [mediaFiles, setMediaFiles] = useState<File[]>([])
   const [mediaPreviews, setMediaPreviews] = useState<string[]>([])
@@ -97,8 +97,9 @@ export default function AddProductPage() {
     setError("")
 
     try {
-      const selectedMaterial = materialOptions.find((m) => m.id.toString() === materialId)
-      const materialName = selectedMaterial ? selectedMaterial.name : ""
+      const selectedMaterials = selectedMaterialIds
+        .map((id) => materialOptions.find((m) => m.id === id)?.name)
+        .filter(Boolean) as string[]
 
       const productData = {
         name,
@@ -107,7 +108,7 @@ export default function AddProductPage() {
         categoryId: Number.parseInt(categoryId),
         stock: Number.parseInt(stock),
         specification,
-        material: materialName,
+        materials: selectedMaterials,
         weight: Number.parseFloat(weight || "0"),
       }
 
@@ -229,19 +230,29 @@ export default function AddProductPage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="material">Materiál</Label>
-                <Select value={materialId} onValueChange={setMaterialId} >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Vyberte materiál"  className="bg-black"/>
-                  </SelectTrigger>
-                  <SelectContent>
-                    {materialOptions.map((mat) => (
-                      <SelectItem  className="bg-black" key={mat.id} value={mat.id.toString()}>
-                        {mat.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Label>Materiály</Label>
+                <div className="grid grid-cols-2 gap-2 border p-3 rounded-md bg-neutral-950 border-neutral-800">
+                  {materialOptions.map((mat) => {
+                    const isChecked = selectedMaterialIds.includes(mat.id);
+                    return (
+                      <label key={mat.id} className="flex items-center space-x-2 text-sm cursor-pointer hover:text-white transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedMaterialIds((prev) => [...prev, mat.id])
+                            } else {
+                              setSelectedMaterialIds((prev) => prev.filter((id) => id !== mat.id))
+                            }
+                          }}
+                          className="rounded border-neutral-800 bg-neutral-900 text-neutral-500 focus:ring-0 cursor-pointer"
+                        />
+                        <span>{mat.name}</span>
+                      </label>
+                    )
+                  })}
+                </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="weight">Hmotnost (g)</Label>

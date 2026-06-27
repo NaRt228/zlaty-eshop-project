@@ -178,7 +178,7 @@ export default function NakupovatItem() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-neutral-900/30 border border-neutral-900 p-4 rounded-none backdrop-blur-sm">
                     <span className="text-xs text-neutral-400 tracking-wider block mb-1">Materiál</span>
-                    <span className="text-base font-light text-white">{item.material || "Ušlechtilý kov"}</span>
+                    <span className="text-base font-light text-white">{item.materials && item.materials.length > 0 ? item.materials.join(", ") : "Ušlechtilý kov"}</span>
                   </div>
                   <div className="bg-neutral-900/30 border border-neutral-900 p-4 rounded-none backdrop-blur-sm">
                     <span className="text-xs text-neutral-400 tracking-wider block mb-1">Hmotnost</span>

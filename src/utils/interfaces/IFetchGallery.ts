@@ -13,7 +13,7 @@ export interface Products {
     categoryId: number;
     stock: number;
     specification: string;
-    material: string;
+    materials: string[];
     weight: number; 
     mediaUrls: string[]; 
 }

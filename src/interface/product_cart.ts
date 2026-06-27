@@ -17,7 +17,7 @@ export interface Get_Once_Product {
     categoryId: string
     stock: string
     specification: string
-    material: string
+    materials: string[]
     weight: string
     mediaUrls: string[]
   }

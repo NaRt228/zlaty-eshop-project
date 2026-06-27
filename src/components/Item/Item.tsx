@@ -11,7 +11,7 @@ export interface ItemProps {
   price: number;
   id?: number;
   description?: string;
-  material: string;
+  materials: string[];
   materialId?: number;
   category_id?: number | string;
   stock?: number | string;
@@ -112,7 +112,7 @@ const Item = (props: ItemProps) => {
               </h2>
             </Link>
             <span className="text-sm font-light text-neutral-400">
-              {props.material}
+              {props.materials && props.materials.length > 0 ? props.materials.join(", ") : ""}
             </span>
           </div>
 

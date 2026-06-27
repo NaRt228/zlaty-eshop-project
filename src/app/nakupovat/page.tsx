@@ -56,7 +56,7 @@ const Page = () => {
           id: product.id,
           description: product.description,
           category_id: product.categoryId,
-          material: product.material,
+          materials: (product as any).materials || [],
           materialId: (product as any).materialId ?? undefined,
           stock: product.stock,
           specification: product.specification,
@@ -146,7 +146,7 @@ const Page = () => {
                   <Item 
                     key={index} 
                     specification={item.specification} 
-                    material={item.material} 
+                    materials={item.materials} 
                     image={item.image} 
                     price={item.price} 
                     title={item.title} 

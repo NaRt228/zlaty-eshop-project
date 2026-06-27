@@ -55,7 +55,7 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
       const selectedMat = materials.find((m) => m.id === materialSelected)
       if (selectedMat) {
         product = product.filter(
-          (e) => e.material && e.material.toLowerCase() === selectedMat.name.toLowerCase()
+          (e) => e.materials && e.materials.some((m) => m.toLowerCase() === selectedMat.name.toLowerCase())
         )
       }
     }
