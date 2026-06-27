@@ -7,10 +7,25 @@ import { Order } from "@/interface/Orders"
 const reqest = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "https://golde-shop-production.up.railway.app/",
   headers: {
-        "Content-Type": "application/json",
-      },
+    "Content-Type": "application/json",
+  },
   withCredentials: true,
 })
+
+reqest.interceptors.request.use(
+  (config) => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("jwtToken");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 // Get or create a persistent guest session ID stored in localStorage
 function getOrCreateGuestSessionId(): string | null {
