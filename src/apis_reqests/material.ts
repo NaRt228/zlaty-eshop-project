@@ -47,3 +47,17 @@ export async function delete_material(id: number): Promise<boolean> {
   saveMaterials(filtered)
   return true
 }
+
+export async function reorder_materials(materialIds: number[]): Promise<Material[]> {
+  const materials = loadMaterials()
+  const sorted = [...materials].sort((a, b) => {
+    const idxA = materialIds.indexOf(a.id)
+    const idxB = materialIds.indexOf(b.id)
+    if (idxA === -1 && idxB === -1) return 0
+    if (idxA === -1) return 1
+    if (idxB === -1) return -1
+    return idxA - idxB
+  })
+  saveMaterials(sorted)
+  return sorted
+}

@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useToast } from "@/components/ui/use-toast"
-import { AlertCircle, Plus, Trash2 } from "lucide-react"
+import { AlertCircle, Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import {
@@ -24,7 +24,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 // Upravit importy pro novou strukturu API
-import { get_categories, add_category, delete_category } from "@/apis_reqests/category"
+import { get_categories, add_category, delete_category, reorder_categories } from "@/apis_reqests/category"
 import { PageHeader } from "@/components/page-header"
 
 interface Category {
@@ -53,6 +53,34 @@ export default function CategoriesPage() {
   useEffect(() => {
     fetchCategories()
   }, [])
+
+  const handleMoveCategory = async (index: number, direction: "up" | "down") => {
+    const newIndex = direction === "up" ? index - 1 : index + 1
+    if (newIndex < 0 || newIndex >= categories.length) return
+
+    const updated = [...categories]
+    const [moved] = updated.splice(index, 1)
+    updated.splice(newIndex, 0, moved)
+
+    // Optimistic UI update
+    setCategories(updated)
+
+    try {
+      const ids = updated.map((c) => c.id)
+      await reorder_categories(ids)
+      toast({
+        title: "Pořadí aktualizováno",
+        description: "Pořadí kategorií bylo úspěšně uloženo.",
+      })
+    } catch (err: any) {
+      toast({
+        variant: "destructive",
+        title: "Chyba při ukládání pořadí",
+        description: err.message || "Nepodařilo se uložit nové pořadí.",
+      })
+      fetchCategories()
+    }
+  }
 
   const handleAddCategory = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -164,15 +192,40 @@ export default function CategoriesPage() {
               <TableRow>
                 <TableHead>ID</TableHead>
                 <TableHead>Název kategorie</TableHead>
+                <TableHead className="text-center w-[150px]">Pořadí</TableHead>
                 <TableHead className="text-right">Akce</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {categories.length > 0 ? (
-                categories.map((category) => (
+                categories.map((category, index) => (
                   <TableRow key={category.id}>
                     <TableCell>{category.id}</TableCell>
                     <TableCell>{category.name}</TableCell>
+                    <TableCell className="text-center">
+                      <div className="flex justify-center gap-1">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleMoveCategory(index, "up")}
+                          disabled={index === 0}
+                          className="h-8 w-8 text-neutral-400 hover:text-white"
+                          type="button"
+                        >
+                          <ArrowUp className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleMoveCategory(index, "down")}
+                          disabled={index === categories.length - 1}
+                          className="h-8 w-8 text-neutral-400 hover:text-white"
+                          type="button"
+                        >
+                          <ArrowDown className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
                     <TableCell className="text-right">
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
@@ -208,7 +261,7 @@ export default function CategoriesPage() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={3} className="text-center py-4">
+                  <TableCell colSpan={4} className="text-center py-4">
                     Žádné kategorie nebyly nalezeny
                   </TableCell>
                 </TableRow>

@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useToast } from "@/components/ui/use-toast"
-import { AlertCircle, Plus, Trash2 } from "lucide-react"
+import { AlertCircle, Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import {
@@ -23,7 +23,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { get_materials, add_material, delete_material, Material } from "@/apis_reqests/material"
+import { get_materials, add_material, delete_material, reorder_materials, Material } from "@/apis_reqests/material"
 import { PageHeader } from "@/components/page-header"
 
 export default function MaterialsPage() {
@@ -46,6 +46,34 @@ export default function MaterialsPage() {
   useEffect(() => {
     fetchMaterials()
   }, [])
+
+  const handleMoveMaterial = async (index: number, direction: "up" | "down") => {
+    const newIndex = direction === "up" ? index - 1 : index + 1
+    if (newIndex < 0 || newIndex >= materials.length) return
+
+    const updated = [...materials]
+    const [moved] = updated.splice(index, 1)
+    updated.splice(newIndex, 0, moved)
+
+    // Optimistic UI update
+    setMaterials(updated)
+
+    try {
+      const ids = updated.map((m) => m.id)
+      await reorder_materials(ids)
+      toast({
+        title: "Pořadí aktualizováno",
+        description: "Pořadí materiálů bylo úspěšně uloženo.",
+      })
+    } catch (err: any) {
+      toast({
+        variant: "destructive",
+        title: "Chyba při ukládání pořadí",
+        description: err.message || "Nepodařilo se uložit nové pořadí.",
+      })
+      fetchMaterials()
+    }
+  }
 
   const handleAddMaterial = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -155,15 +183,40 @@ export default function MaterialsPage() {
               <TableRow>
                 <TableHead>ID</TableHead>
                 <TableHead>Název materiálu</TableHead>
+                <TableHead className="text-center w-[150px]">Pořadí</TableHead>
                 <TableHead className="text-right">Akce</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {materials.length > 0 ? (
-                materials.map((material) => (
+               {materials.length > 0 ? (
+                materials.map((material, index) => (
                   <TableRow key={material.id}>
                     <TableCell>{material.id}</TableCell>
                     <TableCell>{material.name}</TableCell>
+                    <TableCell className="text-center">
+                      <div className="flex justify-center gap-1">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleMoveMaterial(index, "up")}
+                          disabled={index === 0}
+                          className="h-8 w-8 text-neutral-400 hover:text-white"
+                          type="button"
+                        >
+                          <ArrowUp className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleMoveMaterial(index, "down")}
+                          disabled={index === materials.length - 1}
+                          className="h-8 w-8 text-neutral-400 hover:text-white"
+                          type="button"
+                        >
+                          <ArrowDown className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
                     <TableCell className="text-right">
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
@@ -199,7 +252,7 @@ export default function MaterialsPage() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={3} className="text-center py-4">
+                  <TableCell colSpan={4} className="text-center py-4">
                     Žádné materiály nebyly nalezeny
                   </TableCell>
                 </TableRow>
