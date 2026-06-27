@@ -17,6 +17,7 @@ export default function NakupovatItem() {
   const [categoryFech, setCategoryFech] = useState<{ name: string; id: number }[] | undefined>(undefined);
   const cart = useCart();
 
+  
   useEffect(() => {
     async function get_item() {
       if (typeof id === "string") {
