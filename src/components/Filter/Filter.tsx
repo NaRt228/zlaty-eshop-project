@@ -34,6 +34,19 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
       const [cats, mats] = await Promise.all([get_categories(), get_materials()]);
       setCategoryFech(cats);
       setMaterials(mats || []);
+
+      if (typeof window !== "undefined") {
+        const params = new URLSearchParams(window.location.search);
+        const categoryParam = params.get("category");
+        if (categoryParam && cats) {
+          const matchedCat = cats.find(
+            (c) => c.name.toLowerCase() === categoryParam.toLowerCase()
+          );
+          if (matchedCat) {
+            setCategorySelected(matchedCat.id);
+          }
+        }
+      }
     })();
   }, []);
 

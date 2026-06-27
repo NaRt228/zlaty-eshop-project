@@ -91,7 +91,7 @@ export default function Home() {
           {/* Card 1 */}
           <div className="relative group flex flex-col">
             <div className="absolute inset-0 border border-white/10 translate-x-3 translate-y-3 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-500 z-0"></div>
-            <div className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden">
+            <Link href={`/nakupovat?category=${encodeURIComponent(card1Title)}`} className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden cursor-pointer">
               <Image
                 src={card1ImageUrl}
                 alt={card1Title}
@@ -104,8 +104,8 @@ export default function Home() {
                 <h3 className="text-xl font-light uppercase tracking-widest text-white mb-2">{card1Title}</h3>
                 <p className="text-xs text-neutral-400 uppercase tracking-wider font-light">{card1Text}</p>
               </div>
-            </div>
-            <Link href="/nakupovat" className="cursor-pointer z-10 mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300">
+            </Link>
+            <Link href={`/nakupovat?category=${encodeURIComponent(card1Title)}`} className="cursor-pointer z-10 mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300">
               Prozkoumat kolekci &rarr;
             </Link>
           </div>
@@ -113,7 +113,7 @@ export default function Home() {
           {/* Card 2 - Slightly offset vertically for visual interest */}
           <div className="relative group flex flex-col md:translate-y-6">
             <div className="absolute inset-0 border border-white/10 translate-x-3 translate-y-3 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-500 z-0"></div>
-            <div className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden">
+            <Link href={`/nakupovat?category=${encodeURIComponent(card2Title)}`} className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden cursor-pointer">
               <Image
                 src={card2ImageUrl}
                 alt={card2Title}
@@ -126,8 +126,8 @@ export default function Home() {
                 <h3 className="text-xl font-light uppercase tracking-widest text-white mb-2">{card2Title}</h3>
                 <p className="text-xs text-neutral-400 uppercase tracking-wider font-light">{card2Text}</p>
               </div>
-            </div>
-            <Link href="/nakupovat" className="cursor-pointer z-10 mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300">
+            </Link>
+            <Link href={`/nakupovat?category=${encodeURIComponent(card2Title)}`} className="cursor-pointer z-10 mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300">
               Prozkoumat kolekci &rarr;
             </Link>
           </div>
@@ -135,7 +135,7 @@ export default function Home() {
           {/* Card 3 */}
           <div className="relative group flex flex-col">
             <div className="absolute inset-0 border border-white/10 translate-x-3 translate-y-3 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-500 z-0"></div>
-            <div className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden">
+            <Link href={`/nakupovat?category=${encodeURIComponent(card3Title)}`} className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden cursor-pointer">
               <Image
                 src={card3ImageUrl}
                 alt={card3Title}
@@ -148,8 +148,8 @@ export default function Home() {
                 <h3 className="text-xl font-light uppercase tracking-widest text-white mb-2">{card3Title}</h3>
                 <p className="text-xs text-neutral-400 uppercase tracking-wider font-light">{card3Text}</p>
               </div>
-            </div>
-            <Link href="/nakupovat" className="mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300 cursor-pointer z-10">
+            </Link>
+            <Link href={`/nakupovat?category=${encodeURIComponent(card3Title)}`} className="mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300 cursor-pointer z-10">
               Prozkoumat kolekci &rarr;
             </Link>
           </div>
