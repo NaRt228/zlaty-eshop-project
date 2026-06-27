@@ -19,6 +19,7 @@ export default function Home() {
     loadData();
   }, []);
 
+  
   const heroTitle = content?.heroTitle || "Výroba autorských šperků";
   const heroText = content?.heroText || "Autorské šperky vznikající v tichu rukou a záměru. Každý kus je originál – osobní talisman inspirovaný přírodou, symbolikou a vnitřní silou. Vyber si šperk, který s tebou rezonuje.";
   const heroImageUrl = content?.heroImageUrl || "/jewelry1.jpg";
