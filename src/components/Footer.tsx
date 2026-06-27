@@ -21,8 +21,8 @@ const Footer = () => {
         const content = await get_content();
         if (content) {
           setContacts({
-            contactEmail: content.contactEmail || "jovanak@seznam.cz",
-            contactPhone: content.contactPhone || "123 456 789",
+            contactEmail: content.contactEmail,
+            contactPhone: content.contactPhone,
             contactInstagram: content.contactInstagram || "Instagram"
           });
         }
