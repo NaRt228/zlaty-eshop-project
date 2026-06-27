@@ -11,11 +11,11 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/components/ui/use-toast"
-import { AlertCircle, Upload } from "lucide-react"
+import { AlertCircle, Upload, X } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 // Upravit importy pro novou strukturu API
 import { get_categories } from "@/apis_reqests/category"
-import { get_product, update_product } from "@/apis_reqests/products"
+import { get_product, update_product, delete_product_media } from "@/apis_reqests/products"
 import { get_materials, Material as MaterialType } from "@/apis_reqests/material"
 import { PageHeader } from "@/components/page-header"
 import Image from "next/image"
@@ -102,6 +102,33 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
       setError(err.message || "Nepodařilo se aktualizovat produkt")
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleDeleteMedia = async (mediaUrl: string) => {
+    if (!window.confirm("Opravdu chcete smazat tento obrázek?")) return
+
+    try {
+      await delete_product_media(productId, mediaUrl)
+      
+      setProduct((prev) => {
+        if (!prev) return null
+        return {
+          ...prev,
+          mediaUrls: prev.mediaUrls.filter((url) => url !== mediaUrl),
+        }
+      })
+
+      toast({
+        title: "Obrázek smazán",
+        description: "Obrázek byl úspěšně odstraněn.",
+      })
+    } catch (err: any) {
+      toast({
+        variant: "destructive",
+        title: "Chyba při mazání obrázku",
+        description: err.message || "Nepodařilo se odstranit obrázek.",
+      })
     }
   }
 
@@ -248,13 +275,21 @@ else{
                 <div className="grid grid-cols-3 gap-2">
                   {product.mediaUrls && product.mediaUrls.length > 0 ? (
                     product.mediaUrls.map((url, index) => (
-                      <div key={index} className="relative aspect-square rounded-md overflow-hidden border">
+                      <div key={index} className="relative aspect-square rounded-md overflow-hidden border group">
                         <Image
                           src={url || "/placeholder.svg"}
                           alt={`Obrázek ${index + 1}`}
                           fill
                           className="object-cover"
                         />
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteMedia(url)}
+                          className="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md"
+                          title="Smazat obrázek"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
                       </div>
                     ))
                   ) : (

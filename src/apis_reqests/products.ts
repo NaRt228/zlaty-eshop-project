@@ -147,6 +147,17 @@ export async function delete_product(id: number) {
     .catch(() => undefined)
 }
 
+export async function delete_product_media(productId: number, mediaUrl: string) {
+  try {
+    const response = await reqest.delete(`/api/products/${productId}/media`, {
+      params: { mediaUrl }
+    })
+    return response.data
+  } catch (err: any) {
+    throw new Error(err.response?.data?.message || "Nepodařilo se smazat obrázek")
+  }
+}
+
 export async function make_order(order: Order): Promise<string | null> {
   console.log("123456789");
   const g = await reqest
