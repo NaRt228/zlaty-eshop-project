@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/components/ui/use-toast"
-import { AlertCircle, Upload } from "lucide-react"
+import { AlertCircle, Upload, X } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 // Upravit importy pro novou strukturu API
 import { get_categories } from "@/apis_reqests/category"
@@ -39,6 +39,7 @@ export default function AddProductPage() {
   const [materialId, setMaterialId] = useState("")
   const [weight, setWeight] = useState("")
   const [mediaFiles, setMediaFiles] = useState<File[]>([])
+  const [mediaPreviews, setMediaPreviews] = useState<string[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [materialOptions, setMaterialOptions] = useState<MaterialOption[]>([])
   const [loading, setLoading] = useState(false)
@@ -64,15 +65,30 @@ export default function AddProductPage() {
     fetchData()
   }, [])
 
+  useEffect(() => {
+    return () => {
+      mediaPreviews.forEach((url) => URL.revokeObjectURL(url))
+    }
+  }, [mediaPreviews])
+
   const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files)
-      if (filesArray.length > 10) {
+      if (filesArray.length + mediaFiles.length > 10) {
         setError("Můžete nahrát maximálně 10 souborů")
         return
       }
-      setMediaFiles(filesArray)
+      setMediaFiles((prev) => [...prev, ...filesArray])
+
+      const newPreviews = filesArray.map((file) => URL.createObjectURL(file))
+      setMediaPreviews((prev) => [...prev, ...newPreviews])
     }
+  }
+
+  const handleRemoveNewMedia = (index: number) => {
+    URL.revokeObjectURL(mediaPreviews[index])
+    setMediaFiles((prev) => prev.filter((_, i) => i !== index))
+    setMediaPreviews((prev) => prev.filter((_, i) => i !== index))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -263,8 +279,29 @@ export default function AddProductPage() {
                     Vybrat soubory
                   </Button>
                 </div>
-                {mediaFiles.length > 0 && (
-                  <p className="text-sm text-muted-foreground mt-2">Vybráno {mediaFiles.length} souborů</p>
+                {mediaPreviews.length > 0 && (
+                  <div className="space-y-2 mt-4">
+                    <Label>Náhled vybraných obrázků ({mediaPreviews.length})</Label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {mediaPreviews.map((url, index) => (
+                        <div key={index} className="relative aspect-square rounded-md overflow-hidden border group">
+                          <img
+                            src={url}
+                            alt={`Nový náhled ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveNewMedia(index)}
+                            className="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md"
+                            title="Odstranit"
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
             </CardContent>

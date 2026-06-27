@@ -34,6 +34,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
   const [materialId, setMaterialId] = useState("")
   const [weight, setWeight] = useState("")
   const [mediaFiles, setMediaFiles] = useState<File[]>([])
+  const [mediaPreviews, setMediaPreviews] = useState<string[]>([])
   const [categories, setCategories] = useState<Category[]| undefined>(undefined)
   const [materialOptions, setMaterialOptions] = useState<MaterialType[]>([])
   const [loading, setLoading] = useState(false)
@@ -61,15 +62,30 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     })()
   }, [])
 
+  useEffect(() => {
+    return () => {
+      mediaPreviews.forEach((url) => URL.revokeObjectURL(url))
+    }
+  }, [mediaPreviews])
+
   const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files)
-      if (filesArray.length > 10) {
+      if (filesArray.length + mediaFiles.length > 10) {
         setError("Můžete nahrát maximálně 10 souborů")
         return
       }
-      setMediaFiles(filesArray)
+      setMediaFiles((prev) => [...prev, ...filesArray])
+
+      const newPreviews = filesArray.map((file) => URL.createObjectURL(file))
+      setMediaPreviews((prev) => [...prev, ...newPreviews])
     }
+  }
+
+  const handleRemoveNewMedia = (index: number) => {
+    URL.revokeObjectURL(mediaPreviews[index])
+    setMediaFiles((prev) => prev.filter((_, i) => i !== index))
+    setMediaPreviews((prev) => prev.filter((_, i) => i !== index))
   }
  
   const handleSubmit = async (e: React.FormEvent) => {
@@ -322,8 +338,29 @@ else{
                     Vybrat soubory
                   </Button>
                 </div>
-                {mediaFiles.length > 0 && (
-                  <p className="text-sm text-muted-foreground mt-2">Vybráno {mediaFiles.length} nových souborů</p>
+                {mediaPreviews.length > 0 && (
+                  <div className="space-y-2 mt-4">
+                    <Label>Náhled vybraných nových obrázků ({mediaPreviews.length})</Label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {mediaPreviews.map((url, index) => (
+                        <div key={index} className="relative aspect-square rounded-md overflow-hidden border group">
+                          <img
+                            src={url}
+                            alt={`Nový náhled ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveNewMedia(index)}
+                            className="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md"
+                            title="Odstranit"
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
             </CardContent>
