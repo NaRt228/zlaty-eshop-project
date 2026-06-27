@@ -195,9 +195,7 @@ export function OrdersTable({ orders, onUpdate }: OrdersTableProps) {
                 <td className="px-4 py-3 font-medium">{formatPrice(order.total_amount)}</td>
                 <td className="px-4 py-3">
                   <span
-                    className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                      statusColors[order.status] || "bg-gray-100 text-gray-800"
-                    }`}
+                    className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium  bg-white text-gray-900`}
                   >
                     {statusLabels[order.status] || order.status}
                   </span>
