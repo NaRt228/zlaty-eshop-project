@@ -48,13 +48,20 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
         const params = new URLSearchParams(window.location.search);
         const categoryParam = params.get("category");
         if (categoryParam && cats) {
-          const matchedCat = cats.find(
-            (c) => c.name.toLowerCase() === categoryParam.toLowerCase()
-          );
-          if (matchedCat) {
-            setCategorySelected(matchedCat.id);
-          } else {
+          const paramLower = categoryParam.toLowerCase();
+          const isGroup = ["zlato", "stříbro", "kyvadla"].includes(paramLower);
+
+          if (isGroup) {
             setCategoryGroupFilter(getGroupKeyword(categoryParam));
+          } else {
+            const matchedCat = cats.find(
+              (c) => c.name.toLowerCase() === paramLower
+            );
+            if (matchedCat) {
+              setCategorySelected(matchedCat.id);
+            } else {
+              setCategoryGroupFilter(getGroupKeyword(categoryParam));
+            }
           }
         }
       }
@@ -76,7 +83,13 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
       const matchedCatIds = categoryFech
         .filter((c) => c.name.toLowerCase().includes(categoryGroupFilter.toLowerCase()))
         .map((c) => c.id);
-      product = product.filter((e) => e.category_id !== undefined && matchedCatIds.includes(Number(e.category_id)));
+      product = product.filter((e) => {
+        const matchesCategory = e.category_id !== undefined && matchedCatIds.includes(Number(e.category_id));
+        const matchesMaterial = e.materials && e.materials.some((m) => 
+          m.toLowerCase().includes(categoryGroupFilter.toLowerCase())
+        );
+        return matchesCategory || matchesMaterial;
+      });
     }
 
     // Material filter
