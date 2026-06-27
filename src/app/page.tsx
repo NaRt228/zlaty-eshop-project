@@ -20,21 +20,21 @@ export default function Home() {
   }, []);
 
   
-  const heroTitle = content?.heroTitle || "Výroba autorských šperků";
-  const heroText = content?.heroText || "Autorské šperky vznikající v tichu rukou a záměru. Každý kus je originál – osobní talisman inspirovaný přírodou, symbolikou a vnitřní silou. Vyber si šperk, který s tebou rezonuje.";
-  const heroImageUrl = content?.heroImageUrl || "/jewelry1.jpg";
+  const heroTitle = content?.heroTitle
+  const heroText = content?.heroText
+  const heroImageUrl = content?.heroImageUrl
 
-  const card1Title = content?.card1Title || "Prsteny";
-  const card1Text = content?.card1Text || "Ručně kované detaily";
-  const card1ImageUrl = content?.card1ImageUrl || "/jewelry2.jpg";
+  const card1Title = content?.card1Title
+  const card1Text = content?.card1Text
+  const card1ImageUrl = content?.card1ImageUrl 
 
-  const card2Title = content?.card2Title || "Přívěsky";
-  const card2Text = content?.card2Text || "Inspirace přírodou";
-  const card2ImageUrl = content?.card2ImageUrl || "/jewelry3.jpg";
+  const card2Title = content?.card2Title 
+  const card2Text = content?.card2Text 
+  const card2ImageUrl = content?.card2ImageUrl 
 
-  const card3Title = content?.card3Title || "Náušnice";
-  const card3Text = content?.card3Text || "Elegance a harmonie";
-  const card3ImageUrl = content?.card3ImageUrl || "/utils/images/image1.png";
+  const card3Title = content?.card3Title 
+  const card3Text = content?.card3Text 
+  const card3ImageUrl = content?.card3ImageUrl 
 
   return (
     <main className="w-full min-h-screen bg-black text-white overflow-hidden">
