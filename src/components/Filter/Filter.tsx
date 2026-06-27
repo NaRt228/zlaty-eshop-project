@@ -18,10 +18,19 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
   const [sortSelected, setSortSelected] = useState<{ label: string; value: string } | null>(null);
   const [categoryFech, setCategoryFech] = useState<{ name: string; id: number }[] | undefined>(undefined);
   const [categorySelected, setCategorySelected] = useState<number | null>(null);
+  const [categoryGroupFilter, setCategoryGroupFilter] = useState<string | null>(null);
   const [materialSelected, setMaterialSelected] = useState<number | null>(null);
   const [materials, setMaterials] = useState<Material[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [width, setWidth] = useState<number>(typeof window !== "undefined" ? window.innerHeight : 0);
+
+  const getGroupKeyword = (param: string) => {
+    const p = param.toLowerCase();
+    if (p.includes("zlato") || p.includes("zlat")) return "zlat";
+    if (p.includes("stříbro") || p.includes("stříbr")) return "stříbr";
+    if (p.includes("kyvadl")) return "kyvadl";
+    return p;
+  };
 
   useEffect(() => {
     const resize = () => setTimeout(() => { setWidth(window.innerHeight) }, 1);
@@ -44,6 +53,8 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
           );
           if (matchedCat) {
             setCategorySelected(matchedCat.id);
+          } else {
+            setCategoryGroupFilter(getGroupKeyword(categoryParam));
           }
         }
       }
@@ -60,7 +71,12 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
 
     // Category filter
     if (categorySelected !== null) {
-      product = product.filter(e => e.category_id === categorySelected);
+      product = product.filter(e => e.category_id !== undefined && Number(e.category_id) === categorySelected);
+    } else if (categoryGroupFilter !== null && categoryFech) {
+      const matchedCatIds = categoryFech
+        .filter((c) => c.name.toLowerCase().includes(categoryGroupFilter.toLowerCase()))
+        .map((c) => c.id);
+      product = product.filter((e) => e.category_id !== undefined && matchedCatIds.includes(Number(e.category_id)));
     }
 
     // Material filter
@@ -90,7 +106,7 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
     }
 
     props.setSeparated(props.chunkArray(product, 3));
-  }, [sortSelected, priceRange, categorySelected, materialSelected, props.product, materials]);
+  }, [sortSelected, priceRange, categorySelected, categoryGroupFilter, materialSelected, props.product, materials, categoryFech]);
 
   const handlePriceChange = (event: Event, newValue: number[]) => {
     setPriceRange(newValue);
@@ -161,15 +177,22 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
       <div className="flex mt-6 gap-4 border-t border-neutral-800 pt-4">
         <p className="text-[16px] font-light">Kategorie:</p>
         <ul className="flex flex-col gap-2">
-          {categoryFech?.map((e) => (
-            <li
-              key={e.id}
-              onClick={() => setCategorySelected(categorySelected === e.id ? null : e.id)}
-              className={`${categorySelected === e.id ? "text-white underline underline-offset-4 font-semibold" : "text-neutral-400 hover:text-white"} text-sm tracking-wide cursor-pointer first-letter:uppercase transition-colors duration-200`}
-            >
-              {e.name}
-            </li>
-          ))}
+          {categoryFech?.map((e) => {
+            const isActive = categorySelected === e.id || 
+              (categoryGroupFilter !== null && e.name.toLowerCase().includes(categoryGroupFilter.toLowerCase()));
+            return (
+              <li
+                key={e.id}
+                onClick={() => {
+                  setCategorySelected(categorySelected === e.id ? null : e.id);
+                  setCategoryGroupFilter(null);
+                }}
+                className={`${isActive ? "text-white underline underline-offset-4 font-semibold" : "text-neutral-400 hover:text-white"} text-sm tracking-wide cursor-pointer first-letter:uppercase transition-colors duration-200`}
+              >
+                {e.name}
+              </li>
+            );
+          })}
         </ul>
       </div>
 
@@ -196,10 +219,11 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
       )}
 
       {/* Reset all filters */}
-      {(categorySelected !== null || materialSelected !== null || sortSelected !== null || priceRange[0] !== 0 || priceRange[1] !== 100000) && (
+      {(categorySelected !== null || categoryGroupFilter !== null || materialSelected !== null || sortSelected !== null || priceRange[0] !== 0 || priceRange[1] !== 100000) && (
         <button
           onClick={() => {
             setCategorySelected(null);
+            setCategoryGroupFilter(null);
             setMaterialSelected(null);
             setSortSelected(null);
             setPriceRange([0, 100000]);
