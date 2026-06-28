@@ -12,6 +12,9 @@ const reqest = axios.create({
 
 reqest.interceptors.request.use(
     (config) => {
+        if (config.url === "/api/auth/login") {
+            return config;
+        }
         const token = localStorage.getItem("jwtToken");
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
@@ -51,8 +54,8 @@ export async function login(email: string, password: string) {
             console.log("Login successful.");
         }
         return response
-    } catch{
-        
+    } catch (error) {
+        throw error;
     }
 }
 
