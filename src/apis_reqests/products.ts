@@ -44,6 +44,22 @@ reqest.interceptors.request.use(
   }
 );
 
+reqest.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("jwtToken");
+        document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        if (window.location.pathname.startsWith("/admin")) {
+          window.location.href = "/login";
+        }
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 export async function post_product(values: product_curt_post_Interface): Promise<responde_cart | undefined> {
   return await reqest
     .post("/api/cart/add", values)

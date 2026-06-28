@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import Slider from "@mui/material/Slider";
 import { ItemProps } from "../Item/Item";
 import { get_categories } from "@/apis_reqests/category";
 import { get_materials, Material } from "@/apis_reqests/material";
@@ -121,9 +120,7 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
     props.setSeparated(props.chunkArray(product, 3));
   }, [sortSelected, priceRange, categorySelected, categoryGroupFilter, materialSelected, props.product, materials, categoryFech]);
 
-  const handlePriceChange = (event: Event, newValue: number[]) => {
-    setPriceRange(newValue);
-  };
+
 
   return (
     <div className={`bg-black border border-neutral-800 p-7 w-[350px] ml-3 text-white absolute mt-4 z-10 max-h-[${width < 500 ? 300 : 500}px] overflow-y-auto shadow-2xl`}>
@@ -157,7 +154,7 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
         )}
       </div>
 
-      {/* Price Range */}
+      {/* Price Range 
       <div className="mt-4 border-t border-neutral-800 pt-4">
         <p className="text-[16px] font-light mb-2">Cena:</p>
         <Slider
@@ -185,7 +182,7 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
           <span>{priceRange[1].toLocaleString()} Kč</span>
         </div>
       </div>
-
+          */}
       {/* Category Filter */}
       <div className="flex mt-6 gap-4 border-t border-neutral-800 pt-4">
         <p className="text-[16px] font-light">Kategorie:</p>

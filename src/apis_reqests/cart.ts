@@ -27,6 +27,22 @@ reqest.interceptors.request.use(
   }
 );
 
+reqest.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("jwtToken");
+        document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        if (window.location.pathname.startsWith("/admin")) {
+          window.location.href = "/login";
+        }
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 // Get or create a persistent guest session ID stored in localStorage
 function getOrCreateGuestSessionId(): string | null {
   if (typeof window === "undefined") return null;
