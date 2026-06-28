@@ -8,6 +8,17 @@ const nextConfig = {
       "localhost"
     ],
   },
+  productionBrowserSourceMaps: false,
+  webpack: (config, { dev }) => {
+    if (!dev) {
+      config.devtool = false;
+    }
+    return config;
+  },
+  experimental: {
+    cpus: 1,
+    workerThreads: false,
+  }
 };
 
 export default nextConfig;
