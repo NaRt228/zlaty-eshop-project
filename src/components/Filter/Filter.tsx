@@ -221,6 +221,7 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
                     : "text-neutral-400 hover:text-white"
                 } text-sm tracking-wide cursor-pointer transition-colors duration-200`}
               >
+                
                 {mat.name}
               </li>
             ))}
