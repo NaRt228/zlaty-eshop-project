@@ -21,7 +21,6 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
   const [materialSelected, setMaterialSelected] = useState<number | null>(null);
   const [materials, setMaterials] = useState<Material[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [width, setWidth] = useState<number>(typeof window !== "undefined" ? window.innerHeight : 0);
 
   const getGroupKeyword = (param: string) => {
     const p = param.toLowerCase();
@@ -30,12 +29,6 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
     if (p.includes("kyvadl")) return "kyvadl";
     return p;
   };
-
-  useEffect(() => {
-    const resize = () => setTimeout(() => { setWidth(window.innerHeight) }, 1);
-    window.addEventListener("resize", resize);
-    return () => { window.removeEventListener("resize", resize) };
-  }, []);
 
   useEffect(() => {
     (async function () {
@@ -123,7 +116,7 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
 
 
   return (
-    <div className={`bg-black border border-neutral-800 p-7 w-[350px] ml-3 text-white absolute mt-4 z-10 max-h-[${width < 500 ? 300 : 500}px] overflow-y-auto shadow-2xl`}>
+    <div className="bg-black border border-neutral-800 p-6 w-full text-white max-h-[500px] overflow-y-auto">
       <p className="text-[18px] font-light uppercase tracking-wider mb-4 border-b border-neutral-800 pb-2">Filtry</p>
 
       {/* Sort */}
