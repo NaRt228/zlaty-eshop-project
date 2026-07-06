@@ -84,7 +84,7 @@ export default function Cart() {
             
             {/* Step 1: Active */}
             <div className="flex flex-col items-center gap-2 z-10">
-              <div className="w-10 h-10 rounded-none border border-white bg-white/10 text-white flex justify-center items-center font-medium text-lg shadow-lg shadow-white/5">
+              <div className="w-10 h-10 rounded-none border border-white bg-black text-white flex justify-center items-center font-medium text-lg shadow-lg shadow-white/5">
                 1
               </div>
               <span className="text-sm font-semibold text-white">Košík</span>
@@ -109,21 +109,20 @@ export default function Cart() {
             </div>
 
             {/* Connector Lines */}
-            <div className="absolute top-5 left-0 w-full h-[1px] bg-neutral-900 z-0"></div>
+            <div className="absolute top-5 left-8 right-8 h-[1px] bg-neutral-900 z-0"></div>
           </div>
         </div>
 
         {/* Cart Main Content */}
-        <div className="flex flex-col lg:flex-row gap-12 items-start mt-8">
-          
-          {/* Left: Cart Items List */}
-          <section className="w-full lg:w-2/3 flex flex-col gap-6">
-            {cartItems === undefined ? (
-              <div className="text-center py-12 text-neutral-500 font-light">
-                Načítání položek košíku...
-              </div>
-            ) : hasItems ? (
-              cartItems.flatMap((e, index) =>
+        {cartItems === undefined ? (
+          <div className="text-center py-12 text-neutral-500 font-light mt-8">
+            Načítání položek košíku...
+          </div>
+        ) : hasItems ? (
+          <div className="flex flex-col lg:flex-row gap-12 items-start mt-8">
+            {/* Left: Cart Items List */}
+            <section className="w-full lg:w-2/3 flex flex-col gap-6">
+              {cartItems.flatMap((e, index) =>
                 Array.from({ length: e.quantity }, (_, i) => (
                   <div
                     key={`${index}-${i}`}
@@ -143,27 +142,10 @@ export default function Cart() {
                     />
                   </div>
                 ))
-              )
-            ) : (
-              <div className="text-center py-16 bg-neutral-900/20 border border-neutral-900/60 rounded-none p-8 flex flex-col items-center gap-6">
-                <svg className="w-16 h-16 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-                <div>
-                  <h2 className="text-2xl font-light text-white mb-2">Košík je prázdný</h2>
-                  <p className="text-sm text-neutral-500 font-light max-w-sm mx-auto">
-                    Vypadá to, že jste si do košíku ještě nic nepřidali. Podívejte se do naší nabídky a vyberte si ten pravý šperk.
-                  </p>
-                </div>
-                <Link href="/nakupovat" className="px-8 py-3.5 bg-white hover:bg-black text-black hover:text-white border border-white rounded-none text-sm font-semibold uppercase tracking-wider transition-all duration-300">
-                  Přejít do obchodu
-                </Link>
-              </div>
-            )}
-          </section>
+              )}
+            </section>
 
-          {/* Right: Checkout Price Summary */}
-          {hasItems && (
+            {/* Right: Checkout Price Summary */}
             <section className="w-full lg:w-1/3 bg-neutral-900/30 border border-neutral-900 rounded-none p-6 backdrop-blur-sm flex flex-col gap-6 sticky top-28">
               <h2 className="text-xl font-light tracking-wide text-white border-b border-neutral-900 pb-4">
                 Shrnutí objednávky
@@ -192,9 +174,24 @@ export default function Cart() {
                 </button>
               </Link>
             </section>
-          )}
-
-        </div>
+          </div>
+        ) : (
+          /* Empty Cart State (centered and full width) */
+          <div className="max-w-xl mx-auto text-center py-16 bg-neutral-900/20 border border-neutral-900/60 rounded-none p-8 flex flex-col items-center gap-6 mt-8">
+            <svg className="w-16 h-16 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <div>
+              <h2 className="text-2xl font-light text-white mb-2">Košík je prázdný</h2>
+              <p className="text-sm text-neutral-500 font-light max-w-sm mx-auto">
+                Vypadá to, že jste si do košíku ještě nic nepřidali. Podívejte se do naší nabídky a vyberte si ten pravý šperk.
+              </p>
+            </div>
+            <Link href="/nakupovat" className="px-8 py-3.5 bg-white hover:bg-black text-black hover:text-white border border-white rounded-none text-sm font-semibold uppercase tracking-wider transition-all duration-300">
+              Přejít do obchodu
+            </Link>
+          </div>
+        )}
       </main>
     </div>
   );

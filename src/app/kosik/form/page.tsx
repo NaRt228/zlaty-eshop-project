@@ -36,7 +36,7 @@ export default function FormKosik() {
 
             {/* Step 2: Active */}
             <div className="flex flex-col items-center gap-2 z-10 select-none">
-              <div className="w-10 h-10 rounded-none border border-white bg-white/10 text-white flex justify-center items-center font-medium text-lg shadow-lg shadow-white/5">
+              <div className="w-10 h-10 rounded-none border border-white bg-black text-white flex justify-center items-center font-medium text-lg shadow-lg shadow-white/5">
                 2
               </div>
               <span className="text-sm font-semibold text-white">Údaje</span>
@@ -51,7 +51,7 @@ export default function FormKosik() {
             </div>
 
             {/* Connector Lines */}
-            <div className="absolute top-5 left-0 w-full h-[1px] bg-neutral-900 z-0"></div>
+            <div className="absolute top-5 left-8 right-8 h-[1px] bg-neutral-900 z-0"></div>
           </div>
         </div>
 
