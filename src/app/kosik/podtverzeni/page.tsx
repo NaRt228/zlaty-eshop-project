@@ -112,7 +112,7 @@ export default function Podtvrzeni() {
               guest_phone: guestInfo.telefon,
               guest_address: `${guestInfo.street}, ${guestInfo.city}, ${guestInfo.psc}, ${guestInfo.country}`,
               total_price: `${fullPrice.toLocaleString("cs-CZ")} Kč`,
-              items_list: orderProducts.map(p => `- ${p.name} (množství: ${p.quantity}): ${(p.price * p.quantity).toLocaleString("cs-CZ")} Kč`).join("\n")
+              items_list: cartItems ? cartItems.map(p => `- ${p.name} (množství: ${p.quantity}): ${(p.price * p.quantity).toLocaleString("cs-CZ")} Kč`).join("\n") : ""
             };
 
             await emailjs.send(serviceId, templateId, templateParams, publicKey);
