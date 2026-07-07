@@ -135,18 +135,18 @@ export async function POST(req: Request) {
       </div>
     `;
 
-    const fromAddress = process.env.EMAIL_USER || "zlatyehsop@gmail.com";
+    const fromAddress = "zlatyehsop@gmail.com";
 
     // Send emails
     await Promise.all([
       transport.sendMail({
-        from: `"Jovana Šichová" <${fromAddress}>`,
+        from: fromAddress,
         to: email,
         subject: `Potvrzení objednávky č. ${orderId}`,
         html: guestHtml
       }),
       transport.sendMail({
-        from: `"Jovana Šichová" <${fromAddress}>`,
+        from: fromAddress,
         to: fromAddress,
         subject: `Nová objednávka č. ${orderId}`,
         html: adminHtml
