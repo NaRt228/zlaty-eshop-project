@@ -197,14 +197,12 @@ export async function delete_product_media(productId: number, mediaUrl: string) 
 }
 
 export async function make_order(order: Order): Promise<string | null> {
-  console.log("123456789");
-  const g = await reqest
-    .post(`/api/orders`, order)
-    .then(() => { return "ok"})
-    .catch((e) => {
-      const errMsg = e.response?.data?.error || e.response?.data?.message || "Nepodařilo se odeslat objednávku";
-      alert(errMsg);
-      return null;
-    });
-  return g;
+  try {
+    const response = await reqest.post(`/api/orders`, order);
+    return response.data.orderId ? response.data.orderId.toString() : "ok";
+  } catch (e: any) {
+    const errMsg = e.response?.data?.error || e.response?.data?.message || "Nepodařilo se odeslat objednávku";
+    alert(errMsg);
+    return null;
+  }
 }
