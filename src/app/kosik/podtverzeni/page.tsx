@@ -1,7 +1,6 @@
 "use client";
 import { clear_cart } from "@/apis_reqests/cart";
 import { get_products_cart, make_order } from "@/apis_reqests/products";
-import emailjs from "@emailjs/browser";
 import { useCart } from "@/contexts/CartContext";
 import { CartItem, Order } from "@/interface/oreders";
 import { Product_cart } from "@/interface/product_cart";
@@ -98,27 +97,34 @@ export default function Podtvrzeni() {
 
       const result = await make_order(order);
       if (result !== null) {
-        // Send email via EmailJS (fire-and-forget, background execution)
+        // Send email via local Nodemailer API route (fire-and-forget, background execution)
         (async () => {
           try {
-            const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_zlatyeshop";
-            const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "template_order";
-            const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "user_publicKey";
+            const orderId = result === "ok" ? "N/A" : result;
+            const items = cartItems ? cartItems.map(p => ({
+              name: p.name,
+              quantity: p.quantity,
+              price: p.price
+            })) : [];
 
-            const templateParams = {
-              order_id: result === "ok" ? "N/A" : result,
-              guest_name: `${guestInfo.name} ${guestInfo.secondName}`,
-              guest_email: guestInfo.email,
-              guest_phone: guestInfo.telefon,
-              guest_address: `${guestInfo.street}, ${guestInfo.city}, ${guestInfo.psc}, ${guestInfo.country}`,
-              total_price: `${fullPrice.toLocaleString("cs-CZ")} Kč`,
-              items_list: cartItems ? cartItems.map(p => `- ${p.name} (množství: ${p.quantity}): ${(p.price * p.quantity).toLocaleString("cs-CZ")} Kč`).join("\n") : ""
-            };
-
-            await emailjs.send(serviceId, templateId, templateParams, publicKey);
-            console.log("EmailJS order notification sent successfully");
+            await fetch("/api/send-email", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: guestInfo.email,
+                orderId: orderId,
+                guestName: `${guestInfo.name} ${guestInfo.secondName}`,
+                guestPhone: guestInfo.telefon,
+                guestAddress: `${guestInfo.street}, ${guestInfo.city}, ${guestInfo.psc}, ${guestInfo.country}`,
+                totalAmount: fullPrice,
+                items: items
+              })
+            });
+            console.log("Nodemailer order notification sent successfully");
           } catch (emailErr) {
-            console.error("EmailJS sending failed:", emailErr);
+            console.error("Nodemailer email sending failed:", emailErr);
           }
         })();
 
