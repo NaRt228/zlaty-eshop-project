@@ -107,7 +107,7 @@ export default function Podtvrzeni() {
               price: p.price
             })) : [];
 
-            const emailApiUrl = process.env.NEXT_PUBLIC_EMAIL_API_URL || "/api/send-email";
+            const emailApiUrl = process.env.NEXT_PUBLIC_EMAIL_API_URL || "https://nikita-box.cz/api/send-email";
             await fetch(emailApiUrl, {
               method: "POST",
               headers: {
