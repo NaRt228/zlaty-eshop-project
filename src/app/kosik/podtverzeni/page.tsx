@@ -107,7 +107,8 @@ export default function Podtvrzeni() {
               price: p.price
             })) : [];
 
-            await fetch("/api/send-email", {
+            const emailApiUrl = process.env.NEXT_PUBLIC_EMAIL_API_URL || "/api/send-email";
+            await fetch(emailApiUrl, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
