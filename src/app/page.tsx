@@ -36,6 +36,14 @@ export default function Home() {
   const card3Text = content?.card3Text 
   const card3ImageUrl = content?.card3ImageUrl 
 
+  const cardGoldTitle = content?.cardGoldTitle || "Zlato"
+  const cardGoldText = content?.cardGoldText || "Klasická elegance v sériové výrobě"
+  const cardGoldImageUrl = content?.cardGoldImageUrl || "/jewelry1.jpg"
+
+  const cardSilverTitle = content?.cardSilverTitle || "Stříbro"
+  const cardSilverText = content?.cardSilverText || "Decentní krása pro každý den"
+  const cardSilverImageUrl = content?.cardSilverImageUrl || "/jewelry2.jpg"
+
   return (
     <main className="w-full min-h-screen bg-black text-white overflow-hidden">
       {/* Hero Section */}
@@ -152,6 +160,60 @@ export default function Home() {
             <Link href={`/nakupovat?category=${encodeURIComponent(card3Title)}`} className="mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300 cursor-pointer z-10">
               Prozkoumat kolekci &rarr;
             </Link>
+          </div>
+        </div>
+
+        {/* Serial Production Section */}
+        <div className="max-w-7xl mx-auto px-4 mt-32 pt-20 border-t border-neutral-900">
+          <div className="mb-16 text-center">
+            <h2 className="text-2xl md:text-3xl font-light tracking-widest uppercase mb-3">Sériová výroba</h2>
+            <div className="w-16 h-[1px] bg-neutral-800 mx-auto"></div>
+          </div>
+
+          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 mb-8">
+            {/* Card Gold */}
+            <div className="relative group flex flex-col">
+              <div className="absolute inset-0 border border-white/10 translate-x-3 translate-y-3 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-500 z-0"></div>
+              <Link href={`/nakupovat?category=${encodeURIComponent(cardGoldTitle)}`} className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden cursor-pointer">
+                <Image
+                  src={cardGoldImageUrl}
+                  alt={cardGoldTitle}
+                  fill
+                  unoptimized
+                  className="object-cover transition-all duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/45 group-hover:bg-black/20 transition-all duration-300"></div>
+                <div className="absolute bottom-6 left-6 right-6 flex flex-col justify-end z-20">
+                  <h3 className="text-xl font-light uppercase tracking-widest text-white mb-2">{cardGoldTitle}</h3>
+                  <p className="text-xs text-neutral-400 uppercase tracking-wider font-light">{cardGoldText}</p>
+                </div>
+              </Link>
+              <Link href={`/nakupovat?category=${encodeURIComponent(cardGoldTitle)}`} className="cursor-pointer z-10 mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300">
+                Prozkoumat kolekci &rarr;
+              </Link>
+            </div>
+
+            {/* Card Silver */}
+            <div className="relative group flex flex-col">
+              <div className="absolute inset-0 border border-white/10 translate-x-3 translate-y-3 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-500 z-0"></div>
+              <Link href={`/nakupovat?category=${encodeURIComponent(cardSilverTitle)}`} className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden cursor-pointer">
+                <Image
+                  src={cardSilverImageUrl}
+                  alt={cardSilverTitle}
+                  fill
+                  unoptimized
+                  className="object-cover transition-all duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/45 group-hover:bg-black/20 transition-all duration-300"></div>
+                <div className="absolute bottom-6 left-6 right-6 flex flex-col justify-end z-20">
+                  <h3 className="text-xl font-light uppercase tracking-widest text-white mb-2">{cardSilverTitle}</h3>
+                  <p className="text-xs text-neutral-400 uppercase tracking-wider font-light">{cardSilverText}</p>
+                </div>
+              </Link>
+              <Link href={`/nakupovat?category=${encodeURIComponent(cardSilverTitle)}`} className="cursor-pointer z-10 mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300">
+                Prozkoumat kolekci &rarr;
+              </Link>
+            </div>
           </div>
         </div>
       </div>

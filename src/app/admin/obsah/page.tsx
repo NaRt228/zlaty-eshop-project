@@ -31,6 +31,12 @@ export default function ContentManagementPage() {
     card3Title: "",
     card3Text: "",
     card3ImageUrl: "",
+    cardGoldTitle: "",
+    cardGoldText: "",
+    cardGoldImageUrl: "",
+    cardSilverTitle: "",
+    cardSilverText: "",
+    cardSilverImageUrl: "",
     contactEmail: "",
     contactPhone: "",
     contactInstagram: "",
@@ -465,6 +471,129 @@ export default function ContentManagementPage() {
                     accept="image/*"
                     onChange={(e) => handleFileChange("card3ImageUrl", e)}
                     disabled={uploadingFields["card3ImageUrl"]}
+                    className="cursor-pointer"
+                  />
+                </div>
+              </div>
+            </div>
+
+          </CardContent>
+        </Card>
+
+        {/* SERIAL PRODUCTION CARDS */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Sériová výroba (Zlato & Stříbro)</CardTitle>
+            <CardDescription>
+              Dvě propagační karty pro sériovou výrobu ze zlata a stříbra na úvodní stránce.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-8">
+            
+            {/* Card Gold */}
+            <div className="border-b pb-6 space-y-4">
+              <h3 className="font-medium text-sm text-neutral-800 uppercase tracking-wider">Zlato (Karta 1)</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="cardGoldTitle">Titulek</Label>
+                  <Input
+                    id="cardGoldTitle"
+                    value={form.cardGoldTitle}
+                    onChange={(e) => handleChange("cardGoldTitle", e.target.value)}
+                    placeholder="Zlato"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="cardGoldText">Podtitulek</Label>
+                  <Input
+                    id="cardGoldText"
+                    value={form.cardGoldText}
+                    onChange={(e) => handleChange("cardGoldText", e.target.value)}
+                    placeholder="Klasická elegance v sériové výrobě"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Obrázek Zlato</Label>
+                <div className="flex gap-4 items-center">
+                  <div className="relative w-20 h-20 bg-neutral-900 border rounded overflow-hidden flex-shrink-0">
+                    {form.cardGoldImageUrl ? (
+                      <Image
+                        src={form.cardGoldImageUrl}
+                        alt="Gold Card preview"
+                        fill
+                        unoptimized
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-[10px] text-neutral-500">
+                        Bez obr.
+                      </div>
+                    )}
+                  </div>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleFileChange("cardGoldImageUrl", e)}
+                    disabled={uploadingFields["cardGoldImageUrl"]}
+                    className="cursor-pointer"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Card Silver */}
+            <div className="space-y-4">
+              <h3 className="font-medium text-sm text-neutral-800 uppercase tracking-wider">Stříbro (Karta 2)</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="cardSilverTitle">Titulek</Label>
+                  <Input
+                    id="cardSilverTitle"
+                    value={form.cardSilverTitle}
+                    onChange={(e) => handleChange("cardSilverTitle", e.target.value)}
+                    placeholder="Stříbro"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="cardSilverText">Podtitulek</Label>
+                  <Input
+                    id="cardSilverText"
+                    value={form.cardSilverText}
+                    onChange={(e) => handleChange("cardSilverText", e.target.value)}
+                    placeholder="Decentní krása pro každý den"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Obrázek Stříbro</Label>
+                <div className="flex gap-4 items-center">
+                  <div className="relative w-20 h-20 bg-neutral-900 border rounded overflow-hidden flex-shrink-0">
+                    {form.cardSilverImageUrl ? (
+                      <Image
+                        src={form.cardSilverImageUrl}
+                        alt="Silver Card preview"
+                        fill
+                        unoptimized
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-[10px] text-neutral-500">
+                        Bez obr.
+                      </div>
+                    )}
+                  </div>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleFileChange("cardSilverImageUrl", e)}
+                    disabled={uploadingFields["cardSilverImageUrl"]}
                     className="cursor-pointer"
                   />
                 </div>
