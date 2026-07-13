@@ -19,6 +19,7 @@ export interface ItemProps {
   imageHeight?: number;
   specification: string;
   imageWidth?: number;
+  productionType?: string;
 }
 
 interface product_curt_post_Interface {

@@ -21,6 +21,7 @@ interface Product {
   weight: string;
   media_urls: string | null;
   mediaUrls?: string[];
+  productionType?: string;
 }
 
 interface ProductsResponse {
@@ -61,6 +62,7 @@ const Page = () => {
           stock: product.stock,
           specification: product.specification,
           mediaUrls: product.mediaUrls || [],
+          productionType: product.productionType,
         }));
 
         setProducts(formattedProducts);
