@@ -38,6 +38,7 @@ export default function AddProductPage() {
   const [specification, setSpecification] = useState("")
   const [selectedMaterialIds, setSelectedMaterialIds] = useState<number[]>([])
   const [weight, setWeight] = useState("")
+  const [productionType, setProductionType] = useState("Autorská")
   const [mediaFiles, setMediaFiles] = useState<File[]>([])
   const [mediaPreviews, setMediaPreviews] = useState<string[]>([])
   const [categories, setCategories] = useState<Category[]>([])
@@ -110,6 +111,7 @@ export default function AddProductPage() {
         specification,
         materials: selectedMaterials,
         weight: Number.parseFloat(weight || "0"),
+        productionType,
       }
 
       const reqest = await add_product(productData, mediaFiles).then(e => e).catch(e => e)
@@ -207,6 +209,18 @@ export default function AddProductPage() {
                         {category.name}
                       </SelectItem>
                     ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="productionType">Typ výroby *</Label>
+                <Select value={productionType} onValueChange={setProductionType} required>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Vyberte typ výroby" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Autorská">Autorská tvorba</SelectItem>
+                    <SelectItem value="Sériová">Sériová výroba</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

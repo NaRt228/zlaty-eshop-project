@@ -16,5 +16,6 @@ export interface Products {
     materials: string[];
     weight: number; 
     mediaUrls: string[]; 
+    productionType?: string;
 }
 

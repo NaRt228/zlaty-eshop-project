@@ -20,6 +20,7 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
   const [categoryGroupFilter, setCategoryGroupFilter] = useState<string | null>(null);
   const [materialSelected, setMaterialSelected] = useState<number | null>(null);
   const [materials, setMaterials] = useState<Material[]>([]);
+  const [productionTypeSelected, setProductionTypeSelected] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const getGroupKeyword = (param: string) => {
@@ -54,6 +55,13 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
             } else {
               setCategoryGroupFilter(getGroupKeyword(categoryParam));
             }
+          }
+        }
+
+        const productionTypeParam = params.get("productionType");
+        if (productionTypeParam) {
+          if (["Autorská", "Sériová"].includes(productionTypeParam)) {
+            setProductionTypeSelected(productionTypeParam);
           }
         }
       }
@@ -94,6 +102,13 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
       }
     }
 
+    // Production type filter
+    if (productionTypeSelected !== null) {
+      product = product.filter(
+        (e) => (e as any).productionType === productionTypeSelected
+      );
+    }
+
     // Sort
     switch (sortSelected?.value) {
       case "priceAsc":
@@ -111,7 +126,7 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
     }
 
     props.setSeparated(props.chunkArray(product, 3));
-  }, [sortSelected, priceRange, categorySelected, categoryGroupFilter, materialSelected, props.product, materials, categoryFech]);
+  }, [sortSelected, priceRange, categorySelected, categoryGroupFilter, materialSelected, productionTypeSelected, props.product, materials, categoryFech]);
 
 
 
@@ -199,6 +214,33 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
         </ul>
       </div>
 
+      {/* Production Type / Collection Filter */}
+      <div className="mt-6 border-t border-neutral-800 pt-4">
+        <p className="text-[16px] font-light mb-3">Typ tvorby:</p>
+        <ul className="flex flex-col gap-2">
+          <li
+            onClick={() => setProductionTypeSelected(productionTypeSelected === "Autorská" ? null : "Autorská")}
+            className={`${
+              productionTypeSelected === "Autorská"
+                ? "text-white underline underline-offset-4 font-semibold"
+                : "text-neutral-400 hover:text-white"
+            } text-sm tracking-wide cursor-pointer transition-colors duration-200`}
+          >
+            Autorská tvorba
+          </li>
+          <li
+            onClick={() => setProductionTypeSelected(productionTypeSelected === "Sériová" ? null : "Sériová")}
+            className={`${
+              productionTypeSelected === "Sériová"
+                ? "text-white underline underline-offset-4 font-semibold"
+                : "text-neutral-400 hover:text-white"
+            } text-sm tracking-wide cursor-pointer transition-colors duration-200`}
+          >
+            Sériová výroba
+          </li>
+        </ul>
+      </div>
+
       {/* Material Filter */}
       {materials.length > 0 && (
         <div className="mt-6 border-t border-neutral-800 pt-4">
@@ -223,12 +265,13 @@ const Filter = (props: { product: ItemProps[], separated: ItemProps[][], setSepa
       )}
 
       {/* Reset all filters */}
-      {(categorySelected !== null || categoryGroupFilter !== null || materialSelected !== null || sortSelected !== null || priceRange[0] !== 0 || priceRange[1] !== 100000) && (
+      {(categorySelected !== null || categoryGroupFilter !== null || materialSelected !== null || productionTypeSelected !== null || sortSelected !== null || priceRange[0] !== 0 || priceRange[1] !== 100000) && (
         <button
           onClick={() => {
             setCategorySelected(null);
             setCategoryGroupFilter(null);
             setMaterialSelected(null);
+            setProductionTypeSelected(null);
             setSortSelected(null);
             setPriceRange([0, 100000]);
           }}

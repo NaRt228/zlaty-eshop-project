@@ -33,6 +33,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
   const [specification, setSpecification] = useState("")
   const [selectedMaterialIds, setSelectedMaterialIds] = useState<number[]>([])
   const [weight, setWeight] = useState("")
+  const [productionType, setProductionType] = useState("Autorská")
   const [mediaFiles, setMediaFiles] = useState<File[]>([])
   const [mediaPreviews, setMediaPreviews] = useState<string[]>([])
   const [categories, setCategories] = useState<Category[]| undefined>(undefined)
@@ -60,6 +61,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
           .map((m) => m.id) || []
         setSelectedMaterialIds(matchedMaterialIds)
         setWeight(productData.weight ? productData.weight.toString() : "")
+        setProductionType(productData.productionType || "Autorská")
        
     })()
   }, [])
@@ -109,6 +111,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
         specification,
         materials: selectedMaterials,
         weight: Number.parseFloat(weight || "0"),
+        productionType,
       }
 
       await update_product(productId, productData, mediaFiles)
@@ -239,6 +242,18 @@ else{
                         {category.name}
                       </SelectItem>
                     ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="productionType">Typ výroby *</Label>
+                <Select value={productionType} onValueChange={setProductionType} required>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Vyberte typ výroby" />
+                  </SelectTrigger>
+                  <SelectContent className=" text-black">
+                    <SelectItem value="Autorská">Autorská tvorba</SelectItem>
+                    <SelectItem value="Sériová">Sériová výroba</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

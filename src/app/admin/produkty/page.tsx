@@ -200,6 +200,7 @@ export default function ProductsPage() {
                   <TableHead>Název</TableHead>
                   <TableHead>Cena</TableHead>
                   <TableHead>Kategorie</TableHead>
+                  <TableHead>Typ výroby</TableHead>
                   <TableHead>Skladem</TableHead>
                   <TableHead className="text-center w-[150px]">Pořadí</TableHead>
                   <TableHead className="text-right">Akce</TableHead>
@@ -234,6 +235,7 @@ export default function ProductsPage() {
                       <TableCell>{product.name}</TableCell>
                       <TableCell>{product.price.toLocaleString()} Kč</TableCell>
                       <TableCell>{getCategoryName(product.categoryId)}</TableCell>
+                      <TableCell>{product.productionType || "Autorská"}</TableCell>
                       <TableCell>
                         {product.stock === 0 ? (
                           <span className="text-red-500 font-medium">Vyprodáno</span>
