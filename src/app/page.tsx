@@ -99,7 +99,7 @@ export default function Home() {
           {/* Card 1 */}
           <div className="relative group flex flex-col">
             <div className="absolute inset-0 border border-white/10 translate-x-3 translate-y-3 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-500 z-0"></div>
-            <Link href={`/nakupovat?category=${encodeURIComponent(card1Title)}`} className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden cursor-pointer">
+            <Link href={`/nakupovat?category=${encodeURIComponent(card1Title)}&productionType=Autorsk%C3%A1`} className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden cursor-pointer">
               <Image
                 src={card1ImageUrl}
                 alt={card1Title}
@@ -113,7 +113,7 @@ export default function Home() {
                 <p className="text-xs text-neutral-400 uppercase tracking-wider font-light">{card1Text}</p>
               </div>
             </Link>
-            <Link href={`/nakupovat?category=${encodeURIComponent(card1Title)}`} className="cursor-pointer z-10 mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300">
+            <Link href={`/nakupovat?category=${encodeURIComponent(card1Title)}&productionType=Autorsk%C3%A1`} className="cursor-pointer z-10 mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300">
               Prozkoumat kolekci &rarr;
             </Link>
           </div>
@@ -121,7 +121,7 @@ export default function Home() {
           {/* Card 2 - Slightly offset vertically for visual interest */}
           <div className="relative group flex flex-col md:translate-y-6">
             <div className="absolute inset-0 border border-white/10 translate-x-3 translate-y-3 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-500 z-0"></div>
-            <Link href={`/nakupovat?category=${encodeURIComponent(card2Title)}`} className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden cursor-pointer">
+            <Link href={`/nakupovat?category=${encodeURIComponent(card2Title)}&productionType=Autorsk%C3%A1`} className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden cursor-pointer">
               <Image
                 src={card2ImageUrl}
                 alt={card2Title}
@@ -135,7 +135,7 @@ export default function Home() {
                 <p className="text-xs text-neutral-400 uppercase tracking-wider font-light">{card2Text}</p>
               </div>
             </Link>
-            <Link href={`/nakupovat?category=${encodeURIComponent(card2Title)}`} className="cursor-pointer z-10 mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300">
+            <Link href={`/nakupovat?category=${encodeURIComponent(card2Title)}&productionType=Autorsk%C3%A1`} className="cursor-pointer z-10 mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300">
               Prozkoumat kolekci &rarr;
             </Link>
           </div>
@@ -143,7 +143,7 @@ export default function Home() {
           {/* Card 3 */}
           <div className="relative group flex flex-col">
             <div className="absolute inset-0 border border-white/10 translate-x-3 translate-y-3 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-500 z-0"></div>
-            <Link href={`/nakupovat?category=${encodeURIComponent(card3Title)}`} className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden cursor-pointer">
+            <Link href={`/nakupovat?category=${encodeURIComponent(card3Title)}&productionType=Autorsk%C3%A1`} className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden cursor-pointer">
               <Image
                 src={card3ImageUrl}
                 alt={card3Title}
@@ -157,7 +157,7 @@ export default function Home() {
                 <p className="text-xs text-neutral-400 uppercase tracking-wider font-light">{card3Text}</p>
               </div>
             </Link>
-            <Link href={`/nakupovat?category=${encodeURIComponent(card3Title)}`} className="mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300 cursor-pointer z-10">
+            <Link href={`/nakupovat?category=${encodeURIComponent(card3Title)}&productionType=Autorsk%C3%A1`} className="mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300 cursor-pointer z-10">
               Prozkoumat kolekci &rarr;
             </Link>
           </div>
@@ -174,7 +174,7 @@ export default function Home() {
             {/* Card Gold */}
             <div className="relative group flex flex-col">
               <div className="absolute inset-0 border border-white/10 translate-x-3 translate-y-3 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-500 z-0"></div>
-              <Link href={`/nakupovat?category=${encodeURIComponent(cardGoldTitle)}`} className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden cursor-pointer">
+              <Link href={`/nakupovat?category=${encodeURIComponent(cardGoldTitle)}&productionType=S%C3%A9riov%C3%A1`} className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden cursor-pointer">
                 <Image
                   src={cardGoldImageUrl}
                   alt={cardGoldTitle}
@@ -188,7 +188,7 @@ export default function Home() {
                   <p className="text-xs text-neutral-400 uppercase tracking-wider font-light">{cardGoldText}</p>
                 </div>
               </Link>
-              <Link href={`/nakupovat?category=${encodeURIComponent(cardGoldTitle)}`} className="cursor-pointer z-10 mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300">
+              <Link href={`/nakupovat?category=${encodeURIComponent(cardGoldTitle)}&productionType=S%C3%A9riov%C3%A1`} className="cursor-pointer z-10 mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300">
                 Prozkoumat kolekci &rarr;
               </Link>
             </div>
@@ -196,7 +196,7 @@ export default function Home() {
             {/* Card Silver */}
             <div className="relative group flex flex-col">
               <div className="absolute inset-0 border border-white/10 translate-x-3 translate-y-3 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-500 z-0"></div>
-              <Link href={`/nakupovat?category=${encodeURIComponent(cardSilverTitle)}`} className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden cursor-pointer">
+              <Link href={`/nakupovat?category=${encodeURIComponent(cardSilverTitle)}&productionType=S%C3%A9riov%C3%A1`} className="relative z-10 w-full aspect-[4/5] bg-black border border-white/20 overflow-hidden cursor-pointer">
                 <Image
                   src={cardSilverImageUrl}
                   alt={cardSilverTitle}
@@ -210,7 +210,7 @@ export default function Home() {
                   <p className="text-xs text-neutral-400 uppercase tracking-wider font-light">{cardSilverText}</p>
                 </div>
               </Link>
-              <Link href={`/nakupovat?category=${encodeURIComponent(cardSilverTitle)}`} className="cursor-pointer z-10 mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300">
+              <Link href={`/nakupovat?category=${encodeURIComponent(cardSilverTitle)}&productionType=S%C3%A9riov%C3%A1`} className="cursor-pointer z-10 mt-6 text-sm uppercase tracking-widest text-white hover:text-neutral-400 font-semibold flex items-center gap-2 transition-all duration-300">
                 Prozkoumat kolekci &rarr;
               </Link>
             </div>
